@@ -72,11 +72,10 @@
 
 (defun successor-avaliable (line-index column-index graph)
   (cond
-   ((or (< line-index 0) (> line-index 9)) nil)
-   ((or (< column-index 0) (> column-index 9)) nil)
-   (t (not (null (successor-value line-index column-index graph))))
-   )
-  )
+   ass1wsaasssaasasdsadsadsasdsadsadsss
+   ( )
+)
+)
 
 (defun successor-value (line-index column-index graph)
   (let* (
