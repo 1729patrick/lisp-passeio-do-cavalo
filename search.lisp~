@@ -34,20 +34,28 @@
 	  (reverse path)
 	(path-dfs goal 
 		   (append 
-		    (successor-path node graph)
+		    (successors-path node graph)
 		    (cdr open))
 		   graph)
 	))
     ))
 
-(defun successor-path (node graph)
+
+(defun successors-path (node graph)
+  (let* (
+         (line-column (successor-position node graph))
+         )
+     (cdr (successors (first line-column) (second line-column) graph))
+     
+ )
+  )
+
+(defun successor-position (node graph)
   (let* (
          (line (successor-line node graph))
-         (line-index (position line graph))
-         (column-index (position node line))
          )
 
-    (list line-index column-index) 
+    (list (position line graph :test #'equal) (position node line :test #'equal))
     )
   )
 
@@ -72,21 +80,34 @@
 
 (defun successor-avaliable (line-index column-index graph)
   (cond
-   ass1wsaasssaasasdsadsadsasdsadsadsss
-   ( )
-)
-)
+   ((or (< line-index 0) (> line-index 9)) nil)
+   ((or (< column-index 0) (> column-index 9)) nil)
+   (t (successor-value line-index column-index graph))
+   )
+  )
 
 (defun successor-value (line-index column-index graph)
   (let* (
          (line (nth line-index graph))
          (value (nth column-index line))
          )
-    value
+    (list value)
     )
   )
  
 
+(defun successors (lin col graph)
+(append
+  (successor-avaliable (- lin 2) (- col 1) graph)
+  (successor-avaliable (- lin 2) (+ col 1) graph)
+  (successor-avaliable (+ lin 2) (- col 1) graph)
+  (successor-avaliable (+ lin 2) (+ col 1) graph)
+  (successor-avaliable (- lin 1) (- col 2) graph)
+  (successor-avaliable (- lin 1) (+ col 2) graph)
+  (successor-avaliable (+ lin 1) (- col 2) graph)
+  (successor-avaliable (+ lin 1) (+ col 2) graph)
+)
+)
 
 
 ;; a graph for testing: a to b and c, b to c, c to d;

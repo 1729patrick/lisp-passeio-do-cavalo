@@ -15,7 +15,7 @@
 ;; with plain depth-first search;
 
 (defun dfsearch (start goal graph)
-  (path-dfs goal (list (list start)) graph)
+  (path-dfs goal  (list start) graph)
   )
 
 ;; plain dfs;
@@ -23,7 +23,7 @@
   (if (null open)
       nil
     (let* ((path (car open))
-	   (node (car path))
+	   (node  path)
 	   )
       
       (terpri)
@@ -31,23 +31,32 @@
       (terpri)
       
       (if (eql node goal)
-	  (reverse path)
+	  ;;(reverse path)
+          (format t "terminou")
 	(path-dfs goal 
 		   (append 
-		    (successor-path node graph)
+		    (successors-path node graph)
 		    (cdr open))
 		   graph)
 	))
     ))
 
-(defun successor-path (node graph)
+
+(defun successors-path (node graph)
+  (let* (
+         (line-column (successor-position node graph))
+         )
+     (successors (first line-column) (second line-column) graph)
+     
+ )
+  )
+
+(defun successor-position (node graph)
   (let* (
          (line (successor-line node graph))
-         (line-index (position line graph))
-         (column-index (position node line))
          )
 
-    (list line-index column-index) 
+    (list (position line graph :test #'equal) (position node line :test #'equal))
     )
   )
 
@@ -74,7 +83,7 @@
   (cond
    ((or (< line-index 0) (> line-index 9)) nil)
    ((or (< column-index 0) (> column-index 9)) nil)
-   (t (not (null (successor-value line-index column-index graph))))
+   (t (successor-value line-index column-index graph))
    )
   )
 
@@ -83,11 +92,23 @@
          (line (nth line-index graph))
          (value (nth column-index line))
          )
-    value
+    (list value)
     )
   )
  
 
+(defun successors (lin col graph)
+(append
+  (successor-avaliable (- lin 2) (- col 1) graph)
+  (successor-avaliable (- lin 2) (+ col 1) graph)
+  (successor-avaliable (+ lin 2) (- col 1) graph)
+  (successor-avaliable (+ lin 2) (+ col 1) graph)
+  (successor-avaliable (- lin 1) (- col 2) graph)
+  (successor-avaliable (- lin 1) (+ col 2) graph)
+  (successor-avaliable (+ lin 1) (- col 2) graph)
+  (successor-avaliable (+ lin 1) (+ col 2) graph)
+)
+)
 
 
 ;; a graph for testing: a to b and c, b to c, c to d;
