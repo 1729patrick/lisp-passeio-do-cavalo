@@ -1,54 +1,43 @@
-; dfs2.lisp
-;; by Kerstin Voigt, after Paul Graham, pp. 52, 
-;; collects paths, returns shortest solution path;
-
-;; assume the following:
-;; (1) graph is a list of sublists (n1 n2 n3 ... nk) where
-;; n2 ... nk are neighbours of n1; graph is DIRECTED
-;; and ACYCLIC (for now);
-;; (2) start is the start node of search
-;; (3) goal is the goal node to be reached;
-;; (4) open is a list of nodes whose successors have
-;;     not yet been "tried" yet;
-
-;; search tries to move from start to goal
-;; with plain depth-first search;
-
-(defun dfsearch (start goal graph)
-  (path-dfs goal  (list start) graph)
+(defun dfsearch (start graph)
+  (path-dfs (list start) '() graph)
   )
 
 ;; plain dfs;
-(defun path-dfs (goal open graph)
-  (if (null open)
-      nil
-    (let* ((path (car open))
-	   (node  path)
-	   )
+(defun path-dfs (open closed graph)
+ ;; (terpri)
+ ;; (format t "OPEN: ~A  GRAPH: ~A" open graph)
+  ;;(terpri)
+  (cond ((null open) nil)
+        (t (let* ((node (car open))
+                  (successors (successors-path node graph))) 
       
-      (terpri)
-      (format t "OPEN: ~A PATH: ~A  NODE: ~A" open path node)
-      (terpri)
+             (terpri)
+             ;;format t " NODE: ~A SUCCESSORS: ~A" node successors)
+             (format t "~A" closed)
+             (terpri)
       
-      (if (eql node goal)
-	  ;;(reverse path)
-          (format t "terminou")
-	(path-dfs goal 
-		   (append 
-		    (successors-path node graph)
-		    (cdr open))
-		   graph)
-	))
-    ))
+             (cond 
+              ((null successors)
+               (terpri)
+               (format t " TERMINOU")
+               (terpri)
+               )
+              (t (path-dfs (append successors node) (append closed node) (update-graph node graph)))
+              )))
+        ))
 
+
+(defun horse-position (graph)
+  (successor-position T graph)
+  )
 
 (defun successors-path (node graph)
   (let* (
          (line-column (successor-position node graph))
          )
-     (successors (first line-column) (second line-column) graph)
+    (successors (first line-column) (second line-column) graph)
      
- )
+    )
   )
 
 (defun successor-position (node graph)
@@ -67,7 +56,7 @@
                      (mapcar
                       (lambda (lin) 
                         (cond
-                         ((position node lin) lin)
+                         ((position node lin :test #'equal) lin)
                          (T nil)
                          )
                         )
@@ -92,26 +81,54 @@
          (line (nth line-index graph))
          (value (nth column-index line))
          )
-    (list value)
+    
+    (cond 
+     ((null value) nil)
+     (t (list value))
+     )
     )
   )
  
 
 (defun successors (lin col graph)
-(append
-  (successor-avaliable (- lin 2) (- col 1) graph)
-  (successor-avaliable (- lin 2) (+ col 1) graph)
-  (successor-avaliable (+ lin 2) (- col 1) graph)
-  (successor-avaliable (+ lin 2) (+ col 1) graph)
-  (successor-avaliable (- lin 1) (- col 2) graph)
-  (successor-avaliable (- lin 1) (+ col 2) graph)
-  (successor-avaliable (+ lin 1) (- col 2) graph)
-  (successor-avaliable (+ lin 1) (+ col 2) graph)
-)
-)
+  (append
+   (successor-avaliable (- lin 2) (- col 1) graph)
+   (successor-avaliable (- lin 2) (+ col 1) graph)
+   (successor-avaliable (+ lin 2) (- col 1) graph)
+   (successor-avaliable (+ lin 2) (+ col 1) graph)
+   (successor-avaliable (- lin 1) (- col 2) graph)
+   (successor-avaliable (- lin 1) (+ col 2) graph)
+   (successor-avaliable (+ lin 1) (- col 2) graph)
+   (successor-avaliable (+ lin 1) (+ col 2) graph)
+   )
+  )
+
+;;;função que substitui uma posiçao de uma lista com um valor enviado por parametro	
+(defun replace-position (col line &optional (val nil))
+  (cond
+   ( (null line) '())
+   ( (eq col 0) (cons val (cdr line)))
+   ( (cons (car line) (replace-position (- col 1) (cdr line) val))))
+  )
+;;teste: (substituir-posicao 0 (linha 0 (tabuleiro-teste)))	 
+;;resultado: (NIL 25 54 89 21 8 36 14 41 96)
+;;teste: (substituir-posicao 0 (linha 0 (tabuleiro-teste)) T)	 
+;;resultado: (T 25 54 89 21 8 36 14 41 96)
 
 
-;; a graph for testing: a to b and c, b to c, c to d;
-;;(setq graph '((a b c) (b c) (c d)))
+;;;função que substitui uma posiçao de um tabuleiro com um valor enviado por parametro	
+(defun replace-value (lin col graph &optional (val nil))
+  (cond
+   ( (null graph) '())
+   ( (eq lin 0) (cons (replace-position col (nth lin graph) val) (cdr graph)))
+   ( (cons (car graph) (replace-value (- lin 1) col (cdr graph) val))))
+  )
 
-(setq graph '((a b c) (b c e) (c d) (d e f) (e f) (f g h) (h g))) 
+(defun update-graph (node graph)
+  (let* (
+         (line-column (successor-position node graph))
+         )
+    
+    (replace-value (first line-column) (second line-column) graph)
+    )
+  )
