@@ -13,8 +13,8 @@
 
 ;; (55 34 13 32 11 3 22 41 62 81 73 52 33 12 24 45 64 83 71 92 84 63 44 65 86 67 88 69 50 58 39 20 28 9 30 49 70 89) 
 
-(defun dfsearch (start graph)
-  (dfs (list (list start)) graph)
+(defun dfsearch (start graph &optional(max-depth 100))
+  (dfs (list (list start)) graph max-depth)
   )
 
 (defun bfsearch (start graph)
@@ -22,6 +22,34 @@
   )
 
 
+  ;;Recursively print the elements of a list
+(defun print-list (elements)
+    (cond
+        ((null elements) '()) ;; Base case: There are no elements that have yet to be printed. Don't do anything and return a null list.
+        (t
+            ;; Recursive case
+            ;; Print the next element.
+            (write-line (write-to-string (car elements)))
+            ;; Recurse on the rest of the list.
+            (print-list (cdr elements))
+        )
+    )
+)
+
+
+(defun parent-path (path)
+"returns the previous path the horse ocupied"
+	(cdr path)
+)
+
+
+(defun calculate-current-depth(current-path)
+"Calcula a profundidade de um no"
+  (cond
+   ((null (parent-path current-path)) 0)
+   (T(1+ (calculate-current-depth (parent-path current-path))))
+   )
+)
 ;; algoritmo de busca dfs
 
 ;; (dfs ‘(55) ‘()‘((1 2 3 4 5 6 7 8 9 10)
@@ -36,7 +64,11 @@
 ;; (91 92 93 94 95 96 97 98 99 100)))
 
 ;; (55 34 13 32 11 3 22 41 62 81 73 52 33 12 24 45 64 83 71 92 84 63 44 65 86 67 88 69 50 58 39 20 28 9 30 49 70 89) 
-(defun dfs (open graph)
+(defun dfs (open graph max-depth)
+		(terpri)
+		(terpri)
+	(print-list graph)
+	(terpri)
   (cond ((null open) nil)
         (t 
          (let* ((path (car open))
@@ -45,20 +77,57 @@
                 )
 						 
            (cond 
-            ((null successors)
+            ((null successors) ;;(= (calculate-current-depth(path)) max-depth)
              (terpri)
              (format t "~A" (reverse path))
              (terpri)
              )
+			 ;;((>(calculate-current-depth path) max-depth) (dfs (cdr open) graph max-depth))
             (t (dfs 
                 (append successors (cdr open))
-                (remove-simetric node (remove-node node graph))
+                (remove-simetric node (remove-node node graph)) max-depth
                 ))
             ))
          )
         )
   )
 
+  ;;;test
+  (defun nbDigits (digit)
+     (cond 
+          ((< digit 10) 1)
+          (t (1+ (nbDigits (truncate digit 10))))
+      )
+     )
+  
+  (defun bfsearchTest (start graph)
+	(bfsTEST graph (list(list start)))
+  )
+
+  
+(defun bfsTEST (graph open &optional (closed '()))
+	(cond ((null open) nil)
+		(t 
+		 (let* ((path (car open))
+				(node (car path))
+				(successors (successors-path path node graph))
+				)
+						 
+		   (cond 
+			((null successors)
+			 (terpri)
+			 (format t "~A" (reverse path))
+			 (terpri)
+			 )
+			(t (bfsTEST 
+				(append (cdr open) successors)
+				(remove-simetric node (remove-node node graph))
+				))
+			))
+		 )
+	)
+)
+  
 (defun bfs (open closed graph)
   (cond ((null open) nil)
         (t 
@@ -82,7 +151,7 @@
              (format t "~A" closed)
              (terpri)
              )
-            ((nul (member node closed)) (bfs 
+            ((null (member node closed)) (bfs 
                 (append (cdr open) successors)
                 (append closed (list node))
                 graph
@@ -335,6 +404,7 @@
 ;; (91 92 93 94 95 96 97 98 99 100))
 
 (defun remove-node (node graph)
+		
   (let* (
          (line-column (successor-position node graph))
          )
@@ -368,13 +438,14 @@
 ;; (71 72 73 74 75 76 77 78 79 80)
 ;; (81 82 83 84 85 86 87 88 89 90)
 ;; (91 92 93 94 95 96 97 98 99 100))
-(defun remove-simetric (node graph)
+(defun remove-simetric (node graph &optional (strategy 'max))
   (let* (
          (simetric (reverse (write-to-string node)))
          )
    
-    (cond ((equal (parse-integer simetric)  node) (remove-node (min-node graph) graph))
-          (t (remove-node (parse-integer simetric) graph))
+    (cond 	((< (nbDigits node) 2) graph)
+			((equal (parse-integer simetric)  node) (remove-node (remove-2digit-node graph strategy) graph))		
+			(t (remove-node (parse-integer simetric) graph))
           )
     ) 
   )
@@ -412,3 +483,54 @@
                    )
                  graph))
          ))
+
+		 
+(defun remove-2digit-node (graph &optional (strategy 'max))
+;;function to remove a 2 digit number from the board
+;;strategy is the function to apply: max, min, etc
+  (apply strategy
+         (apply #'append
+                (mapcar
+                 (lambda (lin) 
+					(apply #'append
+                          (mapcar (lambda (n) 
+										(cond
+										   ((or (null n) (< (nbDigits n) 2)) nil)
+										   ((not(equal (parse-integer (reverse (write-to-string n)))  n)) nil)		
+         
+										   (t (list n))
+										 )
+									)
+                            lin )
+                      )
+                   )
+				graph)
+		  )
+         ))
+;;test: (remove-2digit-node ‘(
+;;(1 2 3 4 5 6 7 8 9 10)
+;;(11 12 13 14 15 16 17 18 19 20)
+;;(21 22 23 24 25 26 27 28 29 30)
+;;(31 32 33 34 35 36 37 38 39 40)
+;;(41 42 43 44 45 46 47 48 49 50)
+;;(51 52 53 54 55 56 57 58 59 60)
+;;(61 62 63 64 65 66 67 68 69 70)
+;;(71 72 73 74 75 76 77 78 79 80)
+;;(81 82 83 84 85 86 87 88 89 90)
+;;(91 92 93 94 95 96 NIL NIL NIL 100)
+;;))
+;;result: 88
+
+;;test2: (remove-2digit-node ‘(
+;;(1 2 3 4 5 6 7 8 9 10)
+;;(11 12 13 14 15 16 17 18 19 20)
+;;(21 22 23 24 25 26 27 28 29 30)
+;;(31 32 33 34 35 36 37 38 39 40)
+;;(41 42 43 44 45 46 47 48 49 50)
+;;(51 52 53 54 55 56 57 58 59 60)
+;;(61 62 63 64 65 66 67 68 69 70)
+;;(71 72 73 74 75 76 77 78 79 80)
+;;(81 82 83 84 85 86 87 88 89 90)
+;;(91 92 93 94 95 96 NIL NIL NIL 100)
+;;)'min)
+;result: 11
