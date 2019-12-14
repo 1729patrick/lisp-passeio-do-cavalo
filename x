@@ -30,17 +30,19 @@
 ;; (81 82 83 84 85 86 87 88 89 90)
 ;; (91 92 93 94 95 96 97 98 99 100)))
 
-;; (55 34 13 32 11 3 22 41 62 81 73 52 33 12 24 45 64 83 71 92 84 63 44 65 86 67 88 69 50 58 39 20 28 9 30 49 70 89) 
+;; (55 34 13 32 11 3 22 41 62 81 73 52 33 12 24 45 64 83 71 92 84 63 44 65 86 67 88 69 50 58 39 20 28 9 30 49 70 89 77)
 (defun dfs (open graph)
   (cond ((null open) nil)
         (t 
+         ;; (let* ((node (car open))
+         ;;            (successors (successors-path node graph))) 
          (let* ((path (car open))
                 (node (car path))
                 (successors (successors-path path node graph))
                 )
-           (terpri)
-           (format t "OPEN: ~A PATH: ~A  NODE: ~A GRAPH: ~A" open path node graph)
-           (terpri)
+           ;; (terpri)
+           ;; (format t "OPEN: ~A PATH: ~A  NODE: ~A" open path node)
+           ;; (terpri)
 						 
            (cond 
             ((null successors)
@@ -57,23 +59,20 @@
         )
   )
 	
-;; busca os sucessores de um nó e retornao caminho até os sucessores
+;; busca os sucessores de um nó
 
-;; (successors-path  ‘(89 70 49 30 9 28 20 39 58 50 69 88 67 86 65 44 63 84 92 71 83 64 45 24 12 33 52 73 81 62 41 22 3 11 32 13 34 55)  89 ‘(
-;; (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
-;; (NIL NIL NIL NIL 15 16 NIL NIL 19 NIL)
-;; (NIL NIL NIL NIL NIL NIL 27 NIL NIL NIL) 
-;; (NIL NIL NIL NIL 35 NIL NIL NIL NIL 40) 
-;; (NIL NIL NIL NIL NIL NIL 47 NIL NIL NIL)
-;; (51 NIL 53 NIL NIL NIL 57 NIL 59 60) 
-;; (61 NIL NIL NIL NIL 66 NIL NIL NIL NIL)
-;; (NIL 72 NIL 74 75 NIL 77 78 79 80) 
-;; (NIL NIL NIL NIL NIL NIL 87 NIL 89 90) 
-;; (91 NIL NIL NIL 95 NIL 97 98 99 100))
-;; )
+;; (successors-path  3 '(3) ‘((1 2 3 4 5 6 7 8 9 10)
+;; (11 12 13 14 15 16 17 18 19 20)
+;; (21 22 23 24 25 26 27 28 29 30)
+;; (31 32 33 34 35 36 37 38 39 40)
+;; (41 42 43 44 45 46 47 48 49 50)
+;; (51 52 53 54 55 56 57 58 59 60)
+;; (61 62 63 64 65 66 67 68 69 70)
+;; (71 72 73 74 75 76 77 78 79 80)
+;; (81 82 83 84 85 86 87 88 89 90)
+;; (91 92 93 94 95 96 97 98 99 100)))
 
-;; ((77 89 70 49 30 9 28 20 39 58 50 69 88 67 86 65 44 63 84 92 71 83 64 45 24 12 33 52 73 81 62 41 22 3 11 32 13 34 55)
-;; (97 89 70 49 30 9 28 20 39 58 50 69 88 67 86 65 44 63 84 92 71 83 64 45 24 12 33 52 73 81 62 41 22 3 11 32 13 34 55))
+;; (22 24 11 15)
 (defun successors-path (path node graph)
   (let* (
          (line-column (successor-position node graph))
