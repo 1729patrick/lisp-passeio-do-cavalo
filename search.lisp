@@ -17,6 +17,11 @@
   (dfs (list (list start)) graph)
   )
 
+(defun bfsearch (start graph)
+  (bfs (list start) '()  graph)
+  )
+
+
 ;; algoritmo de busca dfs
 
 ;; (dfs ‘(55) ‘()‘((1 2 3 4 5 6 7 8 9 10)
@@ -38,9 +43,6 @@
                 (node (car path))
                 (successors (successors-path path node graph))
                 )
-           (terpri)
-           (format t "OPEN: ~A PATH: ~A  NODE: ~A GRAPH: ~A" open path node graph)
-           (terpri)
 						 
            (cond 
             ((null successors)
@@ -52,6 +54,40 @@
                 (append successors (cdr open))
                 (remove-simetric node (remove-node node graph))
                 ))
+            ))
+         )
+        )
+  )
+
+(defun bfs (open closed graph)
+  (cond ((null open) nil)
+        (t 
+         (let* ((node (car open))
+                (successors (successors-path-bfs node graph))
+                )
+
+          (terpri)
+          (format t "NODE: ~A" node)
+          (terpri)
+          (FORMAT T "SUCCESSORS: ~A" successors)
+          (terpri)
+          (format t "CLOSED: ~A" closed)
+          (terpri)
+          (format t "OPEN: ~A" open)
+          (terpri)
+						 
+           (cond 
+            ((null successors)
+             (terpri)
+             (format t "~A" closed)
+             (terpri)
+             )
+            ((nul (member node closed)) (bfs 
+                (append (cdr open) successors)
+                (append closed (list node))
+                graph
+                ))
+            (t (bfs (cdr open) closed graph))
             ))
          )
         )
@@ -79,11 +115,26 @@
          (line-column (successor-position node graph))
          )
 
-    (mapcar #'(lambda (x)
-                (cons x path))
-            (successors (first line-column) (second line-column) graph))
+    (cond ((or (null (first line-column)) (null (second line-column))) (list path))
+          (t (mapcar #'(lambda (x)
+                         (cons x path))
+                     (successors (first line-column) (second line-column) graph))
+             ))
     )
   )
+
+
+(defun successors-path-bfs (node graph)
+  (let* (
+         (line-column (successor-position node graph))
+         )
+
+    (cond ((or (null (first line-column)) (null (second line-column))) '())
+          (t (successors (first line-column) (second line-column) graph)))
+     
+    )
+  )
+
 
 ;; busca o index da linha e o index da coluna de um nó
 
@@ -343,18 +394,21 @@
 ;; (91 92 93 94 95 96 97 98 99 100)))
 
 ;; 2
+
+
+
 (defun min-node (graph)
   (apply 'min
-         (mapcar
-          (lambda (lin) (apply 'min 
-                               (apply #'append
-                                      (mapcar (lambda (n) (cond
-                                                           ((null n) n)
-                                                           (t (list n))
-                                                           ))
-                                              lin  )
-                                      )
-                               ) )
-          graph))
-  )
-
+         (apply #'append
+                (mapcar
+                 (lambda (lin) 
+                   (apply #'append
+                          (mapcar (lambda (n) (cond
+                                               ((null n) n)
+                                               (t (list n))
+                                               ))
+                                  lin  )
+                          )
+                   )
+                 graph))
+         ))
