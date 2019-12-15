@@ -20,9 +20,18 @@ and criation time=current-time"
  ;;; Construtor
 (defun make-node (board position &optional (depth 0) (parent-node nil))
 	
+	 "(list 
+      (list board 
+        (+ (node-state-point-sum parent-node)(cell (first position) (second position) board))) 
+      position 
+      (position-to-chess (first position) (second position)) 
+      (cell (first position) (second position) board) 
+      depth 
+      parent-node (current-time))	"
 
-     (list (list board (cell (first position) (second position) board)) 
-         (position-to-chess (first position) (second position)) 
+      (list (list board 2 2 2 2)
+        position 
+        (position-to-chess (first position) (second position)) 
       (cell (first position) (second position) board) 
       depth 
       parent-node 

@@ -92,6 +92,8 @@
         )
   )
 
+  
+  
   ;;;test
   (defun nbDigits (digit)
      (cond 
@@ -100,33 +102,6 @@
       )
      )
   
-  (defun bfsearchTest (start graph)
-	(bfsTEST graph (list(list start)))
-  )
-
-  
-(defun bfsTEST (graph open &optional (closed '()))
-	(cond ((null open) nil)
-		(t 
-		 (let* ((path (car open))
-				(node (car path))
-				(successors (successors-path path node graph))
-				)
-						 
-		   (cond 
-			((null successors)
-			 (terpri)
-			 (format t "~A" (reverse path))
-			 (terpri)
-			 )
-			(t (bfsTEST 
-				(append (cdr open) successors)
-				(remove-simetric node (remove-node node graph))
-				))
-			))
-		 )
-	)
-)
   
 (defun bfs (open closed graph)
   (cond ((null open) nil)

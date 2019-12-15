@@ -14,13 +14,13 @@
 (defun read-depth()
 "Allows the reading of the depth for the dfs algorithm."
     (progn
-    (format t "Qual a profundidade limite? ~%")
+    (format t "What is the limit depth? ~%")
     (read)
     ))
 	
 (defun current-time()
-"Retorna o tempo actual com o formato (h m s)"
-  ;;HORAS-MINUTOS-SEGUNDOS
+"Returns the current time with the format (h m s)"
+  ;;Hour-minute-second
   (multiple-value-bind (s m h) (get-decoded-time)
     (list h m s)
    )
