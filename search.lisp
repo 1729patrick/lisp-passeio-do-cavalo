@@ -534,3 +534,33 @@
 ;;(91 92 93 94 95 96 NIL NIL NIL 100)
 ;;)'min)
 ;result: 11
+
+(defun number-generated-nodes (open closed)
+"Total number of generated nodes: open+closed"
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+)
+
+(defun solution-length (list-solution)
+"Devolve o comprimento de uma  solucao"
+ (length list-solution)
+)
+
+;;BRANCHING FACTOR
+(defun polinomial-sum (B L t-value)
+ "B + B^2 + ... + B^L=T"
+  (cond
+   ((= 1 L) (- B t-value))
+   (T (+ (expt B L) (polinomial-sum B (- L 1) t-value)))
+  )
+)
+
+(defun branching-factor (solution-path-list open closed &optional (L-value (solution-length solution-path-list)) (T-value (number-generated-nodes open closed)) (max-error 0.1) (bmin 1) (bmax 10e11))
+"Devolve o factor de ramificacao, executando o metodo da bisseccao"
+  (let ((b-average (/ (+ bmin bmax) 2)))
+    (cond 
+     ((< (- bmax bmin) max-error) (/ (+ bmax bmin) 2))
+     ((< (polinomial-sum b-average L-value T-value) 0) (branching-factor solution-path-list L-value T-value max-error b-average bmax))
+     (t (branching-factor solution-path-list L-value T-value max-error bmin b-average))
+     )
+    )
+)
