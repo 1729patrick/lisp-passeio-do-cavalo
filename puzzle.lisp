@@ -1,35 +1,23 @@
 ;;; Passeio do cavalo
 ;;; variaveis de test e operadores
 
-;;<node>::= (<state> <current-coordinates> <chess-position> <value-taken-by-horse> <depth> <parent-node> <time-of-criation>)
+;;<node>::= (<state>  <parent-node> <depth> <h> <f>)
 ;;<state>::= (<board> <point-sum>)
 (defun test-node (board)
-"Define um no test do problema do passeio do cavalo, em que, estado=(tabuleiro, soma-pontos), posição-do-cavalo=(0,1),
-it's board position=('C' 1), the value of the cell, depth=0, parent-node=NIL, 
-and criation time=current-time"
- (list (list board (cell 0 2 board)) '(0 2) (position-to-chess 0 2) (cell 0 2 board) 0 nil (current-time)))
- 
-
-(defun test-node2 (board)
-"Define um no test do problema do passeio do cavalo, em que, estado=(tabuleiro, soma-pontos), posição-do-cavalo=(0,1),
-it's board position=('C' 1), the value of the cell, depth=0, parent-node=NIL, 
-and criation time=current-time"
- (list (list board (cell 1 0 board)) '(1 1) (position-to-chess 1 0) (cell 1 0 board) 1 (test-node (test-board)) (current-time)))
+;Define um no test do problema do passeio do cavalo, em que, estado=(tabuleiro, soma-pontos), depth=0, parent-node=NIL, 
+;and criation time=current-time"
+ (list (list board (cell 0 2 board)) nil 0 nil nil))
  
 
  ;;; Construtor
-(defun make-node (board position &optional (depth 0) (parent-node nil))
-	
-
-     (list (list board (cell (first position) (second position) board)) 
-         (position-to-chess (first position) (second position)) 
-      (cell (first position) (second position) board) 
-      depth 
-      parent-node 
-      (current-time))
- 
-
-)
+(defun make-node (board points &optional (parent-node nil) (depth 0) (heuristic nil) (f nil))
+     (list 
+		(list board points) 
+		parent-node
+		depth  
+		heuristic	
+		f
+    ))
  
  ;;; Boards
 (defun test-board ()
@@ -83,7 +71,7 @@ and criation time=current-time"
 ;; no-profundidade
 (defun depth-node (node)
 	(cond ((null node) 0)
-	  (t (fifth node))
+	  (t (third node))
 	  )
 )
 ;; test: (no-profundidade (no-test))
@@ -93,7 +81,7 @@ and criation time=current-time"
 (defun parent-node (node)
   (cond 
    ((null node) nil)
-   (t (sixth node))
+   (t (second node))
   )
 )
 ;; test: (parent-node (test-node))
@@ -117,25 +105,22 @@ and criation time=current-time"
 	)
 )
 
-;;node-coordinates	
-(defun node-coordinates (node)
-  (second node)
-)	
-
-;;node-chess-position	
-(defun node-chess-position (node)
-  (third node)
-)	
-
-;;node-chess-position	
-(defun node-value-taken-by-horse (node)
-  (fourth node)
-)	
-
-;;node-criation-time	
-(defun node-criation-time (node)
-  (seventh node)
+;; node-heuristic
+(defun node-heuristic (node)
+	(cond 
+		((null node) nil)
+		(t (fourth node))
+	)
 )
+
+;; node-f
+(defun node-f (node)
+	(cond 
+		((null node) nil)
+		(t (fifth node))
+	)
+)
+
 ;;; Funcoes auxiliares da procura
 ;;; predicado no-solucaop que verifica se um estado e final
 (defun solution-nodep (target-points)
@@ -148,3 +133,5 @@ and criation time=current-time"
 (defun position-to-chess (line col)
 	(list (string (code-char (+ 65 col))) (+ 1 line))
 )
+;;test: (position-to-chess 0 0))
+;;result: ("A" 1)
