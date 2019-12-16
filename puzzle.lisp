@@ -10,7 +10,7 @@
  
 
  ;;; Construtor
-(defun make-node (board points &optional (parent-node nil) (depth 0) (heuristic nil) (f nil))
+(defun make-node (board points parent-node &optional (depth 0) (heuristic nil) (f nil))
      (list 
 		(list board points) 
 		parent-node
@@ -123,9 +123,11 @@
 
 ;;; Funcoes auxiliares da procura
 ;;; predicado no-solucaop que verifica se um estado e final
-(defun solution-nodep (target-points)
-  ;;;todo
-  (list nil)
+(defun solution-nodep (target-points node)
+  (cond
+    ((>= (node-state-point-sum node) target-points) T)
+     (t nil)
+  )
 )
 ;; test: 
 ;; resultado: NIL

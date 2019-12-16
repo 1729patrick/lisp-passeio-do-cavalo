@@ -13,10 +13,6 @@
 
 ;; (55 34 13 32 11 3 22 41 62 81 73 52 33 12 24 45 64 83 71 92 84 63 44 65 86 67 88 69 50 58 39 20 28 9 30 49 70 89) 
 
-(defun dfsearch (start graph)
-  (dfs (list (list start)) graph 55)
-  )
-
 (defun bfsearch (start graph)
   (bfs (list start) '()  graph)
   )
@@ -35,29 +31,57 @@
         )
     )
 )
-(defun dfs (open graph target-point)
-  (cond ((null open) nil)
+
+
+
+;;start dfs
+(defun dfsearch (board)
+      (let* (
+           (start-pos (read-start-position))
+           (start-points (car(successor-value (first start-pos) (second start-pos) board)))
+            (open-nodes (list (make-node 
+                (replace-value (first start-pos) (second start-pos) board T) 
+                start-points
+                nil
+              )))
+           )
+          (dfs open-nodes (list nil) (read-target-points))
+      )            
+)
+
+
+
+(defun dfs (open-list closed-list target-points)
+  (cond ((null open-list) nil)
         (t 
-         (let* (node (car open))
-                (hourse (hoursep node))
-                (successors (successors-path node))
-						 
+         (let*  (
+                  (node (car open-list))
+                  (hourse-pos (hoursep node))
+                  (current-board (hoursep node))
+                  (current-successors (successors (first hourse-pos) (second hourse-pos) node))
+						   )
            (cond 
-            ((or (null successors) (<= target-point (node-state-point-sum node)))
+            ((or (null current-successors) (<= target-points (node-state-point-sum node)))
              (terpri)
              ;; SEQUENCIA DE JOGADAS
              (format t "TERMINOU")
              (terpri)
              )
-			 ;;((>(calculate-current-depth path) max-depth) (dfs (cdr open) graph max-depth))
+			 ;;((>(calculate-current-depth path) max-depth) (dfs (cdr open-list) graph max-depth))
             (t (dfs 
-                (append successsors (cdr open))
-                (remove-simetric node (remove-node node graph))
+                (append current-successors (cdr open-list))
+                (append node (cdr closed-list))
+                target-points
                 ))
             ))
          )
         )
   )
+
+
+(defun hoursep (node)
+  (successor-position T (node-state-board node))
+)
 
   
   
@@ -73,7 +97,8 @@
 (defun bfs (open closed graph)
   (cond ((null open) nil)
         (t 
-         (let* ((node (car open))
+         (let* (
+                (node (car open))
                 (successors (successors-path-bfs node graph))
                 )
 
@@ -161,12 +186,12 @@
 ;; (91 92 93 94 95 96 97 98 99 100)))
 
 ;; (8 9)
-(defun successor-position (node graph)
+(defun successor-position (value graph)
   (let* (
-         (line (successor-line node graph))
+         (line (successor-line value graph))
          )
 
-    (list (position line graph :test #'equal) (position node line :test #'equal))
+    (list (position line graph :test #'equal) (position value line :test #'equal))
     )
   )
 
@@ -186,12 +211,12 @@
 
 ;; (81 82 83 84 85 86 87 88 89 90)
 
-(defun successor-line (node graph)
+(defun successor-line (value graph)
   (apply #'append
          (mapcar
           (lambda (lin) 
             (cond
-             ((position node lin :test #'equal) lin)
+             ((position value lin :test #'equal) lin)
              (T nil)
              )
             )
@@ -214,11 +239,30 @@
 ;; (91 92 93 94 95 96 97 98 99 100)))
 
 ;; NIL
-(defun successor-avaliable (line-index column-index graph)
+(defun successor-avaliable (line-index column-index node)
   (cond
    ((or (< line-index 0) (> line-index 9)) nil)
    ((or (< column-index 0) (> column-index 9)) nil)
-   (t (successor-value line-index column-index graph))
+    (t 
+       (let* (
+              (hourse-pos (hoursep node))
+              (node-board (node-state-board node))
+              (points-to-sum (car(successor-value line-index column-index node-board)))
+              ;;(board-no-simetric (remove-simetric points-to-sum (remove-node points-to-sum node-board)))
+              (board-no-hourse (replace-value (first hourse-pos) (second hourse-pos) node-board))
+              (board-to-be (replace-value line-index column-index board-no-hourse T))
+              
+             )
+
+            (make-node 
+                    board-to-be 
+                    (+ points-to-sum (node-state-point-sum node))
+                    node
+                    (1+(depth-node node))
+              )
+        )
+    
+    )
    )
   )
 
@@ -265,16 +309,16 @@
 ;; (91 92 93 94 95 96 97 98 99 100)))
 
 ;; (35 37 75 77 44 64 68)
-(defun successors (line-index column-index graph)
+(defun successors (line-index column-index node)
   (append
-   (successor-avaliable (- line-index 2) (- column-index 1) graph)
-   (successor-avaliable (- line-index 2) (+ column-index 1) graph)
-   (successor-avaliable (+ line-index 2) (- column-index 1) graph)
-   (successor-avaliable (+ line-index 2) (+ column-index 1) graph)
-   (successor-avaliable (- line-index 1) (- column-index 2) graph)
-   (successor-avaliable (- line-index 1) (+ column-index 2) graph)
-   (successor-avaliable (+ line-index 1) (- column-index 2) graph)
-   (successor-avaliable (+ line-index 1) (+ column-index 2) graph)
+   (successor-avaliable (- line-index 2) (- column-index 1) node)
+   (successor-avaliable (- line-index 2) (+ column-index 1) node)
+   (successor-avaliable (+ line-index 2) (- column-index 1) node)
+   (successor-avaliable (+ line-index 2) (+ column-index 1) node)
+   (successor-avaliable (- line-index 1) (- column-index 2) node)
+   (successor-avaliable (- line-index 1) (+ column-index 2) node)
+   (successor-avaliable (+ line-index 1) (- column-index 2) node)
+   (successor-avaliable (+ line-index 1) (+ column-index 2) node)
    )
   )
 
@@ -345,14 +389,14 @@
 ;; (81 82 83 84 85 86 87 88 89 90)
 ;; (91 92 93 94 95 96 97 98 99 100))
 
-(defun remove-node (node graph)
+(defun remove-node (value board)
 		
   (let* (
-         (line-column (successor-position node graph))
+         (line-column (successor-position value board))
          )
     
-    (cond ((or (null (first line-column)) (null (second line-column))) graph)
-          (t (replace-value (first line-column) (second line-column) graph))
+    (cond ((or (null (first line-column)) (null (second line-column))) board)
+          (t (replace-value (first line-column) (second line-column) board))
           )
     )
   )
@@ -380,14 +424,14 @@
 ;; (71 72 73 74 75 76 77 78 79 80)
 ;; (81 82 83 84 85 86 87 88 89 90)
 ;; (91 92 93 94 95 96 97 98 99 100))
-(defun remove-simetric (node graph &optional (strategy 'max))
+(defun remove-simetric (value board &optional (strategy 'max))
   (let* (
-         (simetric (reverse (write-to-string node)))
+         (simetric (reverse (write-to-string value)))
          )
    
-    (cond 	((< (nbDigits node) 2) graph)
-			((equal (parse-integer simetric)  node) (remove-node (remove-2digit-node graph strategy) graph))		
-			(t (remove-node (parse-integer simetric) graph))
+    (cond 	((< (nbDigits value) 2) (node-state-board board))
+			((equal (parse-integer simetric)  value) (remove-node (remove-2digit-node board strategy) board))		
+			(t (remove-node (parse-integer simetric) board))
           )
     ) 
   )
@@ -425,11 +469,6 @@
                    )
                  graph))
          ))
-
-
-(defun hoursep (node)
-  (successor-position T (node-state-board node))
-)
 
 		 
 (defun remove-2digit-node (graph &optional (strategy 'max))
