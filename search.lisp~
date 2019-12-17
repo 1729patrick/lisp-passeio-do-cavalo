@@ -97,7 +97,7 @@
              (terpri)
             
              
-             (print-list (reverse (get-solution-path node)))
+             (reverse (print-list (get-solution-path node)))
              (terpri)
              
              (format t "FINAL BOARD:")
@@ -193,6 +193,7 @@
            (node-board (node-state-board node))
            (points-to-sum (car(successor-value line-index column-index node-board)))
            (board-no-horse (replace-value (first horse-pos) (second horse-pos) (remove-node points-to-sum node-board)))
+           ;;(board-no-simetric (remove-simetric points-to-sum board-no-horse))
            (board-to-be  (remove-simetric (car (successor-value line-index column-index board-no-horse)) (replace-value line-index column-index board-no-horse T)))    
            )
 
@@ -276,14 +277,12 @@
          (simetric (reverse (write-to-string value)))
          )
    
-    (cond 
-     ((null value) board)	
-     ((< value 10) (remove-node (* value 10) board))
-    ((equal (parse-integer simetric)  value) (remove-node (remove-2digit-node board strategy) board))		
-    (t (remove-node (parse-integer simetric) board))
-    )
+    (cond 	((and (atom value)(< value 10)) (remove-node (* value 10) board))
+                ((equal (parse-integer simetric)  value) (remove-node (remove-2digit-node board strategy) board))		
+                (t (remove-node (parse-integer simetric) board))
+                )
+    ) 
   )
-) 
 
 
 ;; busca o menor valor do grafo
