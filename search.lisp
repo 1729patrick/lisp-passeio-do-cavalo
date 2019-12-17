@@ -87,13 +87,12 @@
 
 (defun get-solution-path (node)
 
-   (let* (
-        (p-node  (parent-node node)))
+  
   (cond ((null node) nil)
-   (t (append (list (position-to-chess (horsep node)) 
-                ))
+   (t (cons  (position-to-chess (horsep node)) 
+                 (get-solution-path (parent-node node)))
    ;;(get-solution-path (parent-node node))
-  )
+  
   )
 ))
 
@@ -113,7 +112,17 @@
              (format t "DFS ENDED, POINTS GOTTEN:")
              (terpri)
              (write-line (write-to-string (node-state-point-sum node)))
+             (terpri)
+             (format t "SOLUTION SEQUENCE:")
+             (terpri)
+            
              
+             (reverse (print-list (get-solution-path node)))
+             (terpri)
+             
+             (format t "FINAL BOARD:")
+             (terpri)
+             (print-list (node-state-board node))
              (terpri)
              )
 			 ;;((>(calculate-current-depth path) max-depth) (dfs (cdr open-list) graph max-depth))
@@ -298,20 +307,22 @@
 ;; (71 72 73 74 75 76 77 78 79 80)
 ;; (81 82 83 84 85 86 87 88 89 90)
 ;; (91 92 93 94 95 96 97 98 99 100)))
-
+              
 ;; NIL
 (defun successor-avaliable (line-index column-index node)
   (cond
    ((or (< line-index 0) (> line-index 9)) nil)
    ((or (< column-index 0) (> column-index 9)) nil)
+   ((null (car(successor-value line-index column-index (node-state-board node)))) nil)
     (t 
        (let* (
               (horse-pos (horsep node))
               (node-board (node-state-board node))
               (points-to-sum (car(successor-value line-index column-index node-board)))
-              ;;(board-no-simetric (remove-simetric points-to-sum (remove-node points-to-sum node-board)))
-              (board-no-horse (replace-value (first horse-pos) (second horse-pos) node-board))
+              (board-no-horse (replace-value (first horse-pos) (second horse-pos) (remove-node points-to-sum node-board)))
+              ;;(board-no-simetric (remove-simetric points-to-sum board-no-horse))
               (board-to-be (replace-value line-index column-index board-no-horse T))
+              
               
              )
 
@@ -541,18 +552,19 @@
          (apply #'append
                 (mapcar
                  (lambda (lin) 
-					(apply #'append
-                          (mapcar (lambda (n) 
-										(cond
-										   ((or (null n) (< (nbDigits n) 2)) nil)
-										   ((not(equal (parse-integer (reverse (write-to-string n)))  n)) nil)		
-         
-										   (t (list n))
-										 )
-									)
-                            lin )
-                      )
-                   )
+                    (apply #'append
+                     (mapcar 
+                        (lambda (n) 
+                            (cond
+                              ((or (null n) (< (nbDigits n) 2)) nil)
+                              ((not(equal (parse-integer (reverse (write-to-string n)))  n)) nil)		
+                
+                              (t (list n))
+                            )
+                        )
+                      lin )
+                     )
+                 )
 				graph)
 		  )
          ))
