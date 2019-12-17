@@ -33,53 +33,114 @@
 )
 
 
+  ;;Recursively print the elements of a list
+(defun print-list-chess (elements)
+    (cond
+        ((null elements) '()) ;; Base case: There are no elements that have yet to be printed. Don't do anything and return a null list.
+        (t
+            ;; Recursive case
+            ;; Print the next element.
+            (progn
+            (write-line (write-to-string (car elements)))
+            (write-line (write-to-string (second elements)))
+             )
+            ;; Recurse on the rest of the list.
+        )
+    )
+)
+
+
 
 ;;start dfs
 (defun dfsearch (board)
       (let* (
            (start-pos (read-start-position))
            (start-points (car(successor-value (first start-pos) (second start-pos) board)))
-            (open-nodes (list (make-node 
-                (replace-value (first start-pos) (second start-pos) board T) 
-                start-points
-                nil
-              )))
+           (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
+            (open-nodes (list 
+               (make-successor-node-dfs board-with-horse start-points nil)
+               ))
            )
           (dfs open-nodes (list nil) (read-target-points))
       )            
 )
 
+(defun make-successor-node-dfs (board-placed-horse current-points parent)
+           
+         (cond 
+          ((null parent)
+            (make-node 
+                board-placed-horse
+                (+ (node-state-point-sum parent) current-points)
+                parent
+              (depth-node parent)
+              ))
+         (t (make-node 
+                    board-placed-horse
+                    (+ (node-state-point-sum parent) current-points)
+                    parent
+                    (1+(depth-node parent))
+                  ))
+                    
+         )
+  )
 
+(defun get-solution-path (node)
+
+   (let* (
+        (p-node  (parent-node node)))
+  (cond ((null node) nil)
+   (t (append (list (position-to-chess (horsep node)) 
+                ))
+   ;;(get-solution-path (parent-node node))
+  )
+  )
+))
 
 (defun dfs (open-list closed-list target-points)
   (cond ((null open-list) nil)
         (t 
          (let*  (
                   (node (car open-list))
-                  (hourse-pos (hoursep node))
-                  (current-board (hoursep node))
-                  (current-successors (successors (first hourse-pos) (second hourse-pos) node))
+                  (horse-pos (horsep node))
+                  (current-board (horsep node))
+                  (current-successors (successors (first horse-pos) (second horse-pos) node))
 						   )
            (cond 
             ((or (null current-successors) (<= target-points (node-state-point-sum node)))
              (terpri)
              ;; SEQUENCIA DE JOGADAS
-             (format t "TERMINOU")
+             (format t "DFS ENDED, POINTS GOTTEN:")
+             (terpri)
+             (write-line (write-to-string (node-state-point-sum node)))
+             
              (terpri)
              )
 			 ;;((>(calculate-current-depth path) max-depth) (dfs (cdr open-list) graph max-depth))
-            (t (dfs 
-                (append current-successors (cdr open-list))
-                (append node (cdr closed-list))
-                target-points
-                ))
+            (t 
+                    (terpri)
+                ;; SEQUENCIA DE JOGADAS
+                (format t "iteracao: " )
+                (terpri)
+                
+                (print-list-chess (position-to-chess (horsep node)))
+                
+                (terpri)
+                  (dfs 
+                    (append current-successors (cdr open-list))
+
+                    (append node (cdr closed-list))
+                    target-points
+                  )
+          
+                )
             ))
          )
         )
   )
 
 
-(defun hoursep (node)
+(defun horsep (node)
   (successor-position T (node-state-board node))
 )
 
@@ -245,21 +306,23 @@
    ((or (< column-index 0) (> column-index 9)) nil)
     (t 
        (let* (
-              (hourse-pos (hoursep node))
+              (horse-pos (horsep node))
               (node-board (node-state-board node))
               (points-to-sum (car(successor-value line-index column-index node-board)))
               ;;(board-no-simetric (remove-simetric points-to-sum (remove-node points-to-sum node-board)))
-              (board-no-hourse (replace-value (first hourse-pos) (second hourse-pos) node-board))
-              (board-to-be (replace-value line-index column-index board-no-hourse T))
+              (board-no-horse (replace-value (first horse-pos) (second horse-pos) node-board))
+              (board-to-be (replace-value line-index column-index board-no-horse T))
               
              )
 
-            (make-node 
-                    board-to-be 
-                    (+ points-to-sum (node-state-point-sum node))
-                    node
-                    (1+(depth-node node))
+             (cond ((null points-to-sum) nil)
+              (t  
+                ;;trying return list
+                (list 
+                    (make-successor-node-dfs board-to-be points-to-sum node))
+              )        
               )
+            
         )
     
     )

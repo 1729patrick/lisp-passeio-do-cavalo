@@ -132,8 +132,8 @@
 ;; test: 
 ;; resultado: NIL
 
-(defun position-to-chess (line col)
-	(list (string (code-char (+ 65 col))) (+ 1 line))
+(defun position-to-chess (horse-pos)
+	(list (string (code-char (+ 65 (second horse-pos)))) (+ 1 (first horse-pos)))
 )
 ;;test: (position-to-chess 0 0))
 ;;result: ("A" 1)
