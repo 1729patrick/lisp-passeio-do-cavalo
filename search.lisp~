@@ -37,10 +37,10 @@
          (start-pos (read-start-position))
          (start-points (car(successor-value (first start-pos) (second start-pos) board)))
          (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
-         (strategy (read-strategy))
          (open-nodes (list 
                       (make-successor-node-dfs board-with-horse start-points nil strategy)
                       ))
+         (strategy (read-strategy))
          )
     (dfs open-nodes (list nil) (read-target-points) (read-depth) strategy)
     )            
@@ -49,7 +49,7 @@
 (defun make-successor-node-dfs (board-placed-horse current-points parent &optional strategy)
   (cond 
    ((null parent)
-    (make-node (remove-simetric current-points board-placed-horse strategy)
+    (make-node (remove-simetric current-point board-placed-horse strategy)
      (+ (node-state-point-sum parent) current-points)
      parent
      0
