@@ -41,7 +41,7 @@
 (defun make-successor-node-dfs (board-placed-horse current-points parent &optional strategy)
   (cond 
    ((null parent)
-    (make-node (remove-simetric current-points board-placed-horse strategy)
+    (make-node (remove-simmetric current-points board-placed-horse strategy)
                (+ (node-state-point-sum parent) current-points)
                parent
                0
@@ -98,8 +98,8 @@
              (node-board (node-state-board node))
              (points-to-sum (car (successor-value line-index column-index node-board)))
              (board-no-horse (replace-value (first horse-pos) (second horse-pos) (remove-node points-to-sum node-board)))
-             (board-no-simetric (remove-simetric points-to-sum board-no-horse strategy))
-             (board-to-be (replace-value line-index column-index board-no-simetric T))   
+             (board-no-simmetric (remove-simmetric points-to-sum board-no-horse strategy))
+             (board-to-be (replace-value line-index column-index board-no-simmetric T))   
              )
 
         (cond ((null points-to-sum) nil)
@@ -177,17 +177,17 @@
       )
     )
 
-;; remove o nó com valor simetrico ao nó do parametro ou remove o nó com menor valor
-  (defun remove-simetric (value board &optional (strategy 'max))
+;; remove o nó com valor simmetrico ao nó do parametro ou remove o nó com menor valor
+  (defun remove-simmetric (value board &optional (strategy 'max))
     (let* (
-           (simetric (reverse (write-to-string value)))
+           (simmetric (reverse (write-to-string value)))
            )
    
       (cond 
        ((null value) board)	
        ((< value 10) (remove-node (* value 10) board))
-       ((equal (parse-integer simetric)  value) (remove-node (min-max-asymmetric-node board strategy) board))		
-       (t (remove-node (parse-integer simetric) board))
+       ((equal (parse-integer simmetric)  value) (remove-node (min-max-asymmetric-node board strategy) board))		
+       (t (remove-node (parse-integer simmetric) board))
        )
       )
     ) 
