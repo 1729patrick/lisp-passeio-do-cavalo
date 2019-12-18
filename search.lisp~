@@ -196,35 +196,23 @@
 (defun min-max-asymmetric-node (board &optional (strategy 'max))
   ;;function to remove a 2 digit number from the board
   ;;strategy is the function to apply: max, min, etc
-  (let* (
-         (min-max (min-max-asymmetric-value board strategy))
-         )
- 
-    (cond ((null min-max) nil)
-          (t (apply strategy min-max))
-          )
-    )
-  )
-
-
-(defun min-max-asymmetric-value (board strategy)
-  (apply #'append
-         (mapcar
-          (lambda (lin) 
-            (apply #'append
-                   (mapcar 
-                    (lambda (n) 
-                      (cond
-                       ((or (not (typep n 'real)) (< n 10)) nil)
-                       ((not(equal (parse-integer (reverse (write-to-string n)))  n)) nil)		
+  (apply strategy
+         (apply #'append
+                (mapcar
+                 (lambda (lin) 
+                   (apply #'append
+                          (mapcar 
+                           (lambda (n) 
+                             (cond
+                              ((or (not (typep n 'real)) (< n 10)) nil)
+                              ((not(equal (parse-integer (reverse (write-to-string n)))  n)) nil)		
   
-                       (t (list n))
-                       )
-                      )
-                    lin )
+                              (t (list n))
+                              )
+                             )
+                           lin )
+                          )
                    )
-            )
-          board)
-         )
-
-  )
+                 board)
+                )
+         ))
