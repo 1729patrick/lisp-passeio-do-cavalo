@@ -62,17 +62,17 @@
   )
   
 ;; busca o index da linha e o index da coluna de um nó
-  (defun successor-position (value graph)
+  (defun successor-position (value board)
     (let* (
-           (line (successor-line value graph))
+           (line (successor-line value board))
            )
 
-      (list (position line graph :test #'equal) (position value line :test #'equal))
+      (list (position line board :test #'equal) (position value line :test #'equal))
       )
     )
 
 ;; busca a linha onde está o nó
-  (defun successor-line (value graph)
+  (defun successor-line (value board)
     (apply #'append
            (mapcar
             (lambda (lin) 
@@ -81,7 +81,7 @@
                (T nil)
                )
               )
-            graph
+            board
             )
            )        
     )
@@ -116,9 +116,9 @@
 
 
 ;; busca o valor de um nó no grafo pelo index da linha e index da coluna
-  (defun successor-value (line-index column-index graph)
+  (defun successor-value (line-index column-index board)
     (let* (
-           (line (nth line-index graph))
+           (line (nth line-index board))
            (value (nth column-index line))
            )
     
@@ -157,11 +157,11 @@
 
 
 ;; substitui uma posição de um tabuleiro com um valor enviado por parametro	
-  (defun replace-value (line-index column-index graph &optional (val nil))
+  (defun replace-value (line-index column-index board &optional (val nil))
     (cond
-     ( (null graph) '())
-     ( (eq line-index 0) (cons (replace-position column-index (nth line-index graph) val) (cdr graph)))
-     ( (cons (car graph) (replace-value (- line-index 1) column-index (cdr graph) val))))
+     ( (null board) '())
+     ( (eq line-index 0) (cons (replace-position column-index (nth line-index board) val) (cdr board)))
+     ( (cons (car board) (replace-value (- line-index 1) column-index (cdr board) val))))
     )
 
 ;; substitui o valor de um nó por nil
@@ -193,7 +193,7 @@
     ) 
 
 	 
-(defun min-max-asymmetric-node (graph &optional (strategy 'max))
+(defun min-max-asymmetric-node (board &optional (strategy 'max))
   ;;function to remove a 2 digit number from the board
   ;;strategy is the function to apply: max, min, etc
   (apply strategy
@@ -213,6 +213,6 @@
                            lin )
                           )
                    )
-                 graph)
+                 board)
                 )
          ))
