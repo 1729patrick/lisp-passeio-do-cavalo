@@ -17,28 +17,44 @@
     (format t "What is the limit depth? ~%")
     (read)
     ))
+
+;; read strategy
+(defun read-strategy()
+  (progn
+    (format t "What is your strategy? ~%")
+    (format t "1. MAX SIMMETRIC")
+    (terpri)
+    (format t "2. MIN SIMMETRIC")
+    (terpri)
+    (cond ((equal (read) 2) 'min)
+          (t 'max)
+          )
+    )
+
+
+
 	
 ;; read line
 (defun read-start-line()
-"Allows to make a reading of the horses start line."
-    (progn
+  "Allows to make a reading of the horses start line."
+  (progn
     (format t "What is the initial line number? ~%")
     (read)
     ))
 	
 	;; read column
 (defun read-start-column()
-"Allows to make a reading of the horses start column."
-    (progn
+  "Allows to make a reading of the horses start column."
+  (progn
     (format t "What is the initial column number? ~%")
     (read)
     ))
 	
 (defun read-start-position()
-"Allows to make a reading of the horses start column."
+  "Allows to make a reading of the horses start column."
 	
-	(list (read-start-line) (read-start-column))
-    )
+  (list (read-start-line) (read-start-column))
+  )
 
 (defun read-target-points()
 "Allows to make a reading of the target number of points."

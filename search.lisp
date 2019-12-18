@@ -33,27 +33,26 @@
 
 ;;start dfs
 (defun dfsearch (board)
-      (let* (
-           (start-pos (read-start-position))
-           (start-points (car(successor-value (first start-pos) (second start-pos) board)))
-           (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
-            (open-nodes (list 
-               (make-successor-node-dfs board-with-horse start-points nil)
-               ))
-           )
-          (dfs open-nodes (list nil) (read-target-points))
-      )            
-)
+  (let* (
+         (start-pos (read-start-position))
+         (start-points (car(successor-value (first start-pos) (second start-pos) board)))
+         (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
+         (open-nodes (list 
+                      (make-successor-node-dfs board-with-horse start-points nil strategy)
+                      ))
+         (strategy (read-strategy))
+         )
+    (dfs open-nodes (list nil) (read-target-points) (read-depth) strategy)
+    )            
+  )
 
-(defun make-successor-node-dfs (board-placed-horse current-points parent)
-           
+(defun make-successor-node-dfs (board-placed-horse current-points parent &optional strategy)
   (cond 
    ((null parent)
-    (make-node 
-     board-placed-horse
+    (make-node (remove-simetric current-point board-placed-horse strategy)
      (+ (node-state-point-sum parent) current-points)
      parent
-     (depth-node parent)
+     0
      ))
    (t (make-node 
        board-placed-horse
@@ -68,65 +67,55 @@
 (defun get-solution-path (node)
   (cond ((null node) nil)
         (t (cons  (position-to-chess (horsep node)) 
-                  (get-solution-path (parent-node node)))
-           ;;(get-solution-path (parent-node node))
-  
+                  (get-solution-path (parent-node node)))  
            )
         )
   )
 
-(defun dfs (open-list closed-list target-points)
-  (cond ((null open-list) nil)
+(defun dfs (open-list closed-list target-points max-depth strategy)
+  (cond ((null open-list) (format t "No solution found"))
         (t 
-         (let*  (
-                 (node (car open-list))
-                 (horse-pos (horsep node))
-                 (current-board (horsep node))
-                 (current-successors (successors (first horse-pos) (second horse-pos) node))
-                 )
+           (let*  (
+                   (node (car open-list))
+                   (horse-pos (horsep node))
+                   (current-board (horsep node))
+                   (current-successors (successors (first horse-pos) (second horse-pos) node max-depth strategy))
+                   )
 
-           (cond 
-            ((or (null current-successors) (<= target-points (node-state-point-sum node)))
-             (terpri)
-             ;; SEQUENCIA DE JOGADAS
-             (format t "DFS ENDED, POINTS GOTTEN:")
-             (terpri)
-             (write-line (write-to-string (node-state-point-sum node)))
-             (terpri)
-             (format t "SOLUTION SEQUENCE:")
-             (terpri)
+             (cond 
+              ((<= target-points (node-state-point-sum node))
+               (terpri)
+               ;; SEQUENCIA DE JOGADAS
+               (format t "DFS ENDED, POINTS GOTTEN:")
+               (terpri)
+               (write-line (write-to-string (node-state-point-sum node)))
+               (terpri)
+               (format t "SOLUTION SEQUENCE:")
+               (terpri)
             
              
-             (print-list (reverse (get-solution-path node)))
-             (terpri)
+               (print-list (reverse (get-solution-path node)))
+               (terpri)
              
-             (format t "FINAL BOARD:")
-             (terpri)
-             (print-list (node-state-board node))
-             (terpri)
-             )
-            ;;((>(calculate-current-depth path) max-depth) (dfs (cdr open-list) graph max-depth))
-            (t 
-             (terpri)
-             ;; SEQUENCIA DE JOGADAS
-             (format t "iteracao: " )
-             (terpri)
-                
-             (print-list-chess (position-to-chess (horsep node)))
-                
-             (terpri)
-             (dfs 
-              (append current-successors (cdr open-list))
-              (append node (cdr closed-list))
-              target-points
-              )
-          
-             )
-            ))
+               (format t "FINAL BOARD:")
+               (terpri)
+               (print-list (node-state-board node))
+               (terpri)
+               (format t "DEPTH: ~a" (depth-node node))
+               )
+              (t                 
+              (dfs 
+                (append current-successors (cdr open-list))
+                (append node (cdr closed-list))
+                target-points
+                max-depth
+                strategy
+                )
+               )
+              )))
+          )
          )
-        )
-  )
-
+        
 
 (defun horsep (node)
   (successor-position T (node-state-board node))
@@ -182,7 +171,7 @@
   )
 
 ;; busca o valor de um nó no grafo pelo index da linha e index da coluna ou retorna nil para indexes inválidos
-(defun successor-avaliable (line-index column-index node)
+(defun successor-avaliable (line-index column-index node strategy)
   (cond
    ((or (< line-index 0) (> line-index 9)) nil)
    ((or (< column-index 0) (> column-index 9)) nil)
@@ -191,9 +180,10 @@
     (let* (
            (horse-pos (horsep node))
            (node-board (node-state-board node))
-           (points-to-sum (car(successor-value line-index column-index node-board)))
+           (points-to-sum (car (successor-value line-index column-index node-board)))
            (board-no-horse (replace-value (first horse-pos) (second horse-pos) (remove-node points-to-sum node-board)))
-           (board-to-be  (remove-simetric (car (successor-value line-index column-index board-no-horse)) (replace-value line-index column-index board-no-horse T)))    
+           (board-no-simetric (remove-simetric points-to-sum board-no-horse strategy))
+           (board-to-be (replace-value line-index column-index board-no-simetric T))   
            )
 
       (cond ((null points-to-sum) nil)
@@ -227,17 +217,21 @@
  
 
 ;; busca todos os sucessores válidos de um nó
-(defun successors (line-index column-index node)
-  (append
-   (successor-avaliable (- line-index 2) (- column-index 1) node)
-   (successor-avaliable (- line-index 2) (+ column-index 1) node)
-   (successor-avaliable (+ line-index 2) (- column-index 1) node)
-   (successor-avaliable (+ line-index 2) (+ column-index 1) node)
-   (successor-avaliable (- line-index 1) (- column-index 2) node)
-   (successor-avaliable (- line-index 1) (+ column-index 2) node)
-   (successor-avaliable (+ line-index 1) (- column-index 2) node)
-   (successor-avaliable (+ line-index 1) (+ column-index 2) node)
-   )
+(defun successors (line-index column-index node max-depth strategy)
+  (cond  (
+          (>= (depth-node node) max-depth) nil)           
+         (t (append
+             (successor-avaliable (- line-index 2) (- column-index 1) node strategy)
+             (successor-avaliable (- line-index 2) (+ column-index 1) node strategy)
+             (successor-avaliable (+ line-index 2) (- column-index 1) node strategy)
+             (successor-avaliable (+ line-index 2) (+ column-index 1) node strategy)
+             (successor-avaliable (- line-index 1) (- column-index 2) node strategy)
+             (successor-avaliable (- line-index 1) (+ column-index 2) node strategy)
+             (successor-avaliable (+ line-index 1) (- column-index 2) node strategy)
+             (successor-avaliable (+ line-index 1) (+ column-index 2) node strategy)
+             )
+            )
+         )
   )
 
 ;; substitui uma posição de uma lista com um valor enviado por parametro	

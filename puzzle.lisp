@@ -36,11 +36,12 @@
     )
 )
 
-(defun played-board ()
-"A board just like the previous but with a play made in the position 94"
+ ;;; Boards
+(defun test-board ()
+"A test board without any play made"
   '(
-    (T 25 54 89 21 8 36 14 41 96) 
-    (78 47 56 23 5 NIL 13 12 26 60) 
+    (94 25 54 89 21 8 36 14 41 96) 
+    (78 47 56 23 5 49 13 12 26 60) 
     (0 27 17 83 34 93 74 52 45 80) 
     (69 9 77 95 55 39 91 73 57 30) 
     (24 15 22 86 1 11 68 79 76 72) 
@@ -51,6 +52,22 @@
     (33 70 84 40 66 38 92 67 98 97)
     )
 )
+
+(defun played-board-order ()
+  "A board just like the previous but with a play made in the position 94"
+  '(
+    (0 1 2 3 4 5 6 7 8 9)
+    (10 11 12 13 14 15 16 17 18 19)
+    (20 21 22 23 24 25 26 27 28 29)
+    (30 31 32 33 34 35 36 37 38 39)
+    (40 41 42 43 44 45 46 47 48 49)
+    (50 51 52 53 54 55 56 57 58 59)
+    (60 61 62 63 64 65 66 67 68 69)
+    (70 71 72 73 74 75 76 77 78 79)
+    (80 81 82 83 84 85 86 87 88 89)
+    (90 91 92 93 94 95 96 97 98 99)
+    )
+  )
 
 ;;access to line and cell
 (defun line (num board)
