@@ -37,19 +37,20 @@
          (start-pos (read-start-position))
          (start-points (car(successor-value (first start-pos) (second start-pos) board)))
          (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
+         (strategy (read-strategy))
          (open-nodes (list 
                       (make-successor-node-dfs board-with-horse start-points nil strategy)
                       ))
-         (strategy (read-strategy))
          )
     (dfs open-nodes (list nil) (read-target-points) (read-depth) strategy)
     )            
   )
 
 (defun make-successor-node-dfs (board-placed-horse current-points parent &optional strategy)
+  (format t "aaa ~a ~a ~a" current-points board-placed-horse strategy)
   (cond 
    ((null parent)
-    (make-node (remove-simetric current-point board-placed-horse strategy)
+    (make-node (remove-simetric current-points board-placed-horse strategy)
      (+ (node-state-point-sum parent) current-points)
      parent
      0
@@ -121,14 +122,6 @@
   (successor-position T (node-state-board node))
   )
   
-  
-  ;;;test
-(defun nbDigits (digit)
-  (cond 
-   ((< digit 10) 1)
-   (t (1+ (nbDigits (truncate digit 10))))
-   )
-  )  
 	
 ;; busca os sucessores de um nó e retornao caminho até os sucessores
 (defun successors-path (path node graph)
@@ -185,7 +178,8 @@
            (board-no-simetric (remove-simetric points-to-sum board-no-horse strategy))
            (board-to-be (replace-value line-index column-index board-no-simetric T))   
            )
-
+     (format t "~a" points-to-sum)
+     (terpri)
       (cond ((null points-to-sum) nil)
             (t  
              ;;trying return list
@@ -299,27 +293,27 @@
 
 		 
 (defun remove-2digit-node (graph &optional (strategy 'max))
-;;function to remove a 2 digit number from the board
-;;strategy is the function to apply: max, min, etc
+  ;;function to remove a 2 digit number from the board
+  ;;strategy is the function to apply: max, min, etc
   (apply strategy
          (apply #'append
                 (mapcar
                  (lambda (lin) 
-                    (apply #'append
-                     (mapcar 
-                        (lambda (n) 
-                            (cond
-                              ((or (null n) (< (nbDigits n) 2)) nil)
+                   (apply #'append
+                          (mapcar 
+                           (lambda (n) 
+                             (cond
+                              ((or (not ( >= n 0)) (< n 10)) nil)
                               ((not(equal (parse-integer (reverse (write-to-string n)))  n)) nil)		
                 
                               (t (list n))
-                            )
-                        )
-                      lin )
-                     )
-                 )
-				graph)
-		  )
+                              )
+                             )
+                           lin )
+                          )
+                   )
+                 graph)
+                )
          ))
 ;;test: (remove-2digit-node ‘(
 ;;(1 2 3 4 5 6 7 8 9 10)

@@ -121,14 +121,6 @@
   (successor-position T (node-state-board node))
   )
   
-  
-  ;;;test
-(defun nbDigits (digit)
-  (cond 
-   ((< digit 10) 1)
-   (t (1+ (nbDigits (truncate digit 10))))
-   )
-  )  
 	
 ;; busca os sucessores de um nó e retornao caminho até os sucessores
 (defun successors-path (path node graph)
@@ -273,53 +265,35 @@
     (cond 
      ((null value) board)	
      ((< value 10) (remove-node (* value 10) board))
-    ((equal (parse-integer simetric)  value) (remove-node (remove-2digit-node board strategy) board))		
+    ((equal (parse-integer simetric)  value) (remove-node (min-max-asymmetric-node board strategy) board))		
     (t (remove-node (parse-integer simetric) board))
     )
   )
 ) 
 
-
-;; busca o menor valor do grafo
-(defun min-node (graph)
-  (apply 'min
-         (apply #'append
-                (mapcar
-                 (lambda (lin) 
-                   (apply #'append
-                          (mapcar (lambda (n) (cond
-                                               ((null n) n)
-                                               (t (list n))
-                                               ))
-                                  lin  )
-                          )
-                   )
-                 graph))
-         ))
-
-		 
-(defun remove-2digit-node (graph &optional (strategy 'max))
-;;function to remove a 2 digit number from the board
-;;strategy is the function to apply: max, min, etc
+	 
+(defun min-max-asymmetric-node (graph &optional (strategy 'max))
+  ;;function to remove a 2 digit number from the board
+  ;;strategy is the function to apply: max, min, etc
   (apply strategy
          (apply #'append
                 (mapcar
                  (lambda (lin) 
-                    (apply #'append
-                     (mapcar 
-                        (lambda (n) 
-                            (cond
-                              ((or (null n) (< (nbDigits n) 2)) nil)
+                   (apply #'append
+                          (mapcar 
+                           (lambda (n) 
+                             (cond
+                              ((or (not (typep n 'real)) (< n 10)) nil)
                               ((not(equal (parse-integer (reverse (write-to-string n)))  n)) nil)		
                 
                               (t (list n))
-                            )
-                        )
-                      lin )
-                     )
-                 )
-				graph)
-		  )
+                              )
+                             )
+                           lin )
+                          )
+                   )
+                 graph)
+                )
          ))
 ;;test: (remove-2digit-node ‘(
 ;;(1 2 3 4 5 6 7 8 9 10)
