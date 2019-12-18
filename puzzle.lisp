@@ -18,27 +18,9 @@
 		heuristic	
 		f
     ))
- 
- ;;; Boards
-(defun test-board ()
-"A test board without any play made"
-  '(
-    (94 25 54 89 21 8 36 14 41 96) 
-    (78 47 56 23 5 49 13 12 26 60) 
-    (0 27 17 83 34 93 74 52 45 80) 
-    (69 9 77 95 55 39 91 73 57 30) 
-    (24 15 22 86 1 11 68 79 76 72) 
-    (81 48 32 2 64 16 50 37 29 71) 
-    (99 51 6 18 53 28 7 63 10 88) 
-    (59 42 46 85 90 75 87 43 20 31) 
-    (3 61 58 44 65 82 19 4 35 62) 
-    (33 70 84 40 66 38 92 67 98 97)
-    )
-)
 
  ;;; Boards
-(defun test-board-order ()
-"A test board without any play made"
+(defun board-order ()
   '(
     (0 1 2 3 4 5 6 7 8 9)
     (10 11 12 13 14 15 16 17 18 19)
@@ -53,9 +35,99 @@
     )
 )
 
-(defun played-board-order ()
-  "A board just like the previous but with a play made in the position 94"
+(defun board-a ()
+  '(
+    (02 20 44 nil nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil 03 30 nil nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil nil 22 nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    )
+  )
 
+
+(defun board-b ()
+  '(
+    (02 nil 04 nil 06 nil 08 nil 10 nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil 03 nil 05 nil 07 nil 09 nil 11)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    )
+  )
+
+
+(defun board-c ()
+  '(
+    (01 12 03 23 nil 88 nil nil nil nil)
+    (21 45 43 nil nil nil nil nil nil nil)
+    (nil 56 nil 78 nil nil nil nil nil nil)
+    (89 nil 99 54 nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    )
+  )
+
+
+(defun board-d ()
+  '(
+    (98 97 96 95 94 93 92 91 90 89)
+    (01 02 03 04 05 55 06 07 08 09)
+    (nil 66 nil nil nil nil nil nil nil 11)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil 22 nil nil nil nil nil 33 nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil nil 88 nil nil nil 44 nil nil)
+    (nil nil nil nil nil nil nil nil nil nil)
+    (nil nil nil nil 77 nil nil nil nil nil)
+    (nil nil nil nil nil nil 99 nil nil nil)
+    )
+  )
+
+
+(defun board-e ()
+  '(
+    (nil 05 nil nil nil 15 nil nil nil 25)
+    (nil nil nil 06 nil nil nil 16 nil nil)
+    (nil 04 nil nil nil 14 nil nil nil 24)
+    (nil nil nil 07 nil nil nil 17 nil nil)
+    (nil 03 nil nil nil 13 nil nil nil 23)
+    (nil nil nil 08 nil nil nil 18 nil nil)
+    (nil 02 nil nil nil 12 nil nil nil 22)
+    (nil nil nil 09 nil nil nil 19 nil nil)
+    (nil 01 nil nil nil 11 nil nil nil 21)
+    (nil nil nil 10 nil nil nil 20 nil nil)
+    )
+  )
+
+
+(defun board-f ()
+  '(
+    (94 25 54 89 21 8 36 14 41 96) 
+    (78 47 56 23 5 49 13 12 26 60) 
+    (0 27 17 83 34 93 74 52 45 80) 
+    (69 9 77 95 55 39 91 73 57 30) 
+    (24 15 22 86 1 11 68 79 76 72) 
+    (81 48 32 2 64 16 50 37 29 71) 
+    (99 51 6 18 53 28 7 63 10 88) 
+    (59 42 46 85 90 75 87 43 20 31) 
+    (3 61 58 44 65 82 19 4 35 62) 
+    (33 70 84 40 66 38 92 67 98 97)
+    )
   )
 
 ;;access to line and cell
