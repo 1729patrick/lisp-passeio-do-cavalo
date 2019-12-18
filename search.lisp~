@@ -25,14 +25,14 @@
         )
   )
 
-(defun bfs (open-list closed-list target-points strategy)
+(defun bfs (open-list closed-list target-points max-depth strategy)
   (cond ((null open-list) (format t "No solution found"))
         (t 
          (let*  (
                  (node (car open-list))
                  (horse-pos (horsep node))
                  (current-board (horsep node))
-                 (current-successors (successors (first horse-pos) (second horse-pos) node  most-positive-fixnum strategy))
+                 (current-successors (successors (first horse-pos) (second horse-pos) node max-depth strategy))
                  )
 
            (cond 
@@ -42,6 +42,7 @@
               (append (cdr open-list) current-successors)
               (append node (cdr closed-list))
               target-points
+              max-depth
               strategy
               )
              )
@@ -144,6 +145,7 @@
  
 ;; busca todos os sucessores válidos de um nó
   (defun successors (line-index column-index node max-depth strategy)
+    (format t "~a ~a" line-index column-index)
     (cond  (
             (>= (depth-node node) max-depth) nil)           
            (t (append

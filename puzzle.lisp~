@@ -20,7 +20,7 @@
          (open-nodes (list (make-successor-node-dfs board-with-horse start-points nil strategy)))
          )
 
-    (bfs open-nodes (list nil) (read-target-points) strategy)
+    (bfs open-nodes (list nil) (read-target-points) (read-depth) strategy)
     )            
   )
 
