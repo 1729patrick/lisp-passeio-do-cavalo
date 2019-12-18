@@ -143,3 +143,84 @@
 )
 ;;test: (position-to-chess 0 0))
 ;;result: ("A" 1)
+
+
+
+(defun number-generated-nodes (open closed)
+  "Total number of generated nodes: open+closed"
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  )
+
+(defun solution-length (list-solution)
+  "Devolve o comprimento de uma  solucao"
+  (length list-solution)
+  )
+
+;;BRANCHING FACTOR
+(defun polinomial-sum (B L t-value)
+ "B + B^2 + ... + B^L=T"
+  (cond
+   ((= 1 L) (- B t-value))
+   (T (+ (expt B L) (polinomial-sum B (- L 1) t-value)))
+  )
+)
+
+(defun branching-factor (solution-path-list open closed &optional (L-value (solution-length solution-path-list)) (T-value (number-generated-nodes open closed)) (max-error 0.1) (bmin 1) (bmax 10e11))
+  "Devolve o factor de ramificacao, executando o metodo da bisseccao"
+  (let ((b-average (/ (+ bmin bmax) 2)))
+    (cond 
+     ((< (- bmax bmin) max-error) (/ (+ bmax bmin) 2))
+     ((< (polinomial-sum b-average L-value T-value) 0) (branching-factor solution-path-list L-value T-value max-error b-average bmax))
+     (t (branching-factor solution-path-list L-value T-value max-error bmin b-average))
+     )
+    )
+  )
+
+
+(defun get-solution-path (node)
+  (cond ((null node) nil)
+        (t (cons  (position-to-chess (horsep node)) 
+                  (get-solution-path (parent-node node)))  
+           )
+        )
+  )
+
+
+;;Recursively print the elements of a list
+(defun print-list (elements)
+    (cond
+        ((null elements) '()) ;; Base case: There are no elements that have yet to be printed. Don't do anything and return a null list.
+        (t
+            ;; Recursive case
+            ;; Print the next element.
+            (write-line (write-to-string (car elements)))
+            (print-list (cdr elements))
+            ;; Recurse on the rest of the list.
+        )
+    )
+)
+
+(defun format-output (node algorithm)
+  (terpri)
+  (format t "*********************** SOLUTION ~A ***********************************" algorithm)
+  (terpri)
+  
+  (format t "POINTS: ~A" (node-state-point-sum node))
+  (terpri)
+  (terpri)
+
+  (format t "DEPTH: ~A" (depth-node node))
+  (terpri)
+  (terpri)
+
+  (format t "SEQUENCE: ")
+  (terpri)
+  (print-list (reverse (get-solution-path node)))
+  (terpri)
+  (terpri)  
+
+  (format t "BOARD:")
+  (terpri)
+  (print-list (node-state-board node))
+  (format t "********************************************************************")
+  )
