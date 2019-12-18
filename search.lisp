@@ -1,19 +1,4 @@
-(defun dfsearch (board)
-  (let* (
-         (start-pos (read-start-position))
-         (start-points (car(successor-value (first start-pos) (second start-pos) board)))
-         (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
-         (strategy (read-strategy))
-         (open-nodes (list 
-                      (make-successor-node-dfs board-with-horse start-points nil strategy)
-                      ))
-         )
-    (dfs open-nodes (list nil) (read-target-points) (read-depth) strategy)
-    )            
-  )
-
 (defun dfs (open-list closed-list target-points max-depth strategy)
-
   (cond ((null open-list) (format t "No solution found"))
         (t 
          (let*  (
@@ -24,7 +9,7 @@
                  )
 
            (cond 
-            ((<= target-points (node-state-point-sum node)) (format-output node "BFS"))
+            ((<= target-points (node-state-point-sum node)) (format-output node "DFS"))
             (t                 
              (dfs 
               (append current-successors (cdr open-list))
@@ -34,7 +19,35 @@
               strategy
               )
              )
-            )))
+            )
+           )
+         )
+        )
+  )
+
+(defun bfs (open-list closed-list target-points strategy)
+  (cond ((null open-list) (format t "No solution found"))
+        (t 
+         (let*  (
+                 (node (car open-list))
+                 (horse-pos (horsep node))
+                 (current-board (horsep node))
+                 (current-successors (successors (first horse-pos) (second horse-pos) node  most-positive-fixnum strategy))
+                 )
+
+           (cond 
+            ((<= target-points (node-state-point-sum node)) (format-output node "BFS"))
+            (t                 
+             (bfs 
+              (append (cdr open-list) current-successors)
+              (append node (cdr closed-list))
+              target-points
+              strategy
+              )
+             )
+            )
+           )
+         )
         )
   )
     

@@ -1,3 +1,31 @@
+(defun dfsearch (board)
+  (let* (
+         (start-pos (read-start-position))
+         (start-points (car (successor-value (first start-pos) (second start-pos) board)))
+         (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
+         (strategy (read-strategy))
+         (open-nodes (list (make-successor-node-dfs board-with-horse start-points nil strategy)))
+         )
+
+    (dfs open-nodes (list nil) (read-target-points) (read-depth) strategy)
+    )            
+  )
+
+(defun bfsearch (board)
+  (let* (
+         (start-pos (read-start-position))
+         (start-points (car (successor-value (first start-pos) (second start-pos) board)))
+         (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
+         (strategy (read-strategy))
+         (open-nodes (list (make-successor-node-dfs board-with-horse start-points nil strategy)))
+         )
+
+    (bfs open-nodes (list nil) (read-target-points) (read-depth) strategy)
+    )            
+  )
+
+
+
 ;;; Passeio do cavalo
 ;;; variaveis de test e operadores
 

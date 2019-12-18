@@ -1,19 +1,31 @@
-(defun dfsearch (board)
-  (let* (
-         (start-pos (read-start-position))
-         (start-points (car(successor-value (first start-pos) (second start-pos) board)))
-         (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
-         (strategy (read-strategy))
-         (open-nodes (list 
-                      (make-successor-node-dfs board-with-horse start-points nil strategy)
-                      ))
+(defun dfs (open-list closed-list target-points max-depth strategy)
+  (cond ((null open-list) (format t "No solution found"))
+        (t 
+         (let*  (
+                 (node (car open-list))
+                 (horse-pos (horsep node))
+                 (current-board (horsep node))
+                 (current-successors (successors (first horse-pos) (second horse-pos) node max-depth strategy))
+                 )
+
+           (cond 
+            ((<= target-points (node-state-point-sum node)) (format-output node "DFS"))
+            (t                 
+             (dfs 
+              (append current-successors (cdr open-list))
+              (append node (cdr closed-list))
+              target-points
+              max-depth
+              strategy
+              )
+             )
+            )
+           )
          )
-    (dfs open-nodes (list nil) (read-target-points) (read-depth) strategy)
-    )            
+        )
   )
 
-(defun dfs (open-list closed-list target-points max-depth strategy)
-
+(defun bfs (open-list closed-list target-points max-depth strategy)
   (cond ((null open-list) (format t "No solution found"))
         (t 
          (let*  (
@@ -26,15 +38,17 @@
            (cond 
             ((<= target-points (node-state-point-sum node)) (format-output node "BFS"))
             (t                 
-             (dfs 
-              (append current-successors (cdr open-list))
+             (bfs 
+              (append (cdr open-list) current-successors)
               (append node (cdr closed-list))
               target-points
               max-depth
               strategy
               )
              )
-            )))
+            )
+           )
+         )
         )
   )
     
@@ -131,6 +145,7 @@
  
 ;; busca todos os sucessores válidos de um nó
   (defun successors (line-index column-index node max-depth strategy)
+    (format t "~a ~a" line-index column-index)
     (cond  (
             (>= (depth-node node) max-depth) nil)           
            (t (append
@@ -196,23 +211,35 @@
 (defun min-max-asymmetric-node (board &optional (strategy 'max))
   ;;function to remove a 2 digit number from the board
   ;;strategy is the function to apply: max, min, etc
-  (apply strategy
-         (apply #'append
-                (mapcar
-                 (lambda (lin) 
-                   (apply #'append
-                          (mapcar 
-                           (lambda (n) 
-                             (cond
-                              ((or (not (typep n 'real)) (< n 10)) nil)
-                              ((not(equal (parse-integer (reverse (write-to-string n)))  n)) nil)		
+  (let* (
+         (min-max (min-max-asymmetric-value board strategy))
+         )
+ 
+    (cond ((null min-max) nil)
+          (t (apply strategy min-max))
+          )
+    )
+  )
+
+
+(defun min-max-asymmetric-value (board strategy)
+  (apply #'append
+         (mapcar
+          (lambda (lin) 
+            (apply #'append
+                   (mapcar 
+                    (lambda (n) 
+                      (cond
+                       ((or (not (typep n 'real)) (< n 10)) nil)
+                       ((not(equal (parse-integer (reverse (write-to-string n)))  n)) nil)		
   
-                              (t (list n))
-                              )
-                             )
-                           lin )
-                          )
+                       (t (list n))
+                       )
+                      )
+                    lin )
                    )
-                 board)
-                )
-         ))
+            )
+          board)
+         )
+
+  )
