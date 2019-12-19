@@ -4,7 +4,7 @@
          (start-points (car (successor-value (first start-pos) (second start-pos) board)))
          (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
          (strategy (read-strategy))
-         (open-nodes (list (make-successor-node-dfs board-with-horse start-points nil strategy)))
+         (open-nodes (list (make-root-node board-with-horse start-points nil strategy)))
          )
 
     (dfs open-nodes (list nil) (read-target-points) (read-depth) strategy)
@@ -17,13 +17,25 @@
          (start-points (car (successor-value (first start-pos) (second start-pos) board)))
          (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
          (strategy (read-strategy))
-         (open-nodes (list (make-successor-node-dfs board-with-horse start-points nil strategy)))
+         (open-nodes (list (make-root-node board-with-horse start-points nil strategy)))
          )
 
     (bfs open-nodes (list nil) (read-target-points) strategy)
     )            
   )
 
+(defun a*search (board)
+  (let* (
+         (start-pos (read-start-position))
+         (start-points (car (successor-value (first start-pos) (second start-pos) board)))
+         (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
+         (strategy (read-strategy))
+         (open-nodes (list (make-node board-with-horse start-points nil strategy)))
+         )
+
+    (a* open-nodes (list nil) (read-target-points) strategy)
+    )  
+  )
 
 
 ;;; Passeio do cavalo
@@ -37,17 +49,12 @@
  (list (list board (cell 0 2 board)) nil 0 nil nil))
  
 
- ;;; Construtor
+;;; Construtor
 (defun make-node (board points parent-node &optional (depth 0) (heuristic nil) (f nil))
-     (list 
-		(list board points) 
-		parent-node
-		depth  
-		heuristic	
-		f
-    ))
+     (list (list board points) parent-node depth heuristic f)
+		 )
 
- ;;; Boards
+;;; Boards
 (defun board-order ()
   '(
     (0 1 2 3 4 5 6 7 8 9)

@@ -50,24 +50,37 @@
          )
         )
   )
-    
-(defun make-successor-node-dfs (board-placed-horse current-points parent &optional strategy)
-  (cond 
-   ((null parent)
-    (make-node (remove-simmetric current-points board-placed-horse strategy)
-               (+ (node-state-point-sum parent) current-points)
-               parent
-               0
-               ))
-   (t (make-node 
-       board-placed-horse
-       (+ (node-state-point-sum parent) current-points)
-       parent
-       (1+ (depth-node parent))
-       ))
-                    
-   )
+
+(defun a* (open-list closed-list target-points strategy)
+  (cond ((null open-list) (format t "No solution found"))
+        (t 
+         (let*  (
+                 (node (car open-list))
+                 (horse-pos (horsep node))
+                 (current-board (horsep node))
+                 (current-successors (successors (first horse-pos) (second horse-pos) node  most-positive-fixnum strategy))
+                 )
+
+           (cond 
+            ((<= target-points (node-state-point-sum node)) (format-output node "BFS"))
+            (t                 
+             (bfs 
+              (append (cdr open-list) current-successors)
+              (append node (cdr closed-list))
+              target-points
+              strategy
+              )
+             )
+            )
+           )
+         )
+        )
   )
+    
+(defun make-root-node (board-placed-horse current-points parent &optional strategy)
+  (make-node (remove-simmetric current-points board-placed-horse strategy) current-points nil 0)
+  )   
+
 
 
 (defun horsep (node)
@@ -75,7 +88,7 @@
   )
   
 ;; busca o index da linha e o index da coluna de um nó
-  (defun successor-position (value board)
+(defun successor-position (value board)
     (let* (
            (line (successor-line value board))
            )
@@ -85,7 +98,7 @@
     )
 
 ;; busca a linha onde está o nó
-  (defun successor-line (value board)
+ (defun successor-line (value board)
     (apply #'append
            (mapcar
             (lambda (lin) 
@@ -100,82 +113,77 @@
     )
 
 ;; busca o valor de um nó no grafo pelo index da linha e index da coluna ou retorna nil para indexes inválidos
-  (defun successor-avaliable (line-index column-index node strategy)
-    (cond
-     ((or (< line-index 0) (> line-index 9)) nil)
-     ((or (< column-index 0) (> column-index 9)) nil)
-     ((null (car (successor-value line-index column-index (node-state-board node)))) nil)
-     (t 
-      (let* (
-             (horse-pos (horsep node))
-             (node-board (node-state-board node))
-             (points-to-sum (car (successor-value line-index column-index node-board)))
-             (board-no-horse (replace-value (first horse-pos) (second horse-pos) (remove-node points-to-sum node-board)))
-             (board-no-simmetric (remove-simmetric points-to-sum board-no-horse strategy))
-             (board-to-be (replace-value line-index column-index board-no-simmetric T))   
-             )
+(defun successor-avaliable (line-index column-index node strategy)
+  (cond
+   ((or (< line-index 0) (> line-index 9)) nil)
+   ((or (< column-index 0) (> column-index 9)) nil)
+   ((null (car (successor-value line-index column-index (node-state-board node)))) nil)
+   (t 
+    (let* (
+           (horse-pos (horsep node))
+           (node-board (node-state-board node))
+           (points-to-sum (car (successor-value line-index column-index node-board)))
+           (board-no-horse (replace-value (first horse-pos) (second horse-pos) (remove-node points-to-sum node-board)))
+           (board-no-simmetric (remove-simmetric points-to-sum board-no-horse strategy))
+           (board-to-be (replace-value line-index column-index board-no-simmetric T))   
+           )
 
-        (cond ((null points-to-sum) nil)
-              (t  
-               ;;trying return list
-               (list 
-                (make-successor-node-dfs board-to-be points-to-sum node))
-               )        
-              ) 
-        )
+      (list (make-node board-to-be (+ (node-state-point-sum node) points-to-sum) node (1+ (depth-node node)))
+            )
       )
-     )
     )
+   )
+  )
 
 
 ;; busca o valor de um nó no grafo pelo index da linha e index da coluna
-  (defun successor-value (line-index column-index board)
-    (let* (
-           (line (nth line-index board))
-           (value (nth column-index line))
-           )
+(defun successor-value (line-index column-index board)
+  (let* (
+         (line (nth line-index board))
+         (value (nth column-index line))
+         )
     
-      (cond 
-       ((null value) nil)
-       (t (list value))
-       )
-      )
+    (cond 
+     ((null value) nil)
+     (t (list value))
+     )
     )
+  )
  
 ;; busca todos os sucessores válidos de um nó
-  (defun successors (line-index column-index node max-depth strategy)
-    (cond  (
-            (>= (depth-node node) max-depth) nil)           
-           (t (append
-               (successor-avaliable (- line-index 2) (- column-index 1) node strategy)
-               (successor-avaliable (- line-index 2) (+ column-index 1) node strategy)
-               (successor-avaliable (+ line-index 2) (- column-index 1) node strategy)
-               (successor-avaliable (+ line-index 2) (+ column-index 1) node strategy)
-               (successor-avaliable (- line-index 1) (- column-index 2) node strategy)
-               (successor-avaliable (- line-index 1) (+ column-index 2) node strategy)
-               (successor-avaliable (+ line-index 1) (- column-index 2) node strategy)
-               (successor-avaliable (+ line-index 1) (+ column-index 2) node strategy)
-               )
-              )
-           )
-    )
+(defun successors (line-index column-index node max-depth strategy)
+  (cond  (
+          (>= (depth-node node) max-depth) nil)           
+         (t (append
+             (successor-avaliable (- line-index 2) (- column-index 1) node strategy)
+             (successor-avaliable (- line-index 2) (+ column-index 1) node strategy)
+             (successor-avaliable (+ line-index 2) (- column-index 1) node strategy)
+             (successor-avaliable (+ line-index 2) (+ column-index 1) node strategy)
+             (successor-avaliable (- line-index 1) (- column-index 2) node strategy)
+             (successor-avaliable (- line-index 1) (+ column-index 2) node strategy)
+             (successor-avaliable (+ line-index 1) (- column-index 2) node strategy)
+             (successor-avaliable (+ line-index 1) (+ column-index 2) node strategy)
+             )
+            )
+         )
+  )
 
 ;; substitui uma posição de uma lista com um valor enviado por parametro	
-  (defun replace-position (column-index line &optional (val nil))
-    (cond
-     ( (null line) '())
-     ( (eq column-index 0) (cons val (cdr line)))
-     ( (cons (car line) (replace-position (- column-index 1) (cdr line) val))))
-    )
+(defun replace-position (column-index line &optional (val nil))
+  (cond
+   ( (null line) '())
+   ( (eq column-index 0) (cons val (cdr line)))
+   ( (cons (car line) (replace-position (- column-index 1) (cdr line) val))))
+  )
 
 
 ;; substitui uma posição de um tabuleiro com um valor enviado por parametro	
-  (defun replace-value (line-index column-index board &optional (val nil))
-    (cond
-     ( (null board) '())
-     ( (eq line-index 0) (cons (replace-position column-index (nth line-index board) val) (cdr board)))
-     ( (cons (car board) (replace-value (- line-index 1) column-index (cdr board) val))))
-    )
+(defun replace-value (line-index column-index board &optional (val nil))
+  (cond
+   ( (null board) '())
+   ( (eq line-index 0) (cons (replace-position column-index (nth line-index board) val) (cdr board)))
+   ( (cons (car board) (replace-value (- line-index 1) column-index (cdr board) val))))
+  )
 
 ;; substitui o valor de um nó por nil
   (defun remove-node (value board)
