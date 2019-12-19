@@ -9,7 +9,10 @@
                  )
 
            (cond 
-            ((<= target-points (node-state-point-sum node)) (format-output node "DFS"))
+            ((<= target-points (node-state-point-sum node)) 
+                  (format-output node "DFS")
+                  (make-solution-node (reverse (get-solution-path node)) (node-state-board node) open-list closed-list max-depth)
+                  )
             (t                 
              (dfs 
               (append current-successors (cdr open-list))
@@ -36,7 +39,10 @@
                  )
 
            (cond 
-            ((<= target-points (node-state-point-sum node)) (format-output node "BFS"))
+            ((<= target-points (node-state-point-sum node)) 
+                (format-output node "BFS")
+                (make-solution-node (reverse (get-solution-path node)) (node-state-board node) open-list closed-list)
+                )         
             (t                 
              (bfs 
               (append (cdr open-list) current-successors)
@@ -217,7 +223,8 @@
              (t (list n))
              )
             )
-          remove-nil-board board )
+         ;; remove-nil-board board ) OLD
+		 board)
          )
   )
 
@@ -244,3 +251,8 @@
          )
   )
  
+
+ (defun calc-penetrance (solution-node)
+"Penetrancia"
+  (/ (solution-sequence-length solution-node)  (generated-nodes-number solution-node))
+)

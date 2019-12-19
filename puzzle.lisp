@@ -5,9 +5,9 @@
          (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
          (strategy (read-strategy))
          (open-nodes (list (make-root-node board-with-horse start-points nil strategy)))
+         (start-time (current-time))
          )
-
-    (dfs open-nodes (list nil) (read-target-points) (read-depth) strategy)
+           (write-bfsdfs-statistics board (dfs open-nodes (list nil) (read-target-points) (read-depth) strategy) start-time (current-time) 'DFS)     
     )            
   )
 
@@ -18,9 +18,10 @@
          (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
          (strategy (read-strategy))
          (open-nodes (list (make-root-node board-with-horse start-points nil strategy)))
+         (start-time (current-time))
          )
 
-    (bfs open-nodes (list nil) (read-target-points) strategy)
+         (write-bfsdfs-statistics board (bfs open-nodes (list nil) (read-target-points) strategy) start-time (current-time) 'BFS)        
     )            
   )
 
@@ -52,6 +53,11 @@
 ;;; Construtor
 (defun make-node (board points parent-node &optional (depth 0) (heuristic nil))
   (list (list board points) parent-node depth heuristic)
+  )
+
+  ;;; Construtor
+(defun make-solution-node (solution-path board open-list closed-list &optional depth)
+   (list solution-path board (length open-list) (length closed-list) depth)
   )
 
 (defun make-root-node (board-placed-horse current-points parent &optional strategy)
@@ -257,14 +263,18 @@
 
 
 
-(defun number-generated-nodes (open closed)
+(defun generated-nodes-number (solution-node)
   "Total number of generated nodes: open+closed"
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    (+ (third solution-node) (fourth solution-node))
   )
 
-(defun solution-length (list-solution)
-  "Devolve o comprimento de uma  solucao"
-  (length list-solution)
+  (defun expanded-nodes-number (closed-list)
+  "Total number of expanded nodes: closed"
+     (length closed-list)
+  )
+
+(defun solution-sequence-length (solution-node)
+  (length (first solution-node))
   )
 
 ;;BRANCHING FACTOR
@@ -276,13 +286,13 @@
   )
 )
 
-(defun branching-factor (solution-path-list open closed &optional (L-value (solution-length solution-path-list)) (T-value (number-generated-nodes open closed)) (max-error 0.1) (bmin 1) (bmax 10e11))
+(defun branching-factor (solution-node &optional (L-value (solution-sequence-length solution-node)) (T-value (generated-nodes-number solution-node)) (max-error 0.1) (bmin 1) (bmax 10e11))
   "Devolve o factor de ramificacao, executando o metodo da bisseccao"
   (let ((b-average (/ (+ bmin bmax) 2)))
     (cond 
      ((< (- bmax bmin) max-error) (/ (+ bmax bmin) 2))
-     ((< (polinomial-sum b-average L-value T-value) 0) (branching-factor solution-path-list L-value T-value max-error b-average bmax))
-     (t (branching-factor solution-path-list L-value T-value max-error bmin b-average))
+     ((< (polinomial-sum b-average L-value T-value) 0) (branching-factor solution-node L-value T-value max-error b-average bmax))
+     (t (branching-factor solution-node L-value T-value max-error bmin b-average))
      )
     )
   )
