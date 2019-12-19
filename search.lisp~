@@ -208,32 +208,15 @@
 
 (defun asymmetric-values (board)
   (apply #'append
-         (mapcar 
-          (lambda (n) 
-            (cond
-             ((or (not (typep n 'real)) (< n 10)) nil)
-             ((not(equal (parse-integer (reverse (write-to-string n)))  n)) nil)		
-  
-             (t (list n))
-             )
-            )
-          remove-nil-board board )
-         )
-  )
-
-(defun sum-board-points (board)
-  (reduce #'+ (remove-nil-board board))
-)
-
-(defun remove-nil-board (board)
-  (apply #'append
          (mapcar
           (lambda (lin) 
             (apply #'append
                    (mapcar 
                     (lambda (n) 
                       (cond
-                       ((or (not (typep n 'real))) nil)
+                       ((or (not (typep n 'real)) (< n 10)) nil)
+                       ((not(equal (parse-integer (reverse (write-to-string n)))  n)) nil)		
+  
                        (t (list n))
                        )
                       )
@@ -242,5 +225,13 @@
             )
           board)
          )
+  )
+
+
+(defun sum-board-points (board)
+  (mapcar 
+   (lambda (line)  (reduce #'+ line))
+   board
+   )
   )
  

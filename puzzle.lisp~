@@ -50,13 +50,9 @@
  
 
 ;;; Construtor
-(defun make-node (board points parent-node &optional (depth 0) (heuristic nil))
-  (list (list board points) parent-node depth heuristic)
-  )
-
-(defun make-root-node (board-placed-horse current-points parent &optional strategy)
-  (make-node (remove-simmetric current-points board-placed-horse strategy) current-points nil 0 nil)
-  )
+(defun make-node (board points parent-node &optional (depth 0) (heuristic nil) (f nil))
+     (list (list board points) parent-node depth heuristic f)
+		 )
 
 ;;; Boards
 (defun board-order ()
