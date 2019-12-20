@@ -35,7 +35,7 @@
          (open-nodes (list (make-root-node board-with-horse start-points nil strategy)))
 (start-time (current-time))
          )
-    (format t "executar")
+  
      (write-bfsdfs-statistics board (a* open-nodes (list nil) (read-target-points) strategy ) start-time (current-time) 'A*)
     )  
   )

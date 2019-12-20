@@ -26,6 +26,7 @@
   )
 
 (defun a*search (board)
+ 
   (let* (
          (start-pos (read-start-position))
          (start-points (car (successor-value (first start-pos) (second start-pos) board)))
@@ -34,7 +35,7 @@
          (open-nodes (list (make-root-node board-with-horse start-points nil strategy)))
 (start-time (current-time))
          )
-
+    (format t "executar")
      (write-bfsdfs-statistics board (a* open-nodes (list nil) (read-target-points) strategy ) start-time (current-time) 'A*)
     )  
   )
@@ -235,19 +236,11 @@
 	)
 )
 
-;; node-heuristic
-(defun node-heuristic (node)
-	(cond 
-		((null node) nil)
-		(t (fourth node))
-	)
-)
-
 ;; node-f
 (defun node-f (node)
 	(cond 
 		((null node) nil)
-		(t (fifth node))
+		(t (fourth node))
 	)
 )
 
