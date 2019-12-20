@@ -26,15 +26,17 @@
   )
 
 (defun a*search (board)
+ 
   (let* (
          (start-pos (read-start-position))
          (start-points (car (successor-value (first start-pos) (second start-pos) board)))
          (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
          (strategy (read-strategy))
          (open-nodes (list (make-root-node board-with-horse start-points nil strategy)))
+(start-time (current-time))
          )
-
-    (a* open-nodes (list nil) (read-target-points) strategy)
+    (format t "executar")
+     (write-bfsdfs-statistics board (a* open-nodes (list nil) (read-target-points) strategy ) start-time (current-time) 'A*)
     )  
   )
 
@@ -56,8 +58,8 @@
   )
 
   ;;; Construtor
-(defun make-solution-node (solution-path board open-list closed-list &optional depth)
-   (list solution-path board (length open-list) (length closed-list) depth)
+(defun make-solution-node (solution-path board open-list closed-list &optional depth target-points current-points)
+   (list solution-path board (length open-list) (length closed-list) depth target-points current-points)
   )
 
 (defun make-root-node (board-placed-horse current-points parent &optional strategy)
@@ -81,6 +83,7 @@
 )
 
 (defun board-a ()
+"GOAL: 70"
   '(
     (02 20 44 nil nil nil nil nil nil nil)
     (nil nil nil nil nil nil nil nil nil nil)
@@ -97,6 +100,7 @@
 
 
 (defun board-b ()
+  "GOAL: 60"
   '(
     (02 nil 04 nil 06 nil 08 nil 10 nil)
     (nil nil nil nil nil nil nil nil nil nil)
@@ -113,6 +117,7 @@
 
 
 (defun board-c ()
+  "GOAL: 270"
   '(
     (01 12 03 23 nil 88 nil nil nil nil)
     (21 45 43 nil nil nil nil nil nil nil)
@@ -129,6 +134,7 @@
 
 
 (defun board-d ()
+  "GOAL: 600"
   '(
     (98 97 96 95 94 93 92 91 90 89)
     (01 02 03 04 05 55 06 07 08 09)
@@ -145,6 +151,7 @@
 
 
 (defun board-e ()
+  "GOAL: 300"
   '(
     (nil 05 nil nil nil 15 nil nil nil 25)
     (nil nil nil 06 nil nil nil 16 nil nil)
@@ -161,6 +168,7 @@
 
 
 (defun board-f ()
+  "GOAL: 2000"
   '(
     (94 25 54 89 21 8 36 14 41 96) 
     (78 47 56 23 5 49 13 12 26 60) 

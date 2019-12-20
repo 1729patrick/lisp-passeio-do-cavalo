@@ -5,9 +5,9 @@
          (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
          (strategy (read-strategy))
          (open-nodes (list (make-root-node board-with-horse start-points nil strategy)))
+         (start-time (current-time))
          )
-
-    (dfs open-nodes (list nil) (read-target-points) (read-depth) strategy)
+           (write-bfsdfs-statistics board (dfs open-nodes (list nil) (read-target-points) (read-depth) strategy) start-time (current-time) 'DFS)     
     )            
   )
 
@@ -18,9 +18,10 @@
          (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
          (strategy (read-strategy))
          (open-nodes (list (make-root-node board-with-horse start-points nil strategy)))
+         (start-time (current-time))
          )
 
-    (bfs open-nodes (list nil) (read-target-points) strategy)
+         (write-bfsdfs-statistics board (bfs open-nodes (list nil) (read-target-points) strategy) start-time (current-time) 'BFS)        
     )            
   )
 
@@ -31,9 +32,10 @@
          (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
          (strategy (read-strategy))
          (open-nodes (list (make-root-node board-with-horse start-points nil strategy)))
+(start-time (current-time))
          )
 
-    (a* open-nodes (list nil) (read-target-points) strategy)
+     (write-bfsdfs-statistics board (a* open-nodes (list nil) (read-target-points) strategy ) start-time (current-time) 'A*)
     )  
   )
 
@@ -52,6 +54,11 @@
 ;;; Construtor
 (defun make-node (board points parent-node &optional (depth 0) (f nil))
   (list (list board points) parent-node depth f)
+  )
+
+  ;;; Construtor
+(defun make-solution-node (solution-path board open-list closed-list &optional depth target-points current-points)
+   (list solution-path board (length open-list) (length closed-list) depth target-points current-points)
   )
 
 (defun make-root-node (board-placed-horse current-points parent &optional strategy)
@@ -75,6 +82,7 @@
 )
 
 (defun board-a ()
+"GOAL: 70"
   '(
     (02 20 44 nil nil nil nil nil nil nil)
     (nil nil nil nil nil nil nil nil nil nil)
@@ -91,6 +99,7 @@
 
 
 (defun board-b ()
+  "GOAL: 60"
   '(
     (02 nil 04 nil 06 nil 08 nil 10 nil)
     (nil nil nil nil nil nil nil nil nil nil)
@@ -107,6 +116,7 @@
 
 
 (defun board-c ()
+  "GOAL: 270"
   '(
     (01 12 03 23 nil 88 nil nil nil nil)
     (21 45 43 nil nil nil nil nil nil nil)
@@ -123,6 +133,7 @@
 
 
 (defun board-d ()
+  "GOAL: 600"
   '(
     (98 97 96 95 94 93 92 91 90 89)
     (01 02 03 04 05 55 06 07 08 09)
@@ -139,6 +150,7 @@
 
 
 (defun board-e ()
+  "GOAL: 300"
   '(
     (nil 05 nil nil nil 15 nil nil nil 25)
     (nil nil nil 06 nil nil nil 16 nil nil)
@@ -155,6 +167,7 @@
 
 
 (defun board-f ()
+  "GOAL: 2000"
   '(
     (94 25 54 89 21 8 36 14 41 96) 
     (78 47 56 23 5 49 13 12 26 60) 
@@ -257,14 +270,18 @@
 
 
 
-(defun number-generated-nodes (open closed)
+(defun generated-nodes-number (solution-node)
   "Total number of generated nodes: open+closed"
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    (+ (third solution-node) (fourth solution-node))
   )
 
-(defun solution-length (list-solution)
-  "Devolve o comprimento de uma  solucao"
-  (length list-solution)
+  (defun expanded-nodes-number (closed-list)
+  "Total number of expanded nodes: closed"
+     (length closed-list)
+  )
+
+(defun solution-sequence-length (solution-node)
+  (length (first solution-node))
   )
 
 ;;BRANCHING FACTOR
@@ -276,13 +293,13 @@
   )
 )
 
-(defun branching-factor (solution-path-list open closed &optional (L-value (solution-length solution-path-list)) (T-value (number-generated-nodes open closed)) (max-error 0.1) (bmin 1) (bmax 10e11))
+(defun branching-factor (solution-node &optional (L-value (solution-sequence-length solution-node)) (T-value (generated-nodes-number solution-node)) (max-error 0.1) (bmin 1) (bmax 10e11))
   "Devolve o factor de ramificacao, executando o metodo da bisseccao"
   (let ((b-average (/ (+ bmin bmax) 2)))
     (cond 
      ((< (- bmax bmin) max-error) (/ (+ bmax bmin) 2))
-     ((< (polinomial-sum b-average L-value T-value) 0) (branching-factor solution-path-list L-value T-value max-error b-average bmax))
-     (t (branching-factor solution-path-list L-value T-value max-error bmin b-average))
+     ((< (polinomial-sum b-average L-value T-value) 0) (branching-factor solution-node L-value T-value max-error b-average bmax))
+     (t (branching-factor solution-node L-value T-value max-error bmin b-average))
      )
     )
   )

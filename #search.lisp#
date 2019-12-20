@@ -11,7 +11,7 @@
            (cond 
             ((<= target-points (node-state-point-sum node)) 
                   (format-output node "DFS")
-                  (make-solution-node (reverse (get-solution-path node)) (node-state-board node) open-list closed-list max-depth)
+                  (make-solution-node (reverse (get-solution-path node)) (node-state-board node) open-list closed-list max-depth target-points (node-state-point-sum node))
                   )
             (t                 
              (dfs 
@@ -41,7 +41,7 @@
            (cond 
             ((<= target-points (node-state-point-sum node)) 
                 (format-output node "BFS")
-                (make-solution-node (reverse (get-solution-path node)) (node-state-board node) open-list closed-list)
+                (make-solution-node (reverse (get-solution-path node)) (node-state-board node) open-list closed-list target-points (node-state-point-sum node))
                 )         
             (t                 
              (bfs 
@@ -67,11 +67,11 @@
                  (current-successors (successors (first horse-pos) (second horse-pos) node most-positive-fixnum strategy target-points (append  closed-list open-list))
                  )
 )
-           (format t "aaaa ~a" (length open-list))
-           (terpri)
-
-           (cond 
-            ((<= target-points (node-state-point-sum node)) (format-output node "A*"))
+            (cond 
+            ((<= target-points (node-state-point-sum node)) 
+             (format-output node "A*")
+             (make-solution-node (reverse (get-solution-path node)) (node-state-board node) open-list closed-list target-points (node-state-point-sum node))
+             )
             (t                 
              (a* 
               (append (remove-max-node node open-list) current-successors)
@@ -92,7 +92,7 @@
   (successor-position T (node-state-board node))
   )
  
-;; busca o index da linha e o index da coluna de um nó
+;; busca o index da linha e o index da coluna de um nÃ³
 (defun successor-position (value board)
   (let* (
          (line (successor-line value board))
@@ -102,7 +102,7 @@
     )
   )
 
-;; busca a linha onde está o nó
+;; busca a linha onde estÃ¡ o nÃ³
 (defun successor-line (value board)
   (apply #'append
          (mapcar
@@ -117,7 +117,7 @@
          )        
   )
 
-;; busca o valor de um nó no grafo pelo index da linha e index da coluna ou retorna nil para indexes inválidos
+;; busca o valor de um nÃ³ no grafo pelo index da linha e index da coluna ou retorna nil para indexes invÃ¡lidos
 (defun successor-avaliable (line-index column-index node strategy target-points closed-open-list)
   (cond
    ((or (< line-index 0) (> line-index 9)) nil)
@@ -143,7 +143,7 @@
   )
 
 
-;; busca o valor de um nó no grafo pelo index da linha e index da coluna
+;; busca o valor de um nÃ³ no grafo pelo index da linha e index da coluna
 (defun successor-value (line-index column-index board)
   (let* (
          (line (nth line-index board))
@@ -157,7 +157,7 @@
     )
   )
  
-;; busca todos os sucessores válidos de um nó
+;; busca todos os sucessores vÃ¡lidos de um nÃ³
 (defun successors (line-index column-index node max-depth strategy &optional (target-points 0) closed-open-list)
   (cond  (
           (>= (depth-node node) max-depth) nil)           
@@ -189,7 +189,7 @@
     )
   )
 
-;; substitui uma posição de uma lista com um valor enviado por parametro	
+;; substitui uma posiÃ§Ã£o de uma lista com um valor enviado por parametro	
 (defun replace-position (column-index line &optional (val nil))
   (cond
    ( (null line) '())
@@ -198,7 +198,7 @@
   )
 
 
-;; substitui uma posição de um tabuleiro com um valor enviado por parametro	
+;; substitui uma posiÃ§Ã£o de um tabuleiro com um valor enviado por parametro	
 (defun replace-value (line-index column-index board &optional (val nil))
   (cond
    ( (null board) '())
@@ -206,7 +206,7 @@
    ( (cons (car board) (replace-value (- line-index 1) column-index (cdr board) val))))
   )
 
-;; substitui o valor de um nó por nil
+;; substitui o valor de um nÃ³ por nil
 (defun remove-node (value board)
 		
     (let* (
@@ -219,7 +219,7 @@
       )
     )
 
-;; remove o nó com valor simmetrico ao nó do parametro ou remove o nó com menor valor
+;; remove o nÃ³ com valor simmetrico ao nÃ³ do parametro ou remove o nÃ³ com menor valor
   (defun remove-simmetric (value board &optional (strategy 'max))
     (let* (
            (simmetric (reverse (write-to-string value)))
@@ -297,6 +297,7 @@
 )
 
 (defun max-node-f (open-list &optional node (max -1))
+
   (cond 
    ((null (car open-list)) node)
    ((> (node-heuristic (car open-list)) max) (max-node-f (cdr open-list) (car open-list) (node-heuristic (car open-list))))
@@ -308,7 +309,7 @@
 (defun remove-max-node (node open-list &optional new-list)
   (cond ((null open-list) new-list)
         ((equal node (car open-list)) (remove-max-node node (cdr open-list) new-list))
-        (t (remove-max-node node (cdr open-list) (append new-list (list node))))
+        (t (remove-max-node node (cdr open-list) (append new-list (list (car open-list)))))
         )
   )
 

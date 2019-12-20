@@ -11,7 +11,7 @@
            (cond 
             ((<= target-points (node-state-point-sum node)) 
                   (format-output node "DFS")
-                  (make-solution-node (reverse (get-solution-path node)) (node-state-board node) open-list closed-list max-depth)
+                  (make-solution-node (reverse (get-solution-path node)) (node-state-board node) open-list closed-list max-depth target-points (node-state-point-sum node))
                   )
             (t                 
              (dfs 
@@ -41,7 +41,7 @@
            (cond 
             ((<= target-points (node-state-point-sum node)) 
                 (format-output node "BFS")
-                (make-solution-node (reverse (get-solution-path node)) (node-state-board node) open-list closed-list)
+                (make-solution-node (reverse (get-solution-path node)) (node-state-board node) open-list closed-list target-points (node-state-point-sum node))
                 )         
             (t                 
              (bfs 
@@ -64,19 +64,18 @@
                  (node (max-node-f open-list))
                  (horse-pos (horsep node))
                  (current-board (horsep node))
-                 (current-successors (successors (first horse-pos) (second horse-pos) node most-positive-fixnum strategy target-points (append  (list closed-list) (list open-list)))
+                 (current-successors (successors (first horse-pos) (second horse-pos) node most-positive-fixnum strategy target-points (append  closed-list open-list))
                  )
 )
-
-           (format t "depth ~a" (depth-node node))
-           (terpri)
-           
-           (cond 
-            ((<= target-points (node-state-point-sum node)) (format-output node "A*"))
+            (cond 
+            ((<= target-points (node-state-point-sum node)) 
+             (format-output node "A*")
+             (make-solution-node (reverse (get-solution-path node)) (node-state-board node) open-list closed-list target-points (node-state-point-sum node))
+             )
             (t                 
              (a* 
               (append (remove-max-node node open-list) current-successors)
-              (append node closed-list)
+              (append (list node) closed-list)
               target-points
               strategy
               )
@@ -135,7 +134,7 @@
            (new-node (make-node board-to-be (+ (node-state-point-sum node) points-to-sum) node (1+ (depth-node node)) (heuristic points-to-sum board-no-horse target-points)))
            )
 
-      (cond ((check-node-in-open-closed (state-node new-node) closed-open-list) nil) 
+      (cond ((equal (node-in-open-closed board-to-be closed-open-list) t) nil) 
             (t (list new-node))
             )
       )
@@ -298,6 +297,7 @@
 )
 
 (defun max-node-f (open-list &optional node (max -1))
+
   (cond 
    ((null (car open-list)) node)
    ((> (node-heuristic (car open-list)) max) (max-node-f (cdr open-list) (car open-list) (node-heuristic (car open-list))))
@@ -309,14 +309,14 @@
 (defun remove-max-node (node open-list &optional new-list)
   (cond ((null open-list) new-list)
         ((equal node (car open-list)) (remove-max-node node (cdr open-list) new-list))
-        (t (remove-max-node node (cdr open-list) (append new-list (list node))))
+        (t (remove-max-node node (cdr open-list) (append new-list (list (car open-list)))))
         )
   )
 
-(defun check-node-in-open-closed (state open-closed)
+(defun node-in-open-closed (board open-closed)
   (cond 
    ((null (car open-closed)) nil)
-   ((equal (node-state-board (car open-closed)) state) t)
-   (t (check-node-in-open-closed state (cdr open-closed)))
+   ((equal (node-state-board (car open-closed)) board) t)
+   (t (node-in-open-closed board (cdr open-closed)))
    )
   )
