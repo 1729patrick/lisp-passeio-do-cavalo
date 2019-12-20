@@ -61,31 +61,31 @@
   (cond ((null open-list) (format t "No solution found"))
         (t 
          (let*  (
-                 (node (max-node-f open-list))
+                 (node (car open-list))
                  (horse-pos (horsep node))
                  (current-board (horsep node))
                  (current-successors (successors (first horse-pos) (second horse-pos) node most-positive-fixnum strategy target-points (append  closed-list open-list))
+                                     )
                  )
-)
-            (cond 
+           (cond 
             ((<= target-points (node-state-point-sum node)) 
              (format-output node "A*")
              (make-solution-node (reverse (get-solution-path node)) (node-state-board node) open-list closed-list target-points (node-state-point-sum node))
              )
             (t                 
              (a* 
-              (append (remove-max-node node open-list) current-successors)
-              (append (list node) closed-list)
+              (order-open (append (cdr open-list) current-successors))
+              (append closed-list (list node))
               target-points
               strategy
               )
              )
             )
            
+           )
          )
         )
   )
-)
     
 
 (defun horsep (node)
@@ -296,22 +296,13 @@
   (/ (solution-sequence-length solution-node)  (generated-nodes-number solution-node))
 )
 
-(defun max-node-f (open-list &optional node (max -1))
-
-  (cond 
-   ((null (car open-list)) node)
-   ((> (node-heuristic (car open-list)) max) (max-node-f (cdr open-list) (car open-list) (node-heuristic (car open-list))))
-   (t (max-node-f (cdr open-list) node max))
-   )
+(defun compare-f (a b) 
+  (> (node-f a) (node-f b))
   )
 
-
-(defun remove-max-node (node open-list &optional new-list)
-  (cond ((null open-list) new-list)
-        ((equal node (car open-list)) (remove-max-node node (cdr open-list) new-list))
-        (t (remove-max-node node (cdr open-list) (append new-list (list (car open-list)))))
-        )
-  )
+(defun order-open (open)
+  (sort open 'compare-f)
+)
 
 (defun node-in-open-closed (board open-closed)
   (cond 

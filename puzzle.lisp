@@ -236,19 +236,11 @@
 	)
 )
 
-;; node-heuristic
-(defun node-heuristic (node)
-	(cond 
-		((null node) nil)
-		(t (fourth node))
-	)
-)
-
 ;; node-f
 (defun node-f (node)
 	(cond 
 		((null node) nil)
-		(t (fifth node))
+		(t (fourth node))
 	)
 )
 
