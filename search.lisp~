@@ -9,7 +9,10 @@
                  )
 
            (cond 
-            ((<= target-points (node-state-point-sum node)) (format-output node "DFS"))
+            ((<= target-points (node-state-point-sum node)) 
+                  (format-output node "DFS")
+                  (make-solution-node (reverse (get-solution-path node)) (node-state-board node) open-list closed-list max-depth)
+                  )
             (t                 
              (dfs 
               (append current-successors (cdr open-list))
@@ -36,7 +39,10 @@
                  )
 
            (cond 
-            ((<= target-points (node-state-point-sum node)) (format-output node "BFS"))
+            ((<= target-points (node-state-point-sum node)) 
+                (format-output node "BFS")
+                (make-solution-node (reverse (get-solution-path node)) (node-state-board node) open-list closed-list)
+                )         
             (t                 
              (bfs 
               (append (cdr open-list) current-successors)
@@ -58,9 +64,12 @@
                  (node (max-node-f open-list))
                  (horse-pos (horsep node))
                  (current-board (horsep node))
-                 (current-successors (successors (first horse-pos) (second horse-pos) node most-positive-fixnum strategy target-points (append closed-list open-list))
+                 (current-successors (successors (first horse-pos) (second horse-pos) node most-positive-fixnum strategy target-points (append  (list closed-list) (list open-list)))
                  )
 )
+
+           (format t "depth ~a" (depth-node node))
+           (terpri)
            
            (cond 
             ((<= target-points (node-state-point-sum node)) (format-output node "A*"))
@@ -126,7 +135,7 @@
            (new-node (make-node board-to-be (+ (node-state-point-sum node) points-to-sum) node (1+ (depth-node node)) (heuristic points-to-sum board-no-horse target-points)))
            )
 
-      (cond ((check-node-in-open-closed (state-node (list new-node)) closed-open-list) nil) 
+      (cond ((check-node-in-open-closed (state-node new-node) closed-open-list) nil) 
             (t (list new-node))
             )
       )
@@ -252,7 +261,11 @@
              (t (list n))
              )
             )
-          (remove-nil-board board)
+
+		(remove-nil-board board)
+		)
+
+          
           )
          )
   )
@@ -279,7 +292,11 @@
           board)
          )
   )
-
+	
+(defun calc-penetrance (solution-node)
+"Penetrancia"
+  (/ (solution-sequence-length solution-node)  (generated-nodes-number solution-node))
+)
 
 (defun max-node-f (open-list &optional node (max -1))
   (cond 
@@ -298,11 +315,10 @@
   )
 
 (defun check-node-in-open-closed (state open-closed)
-  (format t "~A" state)
-  (terpri)
   (cond 
-   ((null open-closed) nil)
-   ((equal (state-node (car open-closed)) state) t)
+   ((null (car open-closed)) nil)
+   ((equal (node-state-board (car open-closed)) state) t)
    (t (check-node-in-open-closed state (cdr open-closed)))
    )
   )
+>>>>>>> Stashed changes

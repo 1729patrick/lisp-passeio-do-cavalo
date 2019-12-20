@@ -262,11 +262,10 @@
              )
             )
 
-		(remove-nil-board board)
-		)
+          (remove-nil-board board)
+          )
 
           
-          )
          )
   )
 
@@ -321,4 +320,3 @@
    (t (check-node-in-open-closed state (cdr open-closed)))
    )
   )
->>>>>>> Stashed changes
