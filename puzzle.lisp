@@ -31,7 +31,7 @@
          (start-points (car (successor-value (first start-pos) (second start-pos) board)))
          (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
          (strategy (read-strategy))
-         (open-nodes (list (make-node board-with-horse start-points nil strategy)))
+         (open-nodes (list (make-root-node board-with-horse start-points nil strategy)))
          )
 
     (a* open-nodes (list nil) (read-target-points) strategy)
@@ -51,8 +51,8 @@
  
 
 ;;; Construtor
-(defun make-node (board points parent-node &optional (depth 0) (heuristic nil))
-  (list (list board points) parent-node depth heuristic)
+(defun make-node (board points parent-node &optional (depth 0) (f nil))
+  (list (list board points) parent-node depth f)
   )
 
   ;;; Construtor
@@ -61,7 +61,7 @@
   )
 
 (defun make-root-node (board-placed-horse current-points parent &optional strategy)
-  (make-node (remove-simmetric current-points board-placed-horse strategy) current-points nil 0 nil)
+  (make-node (remove-simmetric current-points board-placed-horse strategy) current-points nil 0 0)
   )
 
 ;;; Boards
