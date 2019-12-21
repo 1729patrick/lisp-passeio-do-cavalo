@@ -35,7 +35,7 @@
          (open-nodes (list (make-root-node board-with-horse start-points nil strategy)))
 (start-time (current-time))
          )
-    (format t "executar")
+  
      (write-bfsdfs-statistics board (a* open-nodes (list nil) (read-target-points) strategy ) start-time (current-time) 'A*)
     )  
   )
@@ -298,13 +298,22 @@
   )
 
 
-(defun get-solution-path (node)
-  (cond ((null node) nil)
-        (t (cons  (position-to-chess (horsep node)) 
+(defun get-solution-path-1 (node)
+  (cond ((null (first (horsep (parent-node node)))) nil)
+        (t (cons  (position-to-chess (horsep  node))
                   (get-solution-path (parent-node node)))  
            )
         )
   )
+
+(defun get-solution-path (node)
+  (cond ((null (first (horsep (parent-node node)))) nil)
+        (t (cons (successor-value (first (horsep  node)) (second (horsep node)) (parent-node node))
+                 (get-solution-path (parent-node node)))  
+           )
+        )
+  )
+  
 
 
 ;;Recursively print the elements of a list

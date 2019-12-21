@@ -300,11 +300,20 @@
 
 (defun get-solution-path (node)
   (cond ((null node) nil)
-        (t (cons  (position-to-chess (horsep node)) 
+        (t (cons  (position-to-chess (horsep  node))
                   (get-solution-path (parent-node node)))  
            )
         )
   )
+
+(defun get-solution-path-a (node)
+  (cond ((null node) nil)
+        (t (cons (successor-value (first (horsep  node)) (second (horsep node)) (node-state-board (parent-node node)))
+                 (get-solution-path (parent-node node)))  
+           )
+        )
+  )
+  
 
 
 ;;Recursively print the elements of a list
