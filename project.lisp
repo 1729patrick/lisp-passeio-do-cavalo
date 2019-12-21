@@ -56,8 +56,8 @@
             ((= answer 3) 'A*)
             ((= answer 4) nil)
             (T (format t "Insert a valid option please!") 
-              read-algorithm())))
-    )
+              (read-algorithm))
+    )))
   )
 
 (defun show-algorithm()
@@ -156,8 +156,8 @@
             (progn (format t "Insert a valid option!")) (read-heuristic))
            ((eq heuristic-option 1) 1)
            ((eq heuristic-option 2) 2)
-           (progn (format t "Insert a valid option!")) (read-heuristic))
-           )
+           (t (progn (format t "Insert a valid option!")) (read-heuristic))
+           ) )
 )
  ;; =================================read heuristic END============================================= 
 	

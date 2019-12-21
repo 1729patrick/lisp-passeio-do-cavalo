@@ -42,7 +42,7 @@
 
 
 ;;; Passeio do cavalo
-;;; variaveis de test e operadores
+;;; variaveis de teste
 
 ;;<node>::= (<state>  <parent-node> <depth> <h> <f>)
 ;;<state>::= (<board> <point-sum>)
@@ -305,15 +305,6 @@
            )
         )
   )
-
-;; (defun get-solution-path- (node)
-;;   (cond ((null node) nil)
-;;         (t (cons (successor-value (first (horsep  node)) (second (horsep node)) (node-state-board (parent-node node)))
-;;                  (get-solution-path (parent-node node)))  
-;;            )
-;;         )
-;;   )
-  
 
 
 ;;Recursively print the elements of a list
