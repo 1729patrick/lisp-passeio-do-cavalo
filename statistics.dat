@@ -1,0 +1,35 @@
+ 
+ ----: Algorithm: DFS 
+ ----:  Starting time: 3:1:57
+ ----:  Ending Time: 3:2:13
+ ----:  Number of Generated Nodes: 29
+ ----:  Number of Expanded Nodes: 28
+ ----:  Penetrance Level: 0.27586207
+ ----:  Median Branching Factor: 1.3126388
+ ----:  Maximum Depth: 8
+ ----:  Solution Length: 8
+ ----:  Goal Points: 60
+ ----:  Current Points: 60
+ ----:  Solution Sequence: ((C 1) (D 3) (E 1) (F 3) (G 1) (H 3) (I 1) (J 3))
+ ----:  Starting Board:
+   (2 NIL 4 NIL 6 NIL 8 NIL 10 NIL)
+   (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+   (NIL 3 NIL 5 NIL 7 NIL 9 NIL 11)
+   (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+   (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+   (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+   (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+   (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+   (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+   (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+ ----:  Final Board:
+   (2 NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+   (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+   (NIL 3 NIL NIL NIL NIL NIL NIL NIL T)
+   (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+   (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+   (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+   (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+   (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+   (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+   (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
