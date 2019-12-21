@@ -46,8 +46,7 @@
 
 ;;<node>::= (<state>  <parent-node> <depth> <h> <f>)
 ;;<state>::= (<board> <point-sum>)
-(defun test-node (board)
-;Define um no test do problema do passeio do cavalo, em que, estado=(tabuleiro, soma-pontos), depth=0, parent-node=NIL, 
+(defun test-node (board) 
 ;and criation time=current-time"
  (list (list board (cell 0 2 board)) nil 0 nil nil))
  
@@ -201,6 +200,7 @@
 
 ;; no-profundidade
 (defun depth-node (node)
+"gets the depth of a node"
 	(cond ((null node) 0)
 	  (t (third node))
 	  )
@@ -210,6 +210,7 @@
 
 ;; parent-node
 (defun parent-node (node)
+"gets the parent of a node"
   (cond 
    ((null node) nil)
    (t (second node))
@@ -220,16 +221,19 @@
 			
 ;; stade-node
 (defun state-node (node)
+"gets the depth of a node"
   (first node)
 )
 
 ;; node-state-board
 (defun node-state-board (node)
+"gets the state of a node"
   (first (state-node node))
 )
 
 ;; node-state-point-sum
 (defun node-state-point-sum (node)
+"gets the summed points of a node"
 	(cond 
 		((null node) 0)
 		(t (second (state-node node)))
@@ -238,6 +242,7 @@
 
 ;; node-f
 (defun node-f (node)
+"gets the value of a node"
 	(cond 
 		((null node) nil)
 		(t (fourth node))
@@ -256,6 +261,7 @@
 ;; resultado: NIL
 
 (defun position-to-chess (horse-pos)
+"returns a positition converted into a chess position"
 	(list (string (code-char (+ 65 (second horse-pos)))) (+ 1 (first horse-pos)))
 )
 ;;test: (position-to-chess 0 0))
@@ -278,20 +284,20 @@
   )
 
 ;;BRANCHING FACTOR
-(defun polinomial-sum (B L t-value)
- "B + B^2 + ... + B^L=T"
+(defun consecutive-sum (B L t-value)
+ "Sum of the cal B + B^2 + ... + B^L=T"
   (cond
    ((= 1 L) (- B t-value))
-   (T (+ (expt B L) (polinomial-sum B (- L 1) t-value)))
+   (T (+ (expt B L) (consecutive-sum B (- L 1) t-value)))
   )
 )
 
 (defun branching-factor (solution-node &optional (L-value (solution-sequence-length solution-node)) (T-value (generated-nodes-number solution-node)) (max-error 0.1) (bmin 1) (bmax 10e11))
-  "Devolve o factor de ramificacao, executando o metodo da bisseccao"
+  "Using the bissection method, returns the branching factor"
   (let ((b-average (/ (+ bmin bmax) 2)))
     (cond 
      ((< (- bmax bmin) max-error) (/ (+ bmax bmin) 2))
-     ((< (polinomial-sum b-average L-value T-value) 0) (branching-factor solution-node L-value T-value max-error b-average bmax))
+     ((< (consecutive-sum b-average L-value T-value) 0) (branching-factor solution-node L-value T-value max-error b-average bmax))
      (t (branching-factor solution-node L-value T-value max-error bmin b-average))
      )
     )

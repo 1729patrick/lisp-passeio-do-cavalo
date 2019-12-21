@@ -332,9 +332,10 @@
         )
   )
 
-(defun print-board(board &optional (stream t))
+(defun print-board(board &optional (file-stream t))
   "lista a board"
-  (not (null (mapcar #'(lambda(l) (format stream "~%~t~t ~a" l)) board)))
+  (not (null (mapcar #'(lambda(line) 
+        (format file-stream "~%~t~t ~a" line)) board)))
   )
 
 (defun statistics-file-path()
