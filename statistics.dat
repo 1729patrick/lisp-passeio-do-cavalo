@@ -2816,3 +2816,69 @@
    (NIL 42 NIL NIL NIL NIL NIL NIL 20 31)
    (3 NIL NIL T NIL NIL NIL 4 NIL 62)
    (NIL 70 NIL 40 66 NIL 92 NIL 98 NIL)
+ ----: Algorithm: A* 
+ ----:  Starting time: 19:52:8
+ ----:  Ending Time: 19:52:9
+ ----:  Number of Generated Nodes: 122
+ ----:  Number of Expanded Nodes: 33
+ ----:  Penetrance Level: 0.23770492
+ ----:  Median Branching Factor: 1.0852652
+ ----:  Solution Length: 29
+ ----:  Goal Points: 2021
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((J 1) (I 3) (G 4) (I 5) (J 7) (H 8) (G 10) (F 8) (E 10) (D 8) (C 10) (E 9) (G 8) (E 7) (F 9) (D 10) (E 8) (F 10) (D 9) (B 10) (C 8) (A 7) (C 6) (D 4) (F 3) (H 4) (J 3) (I 1) (H 3))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (94 NIL NIL 89 21 NIL 36 NIL NIL NIL)
+   (NIL 47 NIL NIL 5 49 13 12 26 60)
+   (0 27 17 NIL NIL NIL 74 T NIL NIL)
+   (NIL NIL 77 NIL NIL NIL NIL NIL NIL 30)
+   (24 15 NIL 86 1 NIL 68 79 NIL 72)
+   (81 NIL NIL 2 NIL 16 50 NIL NIL 71)
+   (NIL 51 6 18 NIL NIL NIL 63 10 NIL)
+   (NIL 42 NIL NIL NIL NIL NIL NIL 20 31)
+   (3 61 NIL NIL NIL NIL NIL NIL NIL 62)
+   (NIL NIL NIL NIL NIL NIL NIL NIL 98 97)
+ ----: Algorithm: A* 
+ ----:  Starting time: 19:52:21
+ ----:  Ending Time: 19:52:23
+ ----:  Number of Generated Nodes: 122
+ ----:  Number of Expanded Nodes: 33
+ ----:  Penetrance Level: 0.23770492
+ ----:  Median Branching Factor: 1.0852652
+ ----:  Solution Length: 29
+ ----:  Goal Points: 2021
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((J 1) (I 3) (G 4) (I 5) (J 7) (H 8) (G 10) (F 8) (E 10) (D 8) (C 10) (E 9) (G 8) (E 7) (F 9) (D 10) (E 8) (F 10) (D 9) (B 10) (C 8) (A 7) (C 6) (D 4) (F 3) (H 4) (J 3) (I 1) (H 3))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (94 NIL NIL 89 21 NIL 36 NIL NIL NIL)
+   (NIL 47 NIL NIL 5 49 13 12 26 60)
+   (0 27 17 NIL NIL NIL 74 T NIL NIL)
+   (NIL NIL 77 NIL NIL NIL NIL NIL NIL 30)
+   (24 15 NIL 86 1 NIL 68 79 NIL 72)
+   (81 NIL NIL 2 NIL 16 50 NIL NIL 71)
+   (NIL 51 6 18 NIL NIL NIL 63 10 NIL)
+   (NIL 42 NIL NIL NIL NIL NIL NIL 20 31)
+   (3 61 NIL NIL NIL NIL NIL NIL NIL 62)
+   (NIL NIL NIL NIL NIL NIL NIL NIL 98 97)
