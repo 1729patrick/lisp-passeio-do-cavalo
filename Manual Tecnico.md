@@ -10,26 +10,6 @@
 * Prof. Joaquim Filipe
 * Eng. Filipe Mariano
 
-# Índice
-1. [Introdução](#Introdução)
-   <br>
-   1.1 [Objetivos](#Objetivos)
-     <br>
-   1.2 [Descrição Geral do Funcionamento](#Descrição)
-2. [Utilização do Programa](#Utilização)
-     <br>
-   2.1 [Utilização do Programa](#Utilização)
-      <br>
-   2.2 [Pré-requisitos](#Pré-requisitos)
-     <br>
-   2.3 [Carregamento de Ficheiros do Programa](#Ficheiros)
-     <br>
-   2.4 [Inicar o Jogo](#Inicar)
-     <br>
-   2.5 [Estatísticas](#Estatísticas)
-3. [Limitações](#Limitações)
-
-
 # Introdução <a name="Introdução"></a>
 Este documento tem como o objetivo documentar tecnicamente a implentação em Common Lisp do jogo do cavalo, uma variante do problema do cavalo, cuja finalidade é processar um dado tabuleiro pontuado de modo a atinguir uma pontuação desejada e apresentar a solução do problema em questão, com recurso a algoritmos de procura. Os algoritmos implementados foram o Deapth-First Search, o Breadth-First Search e o A*.
 
@@ -199,6 +179,7 @@ Além de outros métodos seletores, foi implementado um método para converter u
 ## Ficheiro search.lisp<a name="search"></a> 
 Este ficheiro, tal como descrito anteriormente, contém a implementação dos algoritmos.
 
+### Algoritmos
 Abaixo encontra-se a implementação do algoritmo <b>Deapth-First Search</b>, isto é, procura por profundidade. Inicialmente o algoritmo atribui ao nó atual o primeiro nó da lista de abertos, que é fornecido no chamamento da função, e uma lista de nós fechados, que começa vazia. O critério de paragem do algoritmo é dado pela confirmação da verificação de se a lista de nós abertos está vazia ou se chegou ao número de pontos desejado. Caso não haja solução encontada num iteração, o algoritmo é executado recursivamente, adicionando os sucessores do nó atual ao início da lista de nós abertos e o nó atual à lista de nós fechados (expandidos).
 
 ```lisp
@@ -229,46 +210,164 @@ Abaixo encontra-se a implementação do algoritmo <b>Deapth-First Search</b>, is
 ```
 O algoritmo <b>Breadth-First Search</b> foi implementado de forma idêntica à do Deapth-First Search, tirando na forma de como concatenar os os sucessores, que são colocados no final da lista de abertos.
 
+A algoritmo A* foi implementado segundo a sua definição, tirando a parte onde há a atualização do valor de f de todos os nós, abertos ou fechados e ocorre a migração de fechados para abertos, caso o valor de f tenha sido alterado para menor.
 
-## Estatísticas<a name="Estatísticas"></a>
-Após a execução bem sucedida de um algoritmo, o programa irá escrever no ficheiro "statistics.dat" a análise estatística da execução do algoritmo para resolver o tabuleiro escolhido. As informações oferecidas passam por ser algoritmo utilizado, tempo de execução, número de nós gerados, números de nós expandidos, valor de penetrância, factor de ramificação média, profundidade máxima (no caso de Depth-First), tamanho da solução, pontos desejados, pontos alcançados, sequência de jogadas, e os tabuleiros inicial e final. Abaixo encontra-se um exemplo deste output.
-```dat
- ----: Algorithm: DFS 
- ----:  Starting time: 17:55:31
- ----:  Ending Time: 17:55:46
- ----:  Number of Generated Nodes: 32
- ----:  Number of Expanded Nodes: 16
- ----:  Penetrance Level: 0.1875
- ----:  Median Branching Factor: 1.4831691
- ----:  Maximum Depth: 6
- ----:  Solution Length: 6
- ----:  Goal Points: 240
- ----:  Current Points: 245
- ----:  Solution Sequence: ((D 1) (C 3) (B 1) (A 3) (B 5) (A 7))
- ----:  Starting Board:
-   (94 25 54 89 21 8 36 14 41 96)
-   (78 47 56 23 5 49 13 12 26 60)
-   (0 27 17 83 34 93 74 52 45 80)
-   (69 9 77 95 55 39 91 73 57 30)
-   (24 15 22 86 1 11 68 79 76 72)
-   (81 48 32 2 64 16 50 37 29 71)
-   (99 51 6 18 53 28 7 63 10 88)
-   (59 42 46 85 90 75 87 43 20 31)
-   (3 61 58 44 65 82 19 4 35 62)
-   (33 70 84 40 66 38 92 67 98 97)
- ----:  Final Board:
-   (94 NIL 54 NIL 21 8 36 14 41 96)
-   (78 47 56 23 5 49 13 12 26 60)
-   (NIL 27 NIL 83 34 93 74 NIL 45 80)
-   (69 9 77 95 55 39 91 73 57 30)
-   (24 NIL 22 86 1 NIL 68 79 76 72)
-   (81 48 32 2 64 16 50 37 29 NIL)
-   (T NIL 6 18 53 28 7 63 10 88)
-   (59 42 46 85 90 75 87 43 20 31)
-   (3 61 58 44 65 82 19 4 35 62)
-   (33 70 84 40 66 38 92 67 NIL 97)
+### Operadores
+Os operadores são executados numa função apenas, onde é enviada a posição atual do cavalo e são sumados e subtraidos a estes valores as 8 posições possíveis do cavalo no estado seguinte.
+
+```lisp
+(defun successors (line-index column-index node max-depth strategy &optional (target-points 0) closed-open-list heuristic)
+  "generates successors"
+  (cond  (
+          (>= (depth-node node) max-depth) nil)           
+         (t (append
+             (successor-avaliable (- line-index 2) (- column-index 1) node strategy target-points closed-open-list heuristic)
+             (successor-avaliable (- line-index 2) (+ column-index 1) node strategy target-points closed-open-list heuristic)
+             (successor-avaliable (+ line-index 2) (- column-index 1) node strategy target-points closed-open-list heuristic)
+             (successor-avaliable (+ line-index 2) (+ column-index 1) node strategy target-points closed-open-list heuristic)
+             (successor-avaliable (- line-index 1) (- column-index 2) node strategy target-points closed-open-list heuristic)
+             (successor-avaliable (- line-index 1) (+ column-index 2) node strategy target-points closed-open-list heuristic)
+             (successor-avaliable (+ line-index 1) (- column-index 2) node strategy target-points closed-open-list heuristic)
+             (successor-avaliable (+ line-index 1) (+ column-index 2) node strategy target-points closed-open-list heuristic)
+             )
+            )
+         )
+  )
 ```
+### Geração de Sucessores
+A função abaixo foi a utilizada para a geração de sucessores no jogo do cavalo. Recebe as coordenadas de uma posição, e verifica se o cavalo pode visitar a mesma. Caso possa, devolve um nó sucessor.
+
+```lisp
+
+(defun successor-avaliable (line-index column-index node strategy target-points closed-open-list heuristic)
+   (cond
+   ((or (< line-index 0) (> line-index 9)) nil)
+   ((or (< column-index 0) (> column-index 9)) nil)
+   ((null (car (successor-value line-index column-index (node-state-board node)))) nil)
+   (t 
+    (let* (
+           (horse-pos (horsep node))
+           (node-board (node-state-board node))
+           (points-to-sum (car (successor-value line-index column-index node-board)))
+           (board-no-horse (replace-value (first horse-pos) (second horse-pos) (remove-node points-to-sum node-board)))
+           (board-no-simmetric (remove-simmetric points-to-sum board-no-horse strategy))
+           (board-to-be (replace-value line-index column-index board-no-simmetric T))
+           (points (+ (node-state-point-sum node) points-to-sum))
+           (h (get-heuristic-fn board-no-horse (- target-points points) points-to-sum strategy heuristic (depth-node node)))
+           (f (+ (depth-node node) h))
+           )
+
+      (cond ((node-in-open-closed board-to-be closed-open-list) nil) 
+            (t (list (make-node board-to-be points node (1+ (depth-node node)) f)))
+            )                 
+      )
+    )
+   )
+  )
+```
+
+### Remoção do Simétrico
+Esta é a função que se ocupa da remoção de valor simétrico ou "duplo" num tabuleiro, em função da escolha da estratégia do utilizador como máximo ou mínimo.
+
+```lisp
+(defun simmetric-value (value board &optional (strategy 'max))
+  (let* (
+         (simmetric (reverse (write-to-string value)))
+         )
+
+    (cond 	
+     ((< value 10) (* value 10))
+     ((equal (parse-integer simmetric) value) (min-max-asymmetric-node board strategy))		
+     (t (parse-integer simmetric))
+     )
+    )
+  )
+```
+
+## Ficheiro project.lisp
+
+### Começar Jogo
+A função seguinte ocupa-se de iniciar o jogo do cavalo, pedindo os inputs necessários ao utilizador.
+
+```lisp
+(defun start-game()
+  (let (
+        (mode (read-mode))
+        (algorithm (read-algorithm))
+        )
+
+    (cond      
+     ((equal mode 'problems)         
+      (cond ((equal algorithm 'DFS)
+             (dfsearch (read-problem))  
+             )
+            ((equal algorithm 'BFS)
+             (bfsearch (read-problem))  
+             )
+            ((equal algorithm 'A*)
+             (a*search (read-problem) (read-heuristic))   
+             )
+            )
+      )
+     ((equal mode 'exercises) 
+      (cond ((equal algorithm 'DFS)
+             (dfsearch (read-exercise))  
+             )
+            ((equal algorithm 'BFS)
+             (bfsearch (read-exercise))  
+             )
+            ((equal algorithm 'A*)
+             (a*search (read-exercise) (read-heuristic))  
+             )
+            )
+      )  
+            
+     (T (format t "Thankyou for Playing!") 
+        t))
+    ))
+```
+### Leitura de Inputs
+Foram criadas várias funções de navegação, de modo a tornar possível a leitura de inputs do utilizador. O género de função abaixo foi implementada para todo o tipo de leitura de input.
+
+```lisp
+(defun read-algorithm()
+"Allows to make the reading of the algorithm to use"
+  (progn
+    (show-algorithm)
+    (let ((answer (read)))
+      (cond ((= answer 1) 'DFS)
+            ((= answer 2) 'BFS)
+            ((= answer 3) 'A*)
+            ((= answer 4) nil)
+            (T (format t "Insert a valid option please!") 
+              (read-algorithm))
+    )))
+  )
+
+(defun show-algorithm()
+  "Reads the algorithm choice"
+  (progn
+    (format t "    ~%---------------------HORSE GAME---------------------------")
+    (terpri)
+    (format t "   ~%|                Choose an algorithm:          	    		  |")
+    (terpri)
+    (format t "   ~%|                1 - Depth-First                          |")
+    (format t "   ~%|                2 - Breadth-First                        |")
+    (format t "   ~%|                3 - A*                                   |")
+    (terpri)
+    (format t "   ~% ---------------------------------------------------------~%~%> ")
+    )
+  )
+```
+## Estatísticas<a name="Estatísticas"></a>
+Abaixo encontram-se o estudo estatístico do Problema A.
+| Board | Algorithm      | Starting time | Ending Time  | Number of Generated Nodes | Number of Expanded Nodes | Penetrance Level | Median Branching Factor
+| ------------- |:-------------:| -----:|-----:|-----:|-----:|-----:|-----:|
+| A | BFS     | 22:13:34 |  22:13:35 |  4        |        3        |   0.75  |  1.1421085   |
+| A | DFS     |22:14:7 |  22:14:13 |  4        |        3        |   0.75 |  1.1421085   |
+| A | A*     |22:14:34 |   22:14:37 |  4        |        3        |   0.75 |  1.1421085   |
+| A | A*     |22:14:44 |   22:14:46 |  4        |        3        |   0.75 |  1.1421085   |
 
 # Limitações<a name="Limitações"></a>
 
-Em termos de limitações, o programa não consegue voltar a atrás nas ações do utilizador, nem começar o programa de novo sem chamar a função "start-game" de novo. Os inputs do utilizador não têm validações para todo o tipo de erros.
+Em termos de limitações, o programa poderia estar mais modular, com menos código repetido, e melhorar refactorado no geral. O algoritmo A* não executa o passo da atualização dos valores de F nos nós abertos e fechados, que não foi implementado.

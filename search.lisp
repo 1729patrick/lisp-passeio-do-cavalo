@@ -172,6 +172,7 @@
  
 ;; busca todos os sucessores válidos de um nó
 (defun successors (line-index column-index node max-depth strategy &optional (target-points 0) closed-open-list heuristic)
+  "generates successors"
   (cond  (
           (>= (depth-node node) max-depth) nil)           
          (t (append
