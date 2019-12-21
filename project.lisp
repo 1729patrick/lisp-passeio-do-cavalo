@@ -3,44 +3,44 @@
 (defun asset-path (file) (merge-pathnames file *base-pathname*))
 
 (progn
-(load (asset-path "puzzle.lisp"))
-(load (asset-path "search.lisp")))
+  (load (asset-path "puzzle.lisp"))
+  (load (asset-path "search.lisp")))
 
 (defun start-game()
   (let (
-          (mode (read-mode))
-          (algorithm (read-algorithm))
+        (mode (read-mode))
+        (algorithm (read-algorithm))
         )
 
-       (cond      
-          ((equal mode 'problems)         
-                  (cond ((equal algorithm 'DFS)
-                          (dfsearch (read-problem))  
-                        )
-                        ((equal algorithm 'BFS)
-                          (bfsearch (read-problem))  
-                        )
-												((equal algorithm 'A*)
-                          (a*search (read-problem))  
-                        )
-                  )
-          )
-           ((equal mode 'exercises) 
-                  (cond ((equal algorithm 'DFS)
-                          (dfsearch (read-exercise))  
-                        )
-                        ((equal algorithm 'BFS)
-                          (bfsearch (read-exercise))  
-                        )
-												((equal algorithm 'A*)
-                          (a*search (read-exercise))  
-                        )
-                  )
-          )  
+    (cond      
+     ((equal mode 'problems)         
+      (cond ((equal algorithm 'DFS)
+             (dfsearch (read-problem))  
+             )
+            ((equal algorithm 'BFS)
+             (bfsearch (read-problem))  
+             )
+            ((equal algorithm 'A*)
+             (a*search (read-problem) (read-heuristic))   
+             )
+            )
+      )
+     ((equal mode 'exercises) 
+      (cond ((equal algorithm 'DFS)
+             (dfsearch (read-exercise))  
+             )
+            ((equal algorithm 'BFS)
+             (bfsearch (read-exercise))  
+             )
+            ((equal algorithm 'A*)
+             (a*search (read-exercise) (read-heuristic))  
+             )
+            )
+      )  
             
-            (T (format t "Thankyou for Playing!") 
-              t))
-  ))
+     (T (format t "Thankyou for Playing!") 
+        t))
+    ))
 
 
 ;; read algorithm
@@ -59,10 +59,10 @@
   )
 
 (defun show-algorithm()
-"Reads the algorithm choice"
+  "Reads the algorithm choice"
   (progn
     (format t "    ~%---------------------HORSE GAME---------------------------")
-	(terpri)
+    (terpri)
     (format t "   ~%|                Choose an algorithm:          	    		  |")
     (terpri)
     (format t "   ~%|                1 - Depth-First                          |")
@@ -70,8 +70,8 @@
     (format t "   ~%|                3 - A*                                   |")
     (terpri)
     (format t "   ~% ---------------------------------------------------------~%~%> ")
+    )
   )
-)
 
 ;; read depth
 (defun read-depth()
@@ -104,7 +104,7 @@
     (read)
     ))
 	
-	;; read column
+;; read column
 (defun read-start-column()
   "Allows to make a reading of the horses start column."
   (progn
@@ -119,45 +119,48 @@
   )
 
 (defun read-target-points()
-"Allows to make a reading of the target number of points."
+  "Allows to make a reading of the target number of points."
 	
-	(progn
+  (progn
     (format t "What is the target point number? ~%")
     (read)
     ))
 	
 
 (defun show-heuristics()
-"Reads the heuristic choice"
+  "Reads the heuristic choice"
   (format t "    ~%---------------------HORSE GAME---------------------------")
-	(terpri)
+  (terpri)
   (format t "   ~%|                Choose an heuristic:          			|")
-    (terpri)
+  (terpri)
   (format t "   ~%|                1 - Sugested Heuristic                   |")
   (format t "   ~%|                2 - Created Heuristic                    |")
   (format t "   ~%|                Other - Back to Start                    |")
   (format t "   ~% ---------------------------------------------------------~%~%> ")
-)
+  )
 
 
-(defun read-heuristic-return()
-"Read the chosen heuristic"
-      (let ((heuristic-option (read)))
-         (cond  ;;((eq heuristic-option '0) (exec-search))- GO BACK
-               ((or (not (numberp heuristic-option)) (< heuristic-option 0)) 
-				(progn (format t "Insert a valid option!")) (read-heuristic-return))
-               ((eq opt 1) 'sugested-heuristic)
-               ((eq opt 2) 'created)
-               (T 'created-heuristic);;GO BACK
-     ))
+(defun read-heuristic()
+  "Read the chosen heuristic"
+
+	(show-heuristics)
+  (let ((heuristic-option (read)))
+    (cond  
+           ((or (not (numberp heuristic-option)) (< heuristic-option 0)) 
+            (progn (format t "Insert a valid option!")) (read-heuristic))
+           ((eq heuristic-option 1) 'heuristic-sugested)
+           ((eq heuristic-option 2) 'heuristic-created)
+           (progn (format t "Insert a valid option!")) (read-heuristic))
+           )
 )
+  
 	
 	
 (defun show-mode()
-"Reads the mode choice"
+  "Reads the mode choice"
   (progn
     (format t "    ~%---------------------HORSE GAME---------------------------")
-	  (terpri)
+    (terpri)
     (format t "   ~%|                Choose a Mode:          		        		  |")
     (terpri)
     (format t "   ~%|                1 - Exercises                            |")
@@ -165,20 +168,20 @@
     (format t "   ~%|                3 - LEAVE                                |")
     (terpri)
     (format t "   ~% --------------------------------------------------------~%~%> ")
+    )
   )
-)
 
 (defun read-mode()
-    (progn
+  (progn
     (show-mode)
     (let ((answer (read)))
       (cond ((eq answer 1) 'exercises);;GO TO EXERCISES
             ((eq answer 2) 'problems)
             ((eq answer 3) (exit));leave
             (T (format t "Insert a valid option please!") 
-              read-mode())))
+               read-mode())))
     )
-)
+  )
 
 
 ;;;READ PROBLEMS
@@ -189,33 +192,34 @@
 )
 
 (defun read-boards ()
-"Gets the boards in the problems.dat file"
-   (with-open-file (file (problems-file-path) :if-does-not-exist nil)
-     (do ((result nil (cons next result))
-        	(next (read file nil 'eof) (read file nil 'eof)))
-                ((equal next 'eof) (reverse result))
-     )
+  "Gets the boards in the problems.dat file"
+  (with-open-file (file (problems-file-path) :if-does-not-exist nil)
+    (do ((result nil (cons next result))
+         (next (read file nil 'eof) (read file nil 'eof)))
+        ((equal next 'eof) (reverse result))
+      )
+    )
   )
-)
 
 (defun choose-problem(&optional(i 1) (problems (read-boards)))	
-"Ilustra as boards no ficheiro problemas.dat"
+  "Ilustra as boards no ficheiro problemas.dat"
   (cond
-     ((null problems) 
-      (progn                                (format t "~%|            0 -> Back to Start             |")
-               (format t "~% -----------------------------------------------------------~%~%>"))
-     )
-     (T (progn 
-          (cond ((= i 1) (progn (format t "~% -----------------------------------------------------------")
-                                            (format t "~%|               HORSE GAME              |")
-                                            (terpri)
-                                            (format t "~%|               Choose a Problem          |")
-                                            (terpri)
-                                              )))
-                                            (format t "~%|         ~a - Board number: ~a          |" i i) 
-          (choose-problem (+ i 1) (cdr problems))))
+   ((null problems) 
+    (progn                                
+      (format t "~%|            0 -> Back to Start             |")
+      (format t "~% -----------------------------------------------------------~%~%>"))
+    )
+   (T (progn 
+        (cond ((= i 1) (progn (format t "~% -----------------------------------------------------------")
+                         (format t "~%|               HORSE GAME              |")
+                         (terpri)
+                         (format t "~%|               Choose a Problem          |")
+                         (terpri)
+                         )))
+        (format t "~%|         ~a - Board number: ~a          |" i i) 
+        (choose-problem (+ i 1) (cdr problems))))
+   )
   )
-)
 
 ;;<board>::= <board>
 (defun read-problem()
@@ -263,29 +267,29 @@
 
 (defun read-exercise()
   
- (progn 
-      (show-exercises)
-      (let ((opt (read)))
-           (cond 
-              ((eq opt 1) (board-a))
-              ((eq opt 2) (board-b))
-              ((eq opt 3) (board-c))
-              ((eq opt 4) (board-d))
-              ((eq opt 5) (board-e))
-              ((eq opt 6) (board-f))
-              (t (progn (format t "Thankyou for playing!") t))
-           )          
-       )
+  (progn 
+    (show-exercises)
+    (let ((opt (read)))
+      (cond 
+       ((eq opt 1) (board-a))
+       ((eq opt 2) (board-b))
+       ((eq opt 3) (board-c))
+       ((eq opt 4) (board-d))
+       ((eq opt 5) (board-e))
+       ((eq opt 6) (board-f))
+       (t (progn (format t "Thankyou for playing!") t))
+       )          
+      )
     )
-)
+  )
 
 (defun current-time()
-"Returns the current time with the format (h m s)"
+  "Returns the current time with the format (h m s)"
   ;;Hour-minute-second
   (multiple-value-bind (s m h) (get-decoded-time)
     (list h m s)
-   )
-)
+    )
+  )
 
 
 (defun write-bfsdfs-statistics (start-board solution-node start-time end-time algorithm)
@@ -320,16 +324,16 @@
            )
          )
         )
-)
+  )
 
 (defun print-board(board &optional (stream t))
   "lista a board"
-   (not (null (mapcar #'(lambda(l) (format stream "~%~t~t ~a" l)) board)))
-)
+  (not (null (mapcar #'(lambda(l) (format stream "~%~t~t ~a" l)) board)))
+  )
 
 (defun statistics-file-path()
-"gets the path for the local statistics file"
+  "gets the path for the local statistics file"
     ;(make-pathname :host "c" :directory '(:absolute "horse-game-results") :name "statistics" :type "dat")
-    (asset-path "statistics.dat")
-)
+  (asset-path "statistics.dat")
+  )
 

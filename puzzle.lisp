@@ -7,7 +7,7 @@
          (open-nodes (list (make-root-node board-with-horse start-points nil strategy)))
          (start-time (current-time))
          )
-           (write-bfsdfs-statistics board (dfs open-nodes (list nil) (read-target-points) (read-depth) strategy) start-time (current-time) 'DFS)     
+    (write-bfsdfs-statistics board (dfs open-nodes (list nil) (read-target-points) (read-depth) strategy) start-time (current-time) 'DFS)     
     )            
   )
 
@@ -21,11 +21,11 @@
          (start-time (current-time))
          )
 
-         (write-bfsdfs-statistics board (bfs open-nodes (list nil) (read-target-points) strategy) start-time (current-time) 'BFS)        
+    (write-bfsdfs-statistics board (bfs open-nodes (list nil) (read-target-points) strategy) start-time (current-time) 'BFS)        
     )            
   )
 
-(defun a*search (board)
+(defun a*search (board heuristic)
  
   (let* (
          (start-pos (read-start-position))
@@ -33,10 +33,10 @@
          (board-with-horse (replace-value (first start-pos) (second start-pos) board T))
          (strategy (read-strategy))
          (open-nodes (list (make-root-node board-with-horse start-points nil strategy)))
-(start-time (current-time))
+         (start-time (current-time))
          )
   
-     (write-bfsdfs-statistics board (a* open-nodes (list nil) (read-target-points) strategy ) start-time (current-time) 'A*)
+    (write-bfsdfs-statistics board (a* open-nodes (list nil) (read-target-points) strategy heuristic) start-time (current-time) 'A*)
     )  
   )
 
@@ -57,7 +57,7 @@
   (list (list board points) parent-node depth f)
   )
 
-  ;;; Construtor
+;;; Construtor
 (defun make-solution-node (solution-path board open-list closed-list &optional depth target-points current-points)
    (list solution-path board (length open-list) (length closed-list) depth target-points current-points)
   )
@@ -83,7 +83,7 @@
 )
 
 (defun board-a ()
-"GOAL: 70"
+  "GOAL: 70"
   '(
     (02 20 44 nil nil nil nil nil nil nil)
     (nil nil nil nil nil nil nil nil nil nil)
@@ -268,9 +268,9 @@
     (+ (third solution-node) (fourth solution-node))
   )
 
-  (defun expanded-nodes-number (closed-list)
+(defun expanded-nodes-number (closed-list)
   "Total number of expanded nodes: closed"
-     (length closed-list)
+  (length closed-list)
   )
 
 (defun solution-sequence-length (solution-node)
@@ -300,19 +300,19 @@
 
 (defun get-solution-path (node)
   (cond ((null node) nil)
-        (t (cons  (position-to-chess (horsep  node))
+        (t (cons  (position-to-chess (horsep node))
                   (get-solution-path (parent-node node)))  
            )
         )
   )
 
-(defun get-solution-path-a (node)
-  (cond ((null node) nil)
-        (t (cons (successor-value (first (horsep  node)) (second (horsep node)) (node-state-board (parent-node node)))
-                 (get-solution-path (parent-node node)))  
-           )
-        )
-  )
+;; (defun get-solution-path- (node)
+;;   (cond ((null node) nil)
+;;         (t (cons (successor-value (first (horsep  node)) (second (horsep node)) (node-state-board (parent-node node)))
+;;                  (get-solution-path (parent-node node)))  
+;;            )
+;;         )
+;;   )
   
 
 
