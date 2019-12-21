@@ -148,8 +148,8 @@
     (cond  
            ((or (not (numberp heuristic-option)) (< heuristic-option 0)) 
             (progn (format t "Insert a valid option!")) (read-heuristic))
-           ((eq heuristic-option 1) 'heuristic-sugested)
-           ((eq heuristic-option 2) 'heuristic-created)
+           ((eq heuristic-option 1) 1)
+           ((eq heuristic-option 2) 2)
            (progn (format t "Insert a valid option!")) (read-heuristic))
            )
 )

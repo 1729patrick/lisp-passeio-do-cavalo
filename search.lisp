@@ -16,7 +16,7 @@
             (t                 
              (dfs 
               (append current-successors (cdr open-list))
-              (append (cdr closed-list) (list node))
+              (append closed-list (list node))
               target-points
               max-depth
               strategy
@@ -46,7 +46,7 @@
             (t                 
              (bfs 
               (append (cdr open-list) current-successors)
-              (append (cdr closed-list) (list node))
+              (append closed-list (list node))
               target-points
               strategy
               )
@@ -66,7 +66,7 @@
                  (current-board (horsep node))
                  (current-successors (successors (first horse-pos) (second horse-pos) node most-positive-fixnum strategy target-points (append closed-list open-list) heuristic)))
 
-           (terpri)
+        
            (cond 
             ((<= target-points (node-state-point-sum node)) 
              (format-output node "A*")
@@ -135,7 +135,7 @@
            (board-no-simmetric (remove-simmetric points-to-sum board-no-horse strategy))
            (board-to-be (replace-value line-index column-index board-no-simmetric T))
            (points (+ (node-state-point-sum node) points-to-sum))
-           (h (get-heuristic-fn board-no-horse (- target-points points) points-to-sum strategy heuristic))
+           (h (get-heuristic-fn board-no-horse (- target-points points) points-to-sum strategy heuristic (depth-node node)))
            (f (+ (depth-node node) h))
            )
 
@@ -148,10 +148,10 @@
   )
 
 
-(defun get-heuristic-fn (board points-to-goal node-points strategy heuristic)
+(defun get-heuristic-fn (board points-to-goal node-points strategy heuristic depth)
   (cond 
-   ((equal heuristic 1) (heuristic-sugested board points-to-goal node-points strategy))
-   ((equal heuristic 2) (heuristic-created board points-to-goal node-points strategy))
+   ((equal heuristic 1) (heuristic-sugested board points-to-goal node-points strategy depth))
+   ((equal heuristic 2) (heuristic-created board points-to-goal node-points strategy depth))
    (t 0)
    )
   )
@@ -188,7 +188,7 @@
          )
   )
 
-(defun heuristic-created (board points-to-goal node-points strategy)
+(defun heuristic-created (board points-to-goal node-points strategy depth)
 
   (let* (
          (size-board (length (remove-nil-board board)))
@@ -197,22 +197,23 @@
 
     (cond 
      ((= size-board 0) 0)
-     (t (float (/ points-to-goal (/ (sum-board-points board) size-board))))
+     (t (float (/ (sum-board-points board) (+ depth 1))))
      )     
     )
   )
 
-(defun heuristic-sugested (board points-to-goal node-points strategy)
-         (let* (
-                (size-board (length (remove-nil-board board)))
-                )
 
-           (cond 
-            ((= size-board 0) 0)
-            (t (float (/ points-to-goal (/ (sum-board-points board) size-board))))
-            )     
-           )
+(defun heuristic-sugested (board points-to-goal node-points strategy deptg)
+  (let* (
+         (size-board (length (remove-nil-board board)))
          )
+
+    (cond 
+     ((= size-board 0) 0)
+     (t (float (/ points-to-goal (/ (sum-board-points board) size-board))))
+     )     
+    )
+  )
 
 
 ;; substitui uma posição de uma lista com um valor enviado por parametro	
