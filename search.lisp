@@ -80,7 +80,7 @@
               (append closed-list (list node))
               target-points
               strategy
-							heuristic
+              heuristic
               )
              )
             )
@@ -122,8 +122,7 @@
 
 ;; busca o valor de um nó no grafo pelo index da linha e index da coluna ou retorna nil para indexes inválidos
 (defun successor-avaliable (line-index column-index node strategy target-points closed-open-list heuristic)
-  (format t "aa ~a" heuristic)
-  (cond
+   (cond
    ((or (< line-index 0) (> line-index 9)) nil)
    ((or (< column-index 0) (> column-index 9)) nil)
    ((null (car (successor-value line-index column-index (node-state-board node)))) nil)
@@ -136,18 +135,26 @@
            (board-no-simmetric (remove-simmetric points-to-sum board-no-horse strategy))
            (board-to-be (replace-value line-index column-index board-no-simmetric T))
            (points (+ (node-state-point-sum node) points-to-sum))
-           (h (apply #'heuristic board-no-horse (- target-points points) points-to-sum strategy))
+           (h (get-heuristic-fn board-no-horse (- target-points points) points-to-sum strategy heuristic))
            (f (+ (depth-node node) h))
            )
 
       (cond ((node-in-open-closed board-to-be closed-open-list) nil) 
-            (t (list (make-node board-to-be points node (1+ (depth-node node)) h f)))
+            (t (list (make-node board-to-be points node (1+ (depth-node node)) f)))
             )                 
       )
     )
    )
   )
 
+
+(defun get-heuristic-fn (board points-to-goal node-points strategy heuristic)
+  (cond 
+   ((equal heuristic 1) (heuristic-sugested board points-to-goal node-points strategy))
+   ((equal heuristic 2) (heuristic-created board points-to-goal node-points strategy))
+   (t 0)
+   )
+  )
 
 ;; busca o valor de um nó no grafo pelo index da linha e index da coluna
 (defun successor-value (line-index column-index board)
@@ -189,7 +196,7 @@
          )
 
     (cond 
-     ((or (= size-board 0) (= g 0)) g)
+     ((= size-board 0) 0)
      (t (float (/ points-to-goal (/ (sum-board-points board) size-board))))
      )     
     )
@@ -201,7 +208,7 @@
                 )
 
            (cond 
-            ((or (= size-board 0) (= g 0)) g)
+            ((= size-board 0) 0)
             (t (float (/ points-to-goal (/ (sum-board-points board) size-board))))
             )     
            )
