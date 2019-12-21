@@ -33,3 +33,870 @@
    (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
    (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
    (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+ ----: Algorithm: A* 
+ ----:  Starting time: 13:11:39
+ ----:  Ending Time: 13:11:41
+ ----:  Number of Generated Nodes: 124
+ ----:  Number of Expanded Nodes: 30
+ ----:  Penetrance Level: 0.24193548
+ ----:  Median Branching Factor: 1.0852652
+ ----:  Solution Length: 30
+ ----:  Goal Points: 2019
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((C 1) (D 3) (F 2) (G 4) (I 5) (J 7) (H 8) (I 10) (J 8) (H 7) (F 8) (G 10) (E 9) (G 8) (E 7) (D 5) (B 6) (C 4) (B 2) (A 4) (C 3) (E 4) (D 2) (F 3) (D 4) (E 6) (D 8) (F 9) (D 10) (E 8))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 NIL NIL 21 8 NIL 14 41 NIL)
+   (NIL NIL NIL NIL 5 NIL NIL 12 26 60)
+   (0 27 NIL NIL NIL NIL NIL 52 NIL 80)
+   (NIL NIL NIL NIL NIL NIL NIL 73 NIL 30)
+   (24 15 NIL NIL 1 NIL NIL 79 NIL 72)
+   (81 NIL NIL 2 NIL 16 50 37 NIL NIL)
+   (99 51 6 18 NIL NIL 7 NIL 10 NIL)
+   (NIL 42 NIL NIL T NIL NIL NIL 20 NIL)
+   (3 61 NIL 44 NIL NIL NIL NIL NIL 62)
+   (NIL 70 NIL NIL 66 NIL NIL NIL NIL 97)
+ ----: Algorithm: A* 
+ ----:  Starting time: 13:12:28
+ ----:  Ending Time: 13:12:29
+ ----:  Number of Generated Nodes: 120
+ ----:  Number of Expanded Nodes: 29
+ ----:  Penetrance Level: 0.24166666
+ ----:  Median Branching Factor: 1.0852652
+ ----:  Solution Length: 29
+ ----:  Goal Points: 2020
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((J 1) (I 3) (G 4) (I 5) (J 7) (H 8) (I 10) (J 8) (H 7) (F 8) (G 10) (E 9) (G 8) (E 7) (D 5) (B 6) (C 4) (B 2) (D 3) (F 2) (E 4) (D 2) (F 3) (D 4) (E 6) (D 8) (F 9) (D 10) (E 8))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 NIL NIL 21 8 NIL 14 41 NIL)
+   (NIL NIL NIL NIL 5 NIL NIL 12 26 60)
+   (0 27 17 NIL NIL NIL NIL 52 NIL 80)
+   (NIL NIL NIL NIL NIL NIL NIL 73 NIL 30)
+   (24 15 NIL NIL 1 NIL NIL 79 NIL 72)
+   (81 NIL NIL 2 NIL 16 50 37 NIL 71)
+   (99 51 6 18 NIL NIL 7 NIL 10 NIL)
+   (NIL 42 NIL NIL T NIL NIL NIL 20 NIL)
+   (3 61 NIL 44 NIL NIL NIL NIL NIL 62)
+   (NIL 70 NIL NIL 66 NIL NIL NIL NIL 97)
+ ----: Algorithm: A* 
+ ----:  Starting time: 14:5:37
+ ----:  Ending Time: 14:5:38
+ ----:  Number of Generated Nodes: 120
+ ----:  Number of Expanded Nodes: 29
+ ----:  Penetrance Level: 0.24166666
+ ----:  Median Branching Factor: 1.0852652
+ ----:  Solution Length: 29
+ ----:  Goal Points: 2020
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((J 1) (I 3) (G 4) (I 5) (J 7) (H 8) (I 10) (J 8) (H 7) (F 8) (G 10) (E 9) (G 8) (E 7) (D 5) (B 6) (C 4) (B 2) (D 3) (F 2) (E 4) (D 2) (F 3) (D 4) (E 6) (D 8) (F 9) (D 10) (E 8))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 NIL NIL 21 8 NIL 14 41 NIL)
+   (NIL NIL NIL NIL 5 NIL NIL 12 26 60)
+   (0 27 17 NIL NIL NIL NIL 52 NIL 80)
+   (NIL NIL NIL NIL NIL NIL NIL 73 NIL 30)
+   (24 15 NIL NIL 1 NIL NIL 79 NIL 72)
+   (81 NIL NIL 2 NIL 16 50 37 NIL 71)
+   (99 51 6 18 NIL NIL 7 NIL 10 NIL)
+   (NIL 42 NIL NIL T NIL NIL NIL 20 NIL)
+   (3 61 NIL 44 NIL NIL NIL NIL NIL 62)
+   (NIL 70 NIL NIL 66 NIL NIL NIL NIL 97)
+ ----: Algorithm: A* 
+ ----:  Starting time: 14:7:26
+ ----:  Ending Time: 14:7:27
+ ----:  Number of Generated Nodes: 18
+ ----:  Number of Expanded Nodes: 4
+ ----:  Penetrance Level: 0.22222223
+ ----:  Median Branching Factor: 1.7105427
+ ----:  Solution Length: 4
+ ----:  Goal Points: 277
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((C 1) (D 3) (F 2) (G 4))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 NIL 89 21 8 36 14 41 96)
+   (78 47 56 23 5 NIL 13 12 26 60)
+   (0 27 17 NIL 34 93 74 52 NIL 80)
+   (69 9 77 95 55 39 T 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 NIL 4 35 62)
+   (33 70 84 40 66 NIL 92 67 98 97)
+ ----: Algorithm: BFS 
+ ----:  Starting time: 14:7:39
+ ----:  Ending Time: 14:7:41
+ ----:  Number of Generated Nodes: 46
+ ----:  Number of Expanded Nodes: 22
+ ----:  Penetrance Level: 0.06521739
+ ----:  Median Branching Factor: 3.1884713
+ ----:  Solution Length: 3
+ ----:  Goal Points: 216
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((A 1) (B 3) (D 4))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 NIL 13 12 26 60)
+   (0 NIL 17 83 34 93 74 52 45 80)
+   (69 9 77 T 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 NIL)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (NIL 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----: Algorithm: A* 
+ ----:  Starting time: 14:29:27
+ ----:  Ending Time: 14:29:28
+ ----:  Number of Generated Nodes: 9
+ ----:  Number of Expanded Nodes: 3
+ ----:  Penetrance Level: 0.33333334
+ ----:  Median Branching Factor: 1.6536994
+ ----:  Solution Length: 3
+ ----:  Goal Points: 245
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((A 1) (C 2) (D 4))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 54 89 21 8 36 14 41 96)
+   (78 47 NIL 23 5 NIL 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 T 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (NIL 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 NIL 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----: Algorithm: BFS 
+ ----:  Starting time: 14:29:38
+ ----:  Ending Time: 14:29:39
+ ----:  Number of Generated Nodes: 46
+ ----:  Number of Expanded Nodes: 22
+ ----:  Penetrance Level: 0.06521739
+ ----:  Median Branching Factor: 3.1884713
+ ----:  Solution Length: 3
+ ----:  Goal Points: 216
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((A 1) (B 3) (D 4))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 NIL 13 12 26 60)
+   (0 NIL 17 83 34 93 74 52 45 80)
+   (69 9 77 T 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 NIL)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (NIL 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----: Algorithm: DFS 
+ ----:  Starting time: 14:29:53
+ ----:  Ending Time: 14:29:55
+ ----:  Number of Generated Nodes: 18
+ ----:  Number of Expanded Nodes: 10
+ ----:  Penetrance Level: 0.22222223
+ ----:  Median Branching Factor: 1.7105427
+ ----:  Maximum Depth: 200
+ ----:  Solution Length: 4
+ ----:  Goal Points: 200
+ ----:  Current Points: 258
+ ----:  Solution Sequence: ((A 1) (B 3) (C 1) (D 3))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 NIL 89 21 8 36 14 41 96)
+   (78 47 56 23 5 NIL 13 12 26 60)
+   (0 NIL 17 T 34 93 74 52 NIL 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 NIL)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 NIL 92 67 98 97)
+ ----: Algorithm: DFS 
+ ----:  Starting time: 14:31:20
+ ----:  Ending Time: 14:31:22
+ ----:  Number of Generated Nodes: 46
+ ----:  Number of Expanded Nodes: 22
+ ----:  Penetrance Level: 0.17391305
+ ----:  Median Branching Factor: 1.3694822
+ ----:  Maximum Depth: 200
+ ----:  Solution Length: 8
+ ----:  Goal Points: 200
+ ----:  Current Points: 262
+ ----:  Solution Sequence: ((B 1) (A 3) (B 5) (C 3) (D 1) (E 3) (F 1) (G 3))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (94 NIL 54 NIL 21 NIL 36 14 41 96)
+   (78 NIL 56 23 5 49 13 12 26 60)
+   (NIL 27 NIL 83 NIL 93 T NIL 45 NIL)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 NIL 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 NIL)
+   (99 NIL 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 NIL 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 NIL 97)
+ ----: Algorithm: DFS 
+ ----:  Starting time: 14:32:1
+ ----:  Ending Time: 14:32:3
+ ----:  Number of Generated Nodes: 18
+ ----:  Number of Expanded Nodes: 10
+ ----:  Penetrance Level: 0.22222223
+ ----:  Median Branching Factor: 1.7105427
+ ----:  Maximum Depth: 200
+ ----:  Solution Length: 4
+ ----:  Goal Points: 200
+ ----:  Current Points: 258
+ ----:  Solution Sequence: ((A 1) (B 3) (C 1) (D 3))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 NIL 89 21 8 36 14 41 96)
+   (78 47 56 23 5 NIL 13 12 26 60)
+   (0 NIL 17 T 34 93 74 52 NIL 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 NIL)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 NIL 92 67 98 97)
+ ----: Algorithm: DFS 
+ ----:  Starting time: 14:32:27
+ ----:  Ending Time: 14:32:29
+ ----:  Number of Generated Nodes: 2
+ ----:  Number of Expanded Nodes: 1
+ ----:  Penetrance Level: 0.5
+ ----:  Median Branching Factor: 1.9947598
+ ----:  Maximum Depth: 20
+ ----:  Solution Length: 1
+ ----:  Goal Points: 20
+ ----:  Current Points: 94
+ ----:  Solution Sequence: ((A 1))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (T 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 NIL 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----: Algorithm: DFS 
+ ----:  Starting time: 14:32:36
+ ----:  Ending Time: 14:32:38
+ ----:  Number of Generated Nodes: 18
+ ----:  Number of Expanded Nodes: 10
+ ----:  Penetrance Level: 0.22222223
+ ----:  Median Branching Factor: 1.7105427
+ ----:  Maximum Depth: 200
+ ----:  Solution Length: 4
+ ----:  Goal Points: 200
+ ----:  Current Points: 258
+ ----:  Solution Sequence: ((A 1) (B 3) (C 1) (D 3))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 NIL 89 21 8 36 14 41 96)
+   (78 47 56 23 5 NIL 13 12 26 60)
+   (0 NIL 17 T 34 93 74 52 NIL 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 NIL)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 NIL 92 67 98 97)
+ ----: Algorithm: BFS 
+ ----:  Starting time: 14:32:47
+ ----:  Ending Time: 14:32:48
+ ----:  Number of Generated Nodes: 46
+ ----:  Number of Expanded Nodes: 22
+ ----:  Penetrance Level: 0.06521739
+ ----:  Median Branching Factor: 3.1884713
+ ----:  Solution Length: 3
+ ----:  Goal Points: 216
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((A 1) (B 3) (D 4))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 NIL 13 12 26 60)
+   (0 NIL 17 83 34 93 74 52 45 80)
+   (69 9 77 T 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 NIL)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (NIL 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----: Algorithm: BFS 
+ ----:  Starting time: 14:32:52
+ ----:  Ending Time: 14:32:53
+ ----:  Number of Generated Nodes: 46
+ ----:  Number of Expanded Nodes: 22
+ ----:  Penetrance Level: 0.06521739
+ ----:  Median Branching Factor: 3.1884713
+ ----:  Solution Length: 3
+ ----:  Goal Points: 216
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((A 1) (B 3) (D 4))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 NIL 13 12 26 60)
+   (0 NIL 17 83 34 93 74 52 45 80)
+   (69 9 77 T 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 NIL)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (NIL 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----: Algorithm: A* 
+ ----:  Starting time: 14:33:0
+ ----:  Ending Time: 14:33:1
+ ----:  Number of Generated Nodes: 9
+ ----:  Number of Expanded Nodes: 3
+ ----:  Penetrance Level: 0.33333334
+ ----:  Median Branching Factor: 1.6536994
+ ----:  Solution Length: 3
+ ----:  Goal Points: 245
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((A 1) (C 2) (D 4))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 54 89 21 8 36 14 41 96)
+   (78 47 NIL 23 5 NIL 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 T 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (NIL 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 NIL 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----: Algorithm: BFS 
+ ----:  Starting time: 14:33:17
+ ----:  Ending Time: 14:33:18
+ ----:  Number of Generated Nodes: 46
+ ----:  Number of Expanded Nodes: 22
+ ----:  Penetrance Level: 0.06521739
+ ----:  Median Branching Factor: 3.1884713
+ ----:  Solution Length: 3
+ ----:  Goal Points: 216
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((A 1) (B 3) (D 4))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 NIL 13 12 26 60)
+   (0 NIL 17 83 34 93 74 52 45 80)
+   (69 9 77 T 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 NIL)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (NIL 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----: Algorithm: DFS 
+ ----:  Starting time: 14:33:28
+ ----:  Ending Time: 14:33:30
+ ----:  Number of Generated Nodes: 18
+ ----:  Number of Expanded Nodes: 10
+ ----:  Penetrance Level: 0.22222223
+ ----:  Median Branching Factor: 1.7105427
+ ----:  Maximum Depth: 200
+ ----:  Solution Length: 4
+ ----:  Goal Points: 200
+ ----:  Current Points: 258
+ ----:  Solution Sequence: ((A 1) (B 3) (C 1) (D 3))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 NIL 89 21 8 36 14 41 96)
+   (78 47 56 23 5 NIL 13 12 26 60)
+   (0 NIL 17 T 34 93 74 52 NIL 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 NIL)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 NIL 92 67 98 97)
+ ----: Algorithm: A* 
+ ----:  Starting time: 14:33:42
+ ----:  Ending Time: 14:33:43
+ ----:  Number of Generated Nodes: 121
+ ----:  Number of Expanded Nodes: 33
+ ----:  Penetrance Level: 0.2644628
+ ----:  Median Branching Factor: 1.0852652
+ ----:  Solution Length: 32
+ ----:  Goal Points: 2015
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((A 1) (C 2) (D 4) (F 3) (H 4) (J 3) (I 5) (G 4) (I 3) (J 1) (H 2) (I 4) (G 3) (H 5) (J 6) (H 7) (G 5) (E 6) (D 8) (C 10) (B 8) (A 6) (C 5) (D 3) (B 4) (C 6) (E 7) (G 8) (F 6) (E 4) (D 6) (C 4))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 NIL 89 NIL NIL NIL 14 41 NIL)
+   (NIL NIL NIL NIL 5 NIL 13 NIL 26 60)
+   (0 27 NIL NIL 34 NIL NIL 52 NIL NIL)
+   (NIL NIL T NIL NIL NIL NIL NIL NIL 30)
+   (NIL 15 NIL NIL 1 11 NIL NIL NIL 72)
+   (NIL NIL NIL NIL NIL NIL 50 NIL 29 NIL)
+   (NIL 51 6 NIL NIL 28 7 NIL 10 NIL)
+   (NIL NIL NIL NIL NIL NIL NIL 43 NIL 31)
+   (3 NIL NIL 44 NIL 82 NIL 4 NIL 62)
+   (33 70 NIL 40 NIL NIL 92 NIL 98 NIL)
+ ----: Algorithm: A* 
+ ----:  Starting time: 14:35:50
+ ----:  Ending Time: 14:35:51
+ ----:  Number of Generated Nodes: 9
+ ----:  Number of Expanded Nodes: 3
+ ----:  Penetrance Level: 0.33333334
+ ----:  Median Branching Factor: 1.6536994
+ ----:  Solution Length: 3
+ ----:  Goal Points: 245
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((A 1) (C 2) (D 4))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 54 89 21 8 36 14 41 96)
+   (78 47 NIL 23 5 NIL 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 T 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (NIL 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 NIL 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----: Algorithm: A* 
+ ----:  Starting time: 14:36:33
+ ----:  Ending Time: 14:36:34
+ ----:  Number of Generated Nodes: 9
+ ----:  Number of Expanded Nodes: 3
+ ----:  Penetrance Level: 0.33333334
+ ----:  Median Branching Factor: 1.6536994
+ ----:  Solution Length: 3
+ ----:  Goal Points: 245
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((A 1) (C 2) (D 4))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 54 89 21 8 36 14 41 96)
+   (78 47 NIL 23 5 NIL 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 T 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (NIL 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 NIL 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----: Algorithm: BFS 
+ ----:  Starting time: 14:36:43
+ ----:  Ending Time: 14:36:44
+ ----:  Number of Generated Nodes: 46
+ ----:  Number of Expanded Nodes: 22
+ ----:  Penetrance Level: 0.06521739
+ ----:  Median Branching Factor: 3.1884713
+ ----:  Solution Length: 3
+ ----:  Goal Points: 216
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((A 1) (B 3) (D 4))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 NIL 13 12 26 60)
+   (0 NIL 17 83 34 93 74 52 45 80)
+   (69 9 77 T 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 NIL)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (NIL 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----: Algorithm: BFS 
+ ----:  Starting time: 14:39:16
+ ----:  Ending Time: 14:39:18
+ ----:  Number of Generated Nodes: 25
+ ----:  Number of Expanded Nodes: 1
+ ----:  Penetrance Level: 0.12
+ ----:  Median Branching Factor: 2.5063505
+ ----:  Solution Length: 3
+ ----:  Goal Points: 216
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((A 1) (B 3) (D 4))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 NIL 13 12 26 60)
+   (0 NIL 17 83 34 93 74 52 45 80)
+   (69 9 77 T 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 NIL)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (NIL 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----: Algorithm: DFS 
+ ----:  Starting time: 14:39:27
+ ----:  Ending Time: 14:39:29
+ ----:  Number of Generated Nodes: 9
+ ----:  Number of Expanded Nodes: 1
+ ----:  Penetrance Level: 0.44444445
+ ----:  Median Branching Factor: 1.3694822
+ ----:  Maximum Depth: 200
+ ----:  Solution Length: 4
+ ----:  Goal Points: 200
+ ----:  Current Points: 258
+ ----:  Solution Sequence: ((A 1) (B 3) (C 1) (D 3))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 NIL 89 21 8 36 14 41 96)
+   (78 47 56 23 5 NIL 13 12 26 60)
+   (0 NIL 17 T 34 93 74 52 NIL 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 NIL)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 NIL 92 67 98 97)
+ ----: Algorithm: DFS 
+ ----:  Starting time: 14:40:10
+ ----:  Ending Time: 14:40:13
+ ----:  Number of Generated Nodes: 9
+ ----:  Number of Expanded Nodes: 1
+ ----:  Penetrance Level: 0.44444445
+ ----:  Median Branching Factor: 1.3694822
+ ----:  Maximum Depth: 20
+ ----:  Solution Length: 4
+ ----:  Goal Points: 200
+ ----:  Current Points: 258
+ ----:  Solution Sequence: ((A 1) (B 3) (C 1) (D 3))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 NIL 89 21 8 36 14 41 96)
+   (78 47 56 23 5 NIL 13 12 26 60)
+   (0 NIL 17 T 34 93 74 52 NIL 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 NIL)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 NIL 92 67 98 97)
+ ----: Algorithm: DFS 
+ ----:  Starting time: 14:40:17
+ ----:  Ending Time: 14:40:20
+ ----:  Number of Generated Nodes: 2
+ ----:  Number of Expanded Nodes: 1
+ ----:  Penetrance Level: 0.5
+ ----:  Median Branching Factor: 1.9947598
+ ----:  Maximum Depth: 2
+ ----:  Solution Length: 1
+ ----:  Goal Points: 2
+ ----:  Current Points: 54
+ ----:  Solution Sequence: ((C 1))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (94 25 T 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 NIL 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----: Algorithm: A* 
+ ----:  Starting time: 14:40:29
+ ----:  Ending Time: 14:40:30
+ ----:  Number of Generated Nodes: 120
+ ----:  Number of Expanded Nodes: 29
+ ----:  Penetrance Level: 0.24166666
+ ----:  Median Branching Factor: 1.0852652
+ ----:  Solution Length: 29
+ ----:  Goal Points: 2020
+ ----:  Current Points: NIL
+ ----:  Solution Sequence: ((J 1) (I 3) (G 4) (I 5) (J 7) (H 8) (I 10) (J 8) (H 7) (F 8) (G 10) (E 9) (G 8) (E 7) (D 5) (B 6) (C 4) (B 2) (D 3) (F 2) (E 4) (D 2) (F 3) (D 4) (E 6) (D 8) (F 9) (D 10) (E 8))
+ ----:  Starting Board:
+   (94 25 54 89 21 8 36 14 41 96)
+   (78 47 56 23 5 49 13 12 26 60)
+   (0 27 17 83 34 93 74 52 45 80)
+   (69 9 77 95 55 39 91 73 57 30)
+   (24 15 22 86 1 11 68 79 76 72)
+   (81 48 32 2 64 16 50 37 29 71)
+   (99 51 6 18 53 28 7 63 10 88)
+   (59 42 46 85 90 75 87 43 20 31)
+   (3 61 58 44 65 82 19 4 35 62)
+   (33 70 84 40 66 38 92 67 98 97)
+ ----:  Final Board:
+   (NIL 25 NIL NIL 21 8 NIL 14 41 NIL)
+   (NIL NIL NIL NIL 5 NIL NIL 12 26 60)
+   (0 27 17 NIL NIL NIL NIL 52 NIL 80)
+   (NIL NIL NIL NIL NIL NIL NIL 73 NIL 30)
+   (24 15 NIL NIL 1 NIL NIL 79 NIL 72)
+   (81 NIL NIL 2 NIL 16 50 37 NIL 71)
+   (99 51 6 18 NIL NIL 7 NIL 10 NIL)
+   (NIL 42 NIL NIL T NIL NIL NIL 20 NIL)
+   (3 61 NIL 44 NIL NIL NIL NIL NIL 62)
+   (NIL 70 NIL NIL 66 NIL NIL NIL NIL 97)

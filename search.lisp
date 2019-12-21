@@ -5,7 +5,7 @@
                  (node (car open-list))
                  (horse-pos (horsep node))
                  (current-board (horsep node))
-                 (current-successors (successors (first horse-pos) (second horse-pos) node max-depth strategy))
+                 (current-successors (successors (first horse-pos) (second horse-pos) node max-depth strategy 0 (append closed-list open-list)))
                  )
 
            (cond 
@@ -16,7 +16,7 @@
             (t                 
              (dfs 
               (append current-successors (cdr open-list))
-              (append node (cdr closed-list))
+              (append (cdr closed-list) (list node))
               target-points
               max-depth
               strategy
@@ -35,7 +35,7 @@
                  (node (car open-list))
                  (horse-pos (horsep node))
                  (current-board (horsep node))
-                 (current-successors (successors (first horse-pos) (second horse-pos) node  most-positive-fixnum strategy))
+                 (current-successors (successors (first horse-pos) (second horse-pos) node  most-positive-fixnum strategy 0 (append closed-list open-list)))
                  )
 
            (cond 
@@ -46,7 +46,7 @@
             (t                 
              (bfs 
               (append (cdr open-list) current-successors)
-              (append node (cdr closed-list))
+              (append (cdr closed-list) (list node))
               target-points
               strategy
               )
@@ -64,9 +64,9 @@
                  (node (car open-list))
                  (horse-pos (horsep node))
                  (current-board (horsep node))
-                 (current-successors (successors (first horse-pos) (second horse-pos) node most-positive-fixnum strategy target-points (append  closed-list open-list))
-                                     )
+                 (current-successors (successors (first horse-pos) (second horse-pos) node most-positive-fixnum strategy target-points (append closed-list open-list) t))
                  )
+
            (cond 
             ((<= target-points (node-state-point-sum node)) 
              (format-output node "A*")
@@ -118,7 +118,7 @@
   )
 
 ;; busca o valor de um nó no grafo pelo index da linha e index da coluna ou retorna nil para indexes inválidos
-(defun successor-avaliable (line-index column-index node strategy target-points closed-open-list)
+(defun successor-avaliable (line-index column-index node strategy target-points closed-open-list with-heuristic)
   (cond
    ((or (< line-index 0) (> line-index 9)) nil)
    ((or (< column-index 0) (> column-index 9)) nil)
@@ -132,11 +132,11 @@
            (board-no-simmetric (remove-simmetric points-to-sum board-no-horse strategy))
            (board-to-be (replace-value line-index column-index board-no-simmetric T))
            (points (+ (node-state-point-sum node) points-to-sum))
-           (new-node (make-node board-to-be points node (1+ (depth-node node)) (f points board-no-horse (- target-points points) points-to-sum  strategy)))
-          
+           (new-node (make-node board-to-be points node (1+ (depth-node node)) 
+(f points board-no-horse (- target-points points) points-to-sum strategy with-heuristic)))
            )
 
-      (cond ((equal (node-in-open-closed board-to-be closed-open-list) t) nil) 
+      (cond ((node-in-open-closed board-to-be closed-open-list) nil) 
             (t (list new-node))
             )
       )
@@ -160,18 +160,18 @@
   )
  
 ;; busca todos os sucessores válidos de um nó
-(defun successors (line-index column-index node max-depth strategy &optional (target-points 0) closed-open-list)
+(defun successors (line-index column-index node max-depth strategy &optional (target-points 0) closed-open-list (with-heuristic nil))
   (cond  (
           (>= (depth-node node) max-depth) nil)           
          (t (append
-             (successor-avaliable (- line-index 2) (- column-index 1) node strategy target-points closed-open-list)
-             (successor-avaliable (- line-index 2) (+ column-index 1) node strategy target-points closed-open-list)
-             (successor-avaliable (+ line-index 2) (- column-index 1) node strategy target-points closed-open-list)
-             (successor-avaliable (+ line-index 2) (+ column-index 1) node strategy target-points closed-open-list)
-             (successor-avaliable (- line-index 1) (- column-index 2) node strategy target-points closed-open-list)
-             (successor-avaliable (- line-index 1) (+ column-index 2) node strategy target-points closed-open-list)
-             (successor-avaliable (+ line-index 1) (- column-index 2) node strategy target-points closed-open-list)
-             (successor-avaliable (+ line-index 1) (+ column-index 2) node strategy target-points closed-open-list)
+             (successor-avaliable (- line-index 2) (- column-index 1) node strategy target-points closed-open-list with-heuristic)
+             (successor-avaliable (- line-index 2) (+ column-index 1) node strategy target-points closed-open-list with-heuristic)
+             (successor-avaliable (+ line-index 2) (- column-index 1) node strategy target-points closed-open-list with-heuristic)
+             (successor-avaliable (+ line-index 2) (+ column-index 1) node strategy target-points closed-open-list with-heuristic)
+             (successor-avaliable (- line-index 1) (- column-index 2) node strategy target-points closed-open-list with-heuristic)
+             (successor-avaliable (- line-index 1) (+ column-index 2) node strategy target-points closed-open-list with-heuristic)
+             (successor-avaliable (+ line-index 1) (- column-index 2) node strategy target-points closed-open-list with-heuristic)
+             (successor-avaliable (+ line-index 1) (+ column-index 2) node strategy target-points closed-open-list with-heuristic)
              )
             )
          )
@@ -180,29 +180,39 @@
 
 
 ;;nossa heuristica
-(defun f (g board points-to-goal node-points  strategy)
-  (let* (
-         (size-board (length (remove-nil-board board)))
-         (simmetric-node-points (simmetric-value node-points board strategy))
+(defun f1 (g board points-to-goal node-points strategy use-heuristic)
+  (cond ((null use-heuristic) nil)
+        (t 
+         (let* (
+                (size-board (length (remove-nil-board board)))
+                (simmetric-node-points (simmetric-value node-points board strategy))
+                )
+    
+           (cond 
+            ((or (= size-board 0) (null simmetric-node-points) (= simmetric-node-points 0)) g)
+            ;;  (t (float (+ g (/ node-points simmetric-node-points ))))      
+            (t (float (+ g (/ points-to-goal (/ (- (sum-board-points board) simmetric-node-points) (- size-board 1))))))
+            )
+           )
          )
-    (cond 
-     ((or (= size-board 0) (null simmetric-node-points) (= simmetric-node-points 0)) g)
-     (t (float (+ g (/ node-points simmetric-node-points ))))      
-     )
-    )
+        )
   )
 
 ;;heuristica proposta
-(defun f1 (g board points-to-goal node-points strategy)
-  (let* (
-         (size-board (length (remove-nil-board board)))
-         )
+(defun f (g board points-to-goal node-points strategy use-heuristic)
+  (cond ((null use-heuristic) nil)
+        (t 
+         (let* (
+                (size-board (length (remove-nil-board board)))
+                )
 
-    (cond 
-     ((or (= size-board 0) (= g 0)) g)
-     (t (float (+ g (/ points-to-goal (/ (sum-board-points board) size-board)))))
-     )     
-    )
+           (cond 
+            ((or (= size-board 0) (= g 0)) g)
+            (t (float (+ g (/ points-to-goal (/ (sum-board-points board) size-board)))))
+            )     
+           )
+         )
+        )
   )
 
 
