@@ -6,13 +6,28 @@
 * Henoch Mendes Vitureira Nº170221014
 * Patrick Battisti Forsthofer Nº190200007
 
+## Docentes:
+* Prof. Joaquim Filipe
+* Eng. Filipe Mariano
+
 # Índice
 1. [Introdução](#Introdução)
+   <br>
    1.1 [Objetivos](#Objetivos)
-2. [Example2](#example2)
-3. [Third Example](#third-example)
-4. [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
-
+     <br>
+   1.2 [Descrição Geral do Funcionamento](#Descrição)
+2. [Utilização do Programa](#Utilização)
+     <br>
+   2.1 [Utilização do Programa](#Utilização)
+      <br>
+   2.2 [Pré-requisitos](#Pré-requisitos)
+     <br>
+   2.3 [Carregamento de Ficheiros do Programa](#Ficheiros)
+     <br>
+   2.4 [Inicar o Jogo](#Inicar)
+     <br>
+   2.5 [Estatísticas](#Estatísticas)
+3. [Limitações](#Limitações)
 
 
 # Introdução <a name="Introdução"></a>
@@ -28,7 +43,7 @@ Para finalizar, são apresentadas as limitações do programa.
 * Atingir uma dada pontuação definida para o problema, no menor número possível de jogadas, de pendendo do algoritmo escolhido, deslocando o cavalo ao longo do tabuleiro, partindo de uma casa inicial, em jogadas sucessivas até não ser possível efetuar qualquer movimento ou até atingir o objetivo. No caso de o cavalo não puder efetuar mais movimentos, significa que não há solução para o problema em questão.
 
 
-## Descrição Geral do Funcionamento<a name="Apresentação-Geral-e-Objetivos"></a> 
+## Descrição Geral do Funcionamento<a name="Descrição"></a> 
 As regras a serem aplicadas para atingir o objetivo do tabuleiro a ser resolvido são:
 * Existe apenas um jogador.
 * O jogador começa por colocar o cavalo numa casa da primeira linha do tabuleiro.
@@ -37,8 +52,9 @@ As regras a serem aplicadas para atingir o objetivo do tabuleiro a ser resolvido
 
 O programa começa pela escolha entre dois modos: Exercícios ou Problemas. Exercícios são os tabuleiros fornecidos no enunciado do projeto do jogo do cavalo, equanto os problemas são os tabuleiros inseridos num ficheiro problems.dat, na pasta do programa.
 
-INSERIR IMAGEM DO GIT
-![alt text](https://raw.githubusercontent.com/170221075/IA-JogoCavalo/dev/images/exemplo_jogo.png?token=AISLQP4EWHWKFZRF5NZ6T626AYTKK)
+A imagem abaixo é um exemplo dos tabuleiros fornecidos pelo docente:
+
+![alt text](https://github.com/patrickbattisti/lisp-passeio-do-cavalo/blob/dev/mdImages/problema2.PNG?raw=true)
 
 
 O jogo começa com a colocação do cavalo numa casa da 1ª linha (A1-J1 do tabuleiro). Se a casa escolhida tiver um número com dois dígitos diferentes, por exemplo 57, então, em consequência, o número simétrico 75 é apagado do tabuleiro, tornando esta casa inacessível durante o resto do jogo. Ou seja, o cavalo não pode terminar outra jogada nessa casa. Se o cavalo for colocado numa casa com um número "duplo", por exemplo 66, então qualquer outro número duplo pode ser removido e o jogador deve escolher qual em função da sua estratégia (por default remover a de maior valor). Depois de um jogador deixar a casa para se movimentar para outra, a casa onde estava fica também inacessível para o jogo, ficando o numero da casa apagado.
@@ -57,26 +73,47 @@ As regras aplicadas ao resentolar do jogo são:
 *  Caso exista, a solução é apresentada  pela sequência de jogadas realizadas sobre as casas do tabuleiro. Cada jogada é identificada pela casa destino do cavalo (uma letra e um número).
 
 
-# Utilização do Programa<a name="Utilização do Programa"></a> 
+# Utilização do Programa<a name="Utilização"></a> 
 
 ## Pré-requisitos<a name="Pré-requisitos"></a> 
 Para além dos ficheiros do programa "project.lisp", "puzzle.lisp" e "search.lisp" :
 * Deve haver um ficheiro statistics.dat na pasta do programa.
 * Deve haver um ficheiro problems.dat com pelo menos um tabuleiro no formato de lista na linguagem Common Lisp.
 
-A pasta do progrmaa deve ter o seguinte aspeto:
+A conteúdo da pasta do progrmaa deve ter o seguinte aspeto:
 
-COLOCAR IMAGEM NO GIT
-![alt text](https://raw.githubusercontent.com/170221075/IA-JogoCavalo/dev/images/escolha_ficheiro.png?token=AISLQPYPJ24Z552UOAS67N26AYT4W)
+![alt text](https://github.com/patrickbattisti/lisp-passeio-do-cavalo/blob/dev/mdImages/pasta-programa.PNG?raw=true)
 
-IMAGEM DO FICHEIRO PROBLEMS
+O Ficheiro "problems.dat" deverá ter o seguinte tipo de conteúdo:
+```dat
+((NIL NIL NIL NIL NIL NIL NIL NIL NIL 12)
+(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+(NIL NIL 55 NIL NIL NIL NIL NIL NIL NIL)
+(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+(NIL NIL NIL 22 NIL 45 NIL NIL NIL NIL)
+(NIL NIL NIL NIL NIL NIL NIL NIL 88 NIL)
+(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+(NIL NIL NIL 67 NIL NIL NIL NIL NIL NIL)
+(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+(NIL NIL NIL 44 NIL NIL NIL NIL NIL NIL))
 
 
-## Carregamento de Ficheiros do Programa<a name="Carregamento de Ficheiros do Programa"></a> 
+((94 25 54 89 21 8 36 14 41 96) 
+(78 47 56 23 5 49 13 12 26 60) 
+(0 27 17 83 34 93 74 52 45 80) 
+(69 9 77 95 55 39 91 73 57 30) 
+(24 15 22 86 1 11 68 79 76 72) 
+(81 48 32 2 64 16 50 37 29 71) 
+(99 51 6 18 53 28 7 63 10 88) 
+(59 42 46 85 90 75 87 43 20 31) 
+(3 61 58 44 65 82 19 4 35 62) 
+(33 70 84 40 66 38 92 67 98 97))
+```
+## Carregamento de Ficheiros do Programa<a name="Ficheiros"></a> 
 Para o utilizador carregar os ficheiros necessários, necessita de compilar apenas o ficheiro "project.lisp" no IDE LispWorks, pois este irá carregar os restantes.  
 
 
-## Inicar o Jogo<a name="Iniciar-Aplicação"></a> 
+## Inicar o Jogo<a name="Iniciar"></a> 
 Depois de carregar os ficheiros necessários para o funcionamento do programa, o utilizador deve executar a função "start-game". Após esta execução, será apresentado um menu de escolha de modos.
 ```lisp
 
@@ -95,8 +132,9 @@ CL-USER 1 > (start-game)
 <br>
 Caso o utilizador selecione "1" ou "2", isto é, "Exercises" ou "Problems", irá depar-se com um menu de escolha de algoritmo a ser utilizado.
 <br>
-<br>
+
 ```lisp 
+
 ---------------------HORSE GAME---------------------------
    
 |                Choose an algorithm:          	          |
@@ -111,6 +149,7 @@ Caso o utilizador selecione "1" ou "2", isto é, "Exercises" ou "Problems", irá
 Após escolher um dos algoritmos apresentados, se escolheu a opção "Exercices", o utilizador irá deparar-se com um menu de escolha de um dos 7 tabuleiros fornecidos pelo docente, de A e F.
 
 ```lisp
+
 ---------------------HORSE GAME---------------------------
   
 -|||||||||||||||||||||EXERCISES|||||||||||||||||||||||||||
@@ -201,7 +240,7 @@ What is the target point number?
 No solution found
 ```
 
-##Estatísticas
+## Estatísticas<a name="Estatísticas"></a>
 Após a execução bem sucedida de um algoritmo, o programa irá escrever no ficheiro "statistics.dat" a análise estatística da execução do algoritmo para resolver o tabuleiro escolhido. As informações oferecidas passam por ser algoritmo utilizado, tempo de execução, número de nós gerados, números de nós expandidos, valor de penetrância, factor de ramificação média, profundidade máxima (no caso de Depth-First), tamanho da solução, pontos desejados, pontos alcançados, sequência de jogadas, e os tabuleiros inicial e final. Abaixo encontra-se um exemplo deste output.
 ```dat
  ----: Algorithm: DFS 
