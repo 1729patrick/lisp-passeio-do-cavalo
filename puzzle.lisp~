@@ -298,17 +298,17 @@
   )
 
 
-(defun get-solution-path (node)
-  (cond ((null node) nil)
+(defun get-solution-path-1 (node)
+  (cond ((null (first (horsep (parent-node node)))) nil)
         (t (cons  (position-to-chess (horsep  node))
                   (get-solution-path (parent-node node)))  
            )
         )
   )
 
-(defun get-solution-path-a (node)
-  (cond ((null node) nil)
-        (t (cons (successor-value (first (horsep  node)) (second (horsep node)) (node-state-board (parent-node node)))
+(defun get-solution-path (node)
+  (cond ((null (first (horsep (parent-node node)))) nil)
+        (t (cons (successor-value (first (horsep  node)) (second (horsep node)) (parent-node node))
                  (get-solution-path (parent-node node)))  
            )
         )
