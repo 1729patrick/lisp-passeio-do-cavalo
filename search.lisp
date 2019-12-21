@@ -131,7 +131,9 @@
            (board-no-horse (replace-value (first horse-pos) (second horse-pos) (remove-node points-to-sum node-board)))
            (board-no-simmetric (remove-simmetric points-to-sum board-no-horse strategy))
            (board-to-be (replace-value line-index column-index board-no-simmetric T))
-           (new-node (make-node board-to-be (+ (node-state-point-sum node) points-to-sum) node (1+ (depth-node node)) (heuristic points-to-sum board-no-horse target-points)))
+           (points (+ (node-state-point-sum node) points-to-sum))
+           (new-node (make-node board-to-be points node (1+ (depth-node node)) (f points board-no-horse (- target-points points) points-to-sum  strategy)))
+          
            )
 
       (cond ((equal (node-in-open-closed board-to-be closed-open-list) t) nil) 
@@ -175,19 +177,34 @@
          )
   )
 
-(defun heuristic (g board points-to-goal)
-  (let* (
-         (size-board  (length (remove-nil-board board)))
-         (all-points (sum-board-points board))         
-         )
 
+
+;;nossa heuristica
+(defun f (g board points-to-goal node-points  strategy)
+  (let* (
+         (size-board (length (remove-nil-board board)))
+         (simmetric-node-points (simmetric-value node-points board strategy))
+         )
     (cond 
-     ((or (= size-board 0) (= g 0)) 0)
-     (t (float (+ g (/ points-to-goal (/ all-points size-board)))))
-           
+     ((or (= size-board 0) (null simmetric-node-points) (= simmetric-node-points 0)) g)
+     (t (float (+ g (/ node-points simmetric-node-points ))))      
      )
     )
   )
+
+;;heuristica proposta
+(defun f1 (g board points-to-goal node-points strategy)
+  (let* (
+         (size-board (length (remove-nil-board board)))
+         )
+
+    (cond 
+     ((or (= size-board 0) (= g 0)) g)
+     (t (float (+ g (/ points-to-goal (/ (sum-board-points board) size-board)))))
+     )     
+    )
+  )
+
 
 ;; substitui uma posição de uma lista com um valor enviado por parametro	
 (defun replace-position (column-index line &optional (val nil))
@@ -219,20 +236,35 @@
       )
     )
 
+
+(defun simmetric-value (value board &optional (strategy 'max))
+  (let* (
+         (simmetric (reverse (write-to-string value)))
+         )
+
+    (cond 	
+     ((< value 10) (* value 10))
+     ((equal (parse-integer simmetric) value) (min-max-asymmetric-node board strategy))		
+     (t (parse-integer simmetric))
+     )
+    )
+  )
+
+
 ;; remove o nó com valor simmetrico ao nó do parametro ou remove o nó com menor valor
-  (defun remove-simmetric (value board &optional (strategy 'max))
-    (let* (
-           (simmetric (reverse (write-to-string value)))
-           )
+(defun remove-simmetric (value board &optional (strategy 'max))
+  (let* (
+         (simmetric (reverse (write-to-string value)))
+         )
    
-      (cond 
-       ((null value) board)	
-       ((< value 10) (remove-node (* value 10) board))
-       ((equal (parse-integer simmetric)  value) (remove-node (min-max-asymmetric-node board strategy) board))		
-       (t (remove-node (parse-integer simmetric) board))
-       )
-      )
-    ) 
+    (cond 
+     ((null value) board)	
+     ((< value 10) (remove-node (* value 10) board))
+     ((equal (parse-integer simmetric)  value) (remove-node (min-max-asymmetric-node board strategy) board))		
+     (t (remove-node (parse-integer simmetric) board))
+     )
+    )
+  ) 
 
 	 
 (defun min-max-asymmetric-node (board &optional (strategy 'max))
