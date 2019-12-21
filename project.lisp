@@ -1,3 +1,4 @@
+;;load files
 (defvar *base-pathname* (or *load-truename* *compile-file-truename*))
 
 (defun asset-path (file) (merge-pathnames file *base-pathname*))
@@ -5,6 +6,7 @@
 (progn
   (load (asset-path "puzzle.lisp"))
   (load (asset-path "search.lisp")))
+;;=========load files end=============;
 
 (defun start-game()
   (let (
@@ -43,7 +45,7 @@
     ))
 
 
-;; read algorithm
+;; =================================read algorithm=============================================
 (defun read-algorithm()
 "Allows to make the reading of the algorithm to use"
   (progn
@@ -72,8 +74,9 @@
     (format t "   ~% ---------------------------------------------------------~%~%> ")
     )
   )
+;; =================================read algorithm END=============================================
 
-;; read depth
+;; =================================read depth=============================================
 (defun read-depth()
 "Allows the reading of the depth for the dfs algorithm."
     (progn
@@ -94,7 +97,7 @@
           )
     )
   )
-
+;; =================================read depth end=============================================
 	
 ;; read line
 (defun read-start-line()
@@ -111,13 +114,15 @@
     (format t "What is the initial column number? ~%")
     (read)
     ))
-	
+
+;;read start position	
 (defun read-start-position()
   "Allows to make a reading of the horses start column."
 	
   (list (read-start-line) (read-start-column))
   )
 
+;;read desired points
 (defun read-target-points()
   "Allows to make a reading of the target number of points."
 	
@@ -127,6 +132,7 @@
     ))
 	
 
+;; =================================read heuristic=============================================
 (defun show-heuristics()
   "Reads the heuristic choice"
   (format t "    ~%---------------------HORSE GAME---------------------------")
@@ -153,7 +159,7 @@
            (progn (format t "Insert a valid option!")) (read-heuristic))
            )
 )
-  
+ ;; =================================read heuristic END============================================= 
 	
 	
 (defun show-mode()
@@ -177,9 +183,9 @@
     (let ((answer (read)))
       (cond ((eq answer 1) 'exercises);;GO TO EXERCISES
             ((eq answer 2) 'problems)
-            ((eq answer 3) (exit));leave
-            (T (format t "Insert a valid option please!") 
-               read-mode())))
+            ((eq answer 3) (quit));leave
+            (T (format t "Thankyou for playing!") 
+               )))
     )
   )
 
@@ -187,7 +193,6 @@
 ;;;READ PROBLEMS
 (defun problems-file-path()
 "gets the path of the problems file"
-    ;;(make-pathname :host "c" :directory '(:absolute "lisp") :name "problemas" :type "dat")
     (asset-path "problems.dat")
 )
 
@@ -206,14 +211,13 @@
   (cond
    ((null problems) 
     (progn                                
-      (format t "~%|            0 -> Back to Start             |")
       (format t "~% -----------------------------------------------------------~%~%>"))
     )
    (T (progn 
         (cond ((= i 1) (progn (format t "~% -----------------------------------------------------------")
                          (format t "~%|               HORSE GAME              |")
                          (terpri)
-                         (format t "~%|               Choose a Problem          |")
+                         (format t "~%|             Choose a Problem          |")
                          (terpri)
                          )))
         (format t "~%|         ~a - Board number: ~a          |" i i) 
@@ -221,21 +225,23 @@
    )
   )
 
-;;<board>::= <board>
+;;<board>::= board/table
 (defun read-problem()
-"Allows user to select a baord from the problems file"
+"Allows user to select a board from the problems file"
 
     (progn 
       (choose-problem)
-      (let ((opt (read)))
-           (cond ;;((eq opt '0) (funcall backMenu))
-                 ((not (numberp opt)) (progn (format t "Insert a valid option Please") (read-problem))) 
+      (let ((problem-option (read)))
+           (cond 
+                 ((not (numberp problem-option)) 
+                      (progn (format t "Insert a valid option Please") (read-problem))) 
                  (T
                   (let ((boards-list (read-boards)))
-                  (cond ((or (< opt 0) (> opt (length boards-list))) 
+                  (cond (
+                        (or (< problem-option 0) (> problem-option (length boards-list))) 
                             (progn (format t "Insert a valid option Please") (read-problem)))
-                        ((eq opt 0)  nil)
-                        (t (nth(1- opt) boards-list))
+                        ((eq problem-option 0)  nil)
+                        (t (nth (1- problem-option) boards-list))
                   )))
            )
        )
@@ -259,7 +265,6 @@
 	(format t "  ~%|              	  	 4 - Board D                        |")
 	(format t "  ~%|              		   5 - Board E                        |")
 	(format t "  ~%|              	     6 - Board F                        |")
-  (format t "  ~%|              	     OTHER - Leave                      |")
     (terpri)
     (format t "   ~% --------------------------------------------------------~%~%> ")
   )
@@ -295,7 +300,8 @@
 (defun write-bfsdfs-statistics (start-board solution-node start-time end-time algorithm)
   "Writes the statistics file with the solution and it's statistic data, for breadth first and depth first algorithms"
 
-  (cond ((null solution-node) nil)
+  (cond (
+    (null solution-node) nil)
         (t 
          (with-open-file (file (statistics-file-path) :direction :output :if-exists :append :if-does-not-exist :create)
            (progn 
@@ -333,7 +339,6 @@
 
 (defun statistics-file-path()
   "gets the path for the local statistics file"
-    ;(make-pathname :host "c" :directory '(:absolute "horse-game-results") :name "statistics" :type "dat")
   (asset-path "statistics.dat")
   )
 
